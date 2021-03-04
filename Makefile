@@ -5,27 +5,16 @@
 #                                                     +:+ +:+         +:+      #
 #    By: yhakamaya <yhakamaya@student.42tokyo>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/02/22 09:33:53 by yhakamaya         #+#    #+#              #
-#    Updated: 2021/02/22 09:50:05 by yhakamaya        ###   ########.fr        #
+#    Created: 2021/02/20 18:09:10 by yhakamaya         #+#    #+#              #
+#    Updated: 2021/02/20 18:09:12 by yhakamaya        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= cub3d
-CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror
-INCDIR	= ./libft
-SRCDIR	= ./
-# SNAME	= 
-SRCS	= $(addprefix $(SRCDIR), $(NAME))
-OBJS	= $(SRCS:.c=.o)
+all:
+	gcc -L./include/mlx -lmlx -framework OpenGL -framework AppKit src/*.c -I include
 
-all:		$(NAME)
-$(NAME):	$(OBJS)
-				ar rc $(NAME) $(OBJS)
-.c.o:			$(CC) $(CFLAGS) -I $(INCDIR) -c $< -o $(<:.c=.o)
-clean:			rm -f $(OBJS)
-fclean:		clean
-				rm -f $(NAME)
-re:				fclean all
+run:
+	./a.out;
 
-.PHONY:		all bonus clean fclean re
+clean:
+	rm a.out;
