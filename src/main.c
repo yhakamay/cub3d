@@ -12,6 +12,7 @@
 
 #include "cub3d.h"
 
+// handles key input and used by mlx_hool()
 int	process_input(int keycode, t_params *params)
 {
 	if (keycode == KEY_ESC)
@@ -34,9 +35,13 @@ int	main()
 {
 	t_params params;
 
+	// mlx_init() is always needed if you use mlx lib
 	params.mlx_ptr = mlx_init();
+	// create a new window
 	params.win_ptr = mlx_new_window(params.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
+	// the second/third params are confusing, I don't understand them 🤔
 	mlx_hook(params.win_ptr, 2, 1L<<0, &process_input, &params);
+	// keep the program running
 	mlx_loop(params.mlx_ptr);
 
 	return (0);
