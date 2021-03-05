@@ -20,6 +20,8 @@ int	process_input(int keycode, t_params *params)
 		mlx_destroy_window(params->mlx_ptr, params->win_ptr);
 		exit(0);
 	}
+
+	// TODO: move the player instead of printing A, S, D, and W
 	if (keycode == KEY_A)
 		printf("A\n");
 	if (keycode == KEY_S)
