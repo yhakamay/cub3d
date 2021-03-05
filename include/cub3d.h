@@ -17,6 +17,8 @@
 # define FPS 30
 # define FRAME_TIME_LENGTH (1000 / FPS)
 
+// these are based on macOS
+// if you want to use on othe OS, replace them
 # define KEY_ESC 53
 # define KEY_A 0
 # define KEY_S 1
