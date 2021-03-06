@@ -14,6 +14,9 @@
 # define WINDOW_HEIGHT 600
 # define WINDOW_TITLE "cub3d"
 
+# define MAP_NUM_ROWS 13
+# define MAP_NUM_COLS 20
+
 # define FPS 30
 # define FRAME_TIME_LENGTH (1000 / FPS)
 
