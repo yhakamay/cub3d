@@ -36,8 +36,15 @@ typedef struct	s_params
 
 typedef struct	s_player
 {
-	int		player_x;
-	int		player_y;
+	float	x;
+	float	y;
+	float	width;
+	float	height;
+	int		turn_direction; // -1 for left, +1 for right;
+	int		walk_direction;
+	float	rotation_angle;
+	float	walk_speed;
+	float	turn_speed;
 }				t_player;
 
 #endif
