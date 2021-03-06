@@ -62,15 +62,22 @@ void		render_player(t_data img, int x, int y, int width, int height, int color)
 
 void		init_player(t_params *params)
 {
-	// TODO: draw a player circle/square on minimap
+	params->player_x = WINDOW_WIDTH / 2;
+	params->player_y = WINDOW_HEIGHT / 2;
+	params->player_width = 20;
+	params->player_height = 20;
+	params->player_turn_direction = 0;
+	params->player_walk_direction = 0;
+	params->player_rotation_angle = PI / 2;
+	params->player_walk_speed = 200;
+	params->player_turn_speed = 90 * (PI / 180);
 }
 
-void	move_player()
+void		move_player(t_params params, int walk_direction, int turn_direciton)
 {
 }
 
-// handles key input and used by mlx_hool()
-int		process_input(int keycode, t_params *params)
+int			process_input(int keycode, t_params *params)
 {
 	if (keycode == KEY_ESC)
 	{
