@@ -71,7 +71,7 @@ typedef struct s_params
 	t_player player;
 } t_params;
 
-void my_mlx_pixel_put(t_params *params, int x, int y, int color);
-void init_player(t_params *params);
+void my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void init_player(t_player *player);
 
 #endif
