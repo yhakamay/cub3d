@@ -18,6 +18,6 @@ void init_player(t_player *player)
 	player->turn_direction = 0;
 	player->walk_direction = 0;
 	player->rotation_angle = PI / 2;
-	player->walk_speed = 200;
+	player->walk_speed = 5;
 	player->turn_speed = 90 * (PI / 180);
 }
