@@ -34,8 +34,6 @@
 #define KEY_D 2
 #define KEY_W 13
 
-#define COLOR_R 0x00FF0000
-
 typedef struct s_img
 {
 	void *img;
@@ -55,6 +53,7 @@ typedef struct s_player
 {
 	int x;
 	int y;
+	int color;
 	int width;
 	int height;
 	int turn_direction; // -1 for left, +1 for right;
