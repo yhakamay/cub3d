@@ -8,15 +8,16 @@ void my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void init_player(t_params *params)
+void init_player(t_player *player)
 {
-	params->player.x = WINDOW_WIDTH / 2;
-	params->player.y = WINDOW_HEIGHT / 2;
-	params->player.width = 20;
-	params->player.height = 20;
-	params->player.turn_direction = 0;
-	params->player.walk_direction = 0;
-	params->player.rotation_angle = PI / 2;
-	params->player.walk_speed = 200;
-	params->player.turn_speed = 90 * (PI / 180);
+	player->x = WINDOW_WIDTH / 2;
+	player->y = WINDOW_HEIGHT / 2;
+	player->color = 0x00FF0000;
+	player->width = 20;
+	player->height = 20;
+	player->turn_direction = 0;
+	player->walk_direction = 0;
+	player->rotation_angle = PI / 2;
+	player->walk_speed = 200;
+	player->turn_speed = 90 * (PI / 180);
 }
