@@ -17,14 +17,14 @@ void render_player(t_player *player, t_img *img)
 	int i;
 	int j;
 
-	i = params->player.x;
-	while (i < params->player.x + params->player.width)
+	i = player->x;
+	while (i < player->x + player->width)
 	{
-		j = params->player.y;
-		while (j < params->player.y + params->player.height)
+		j = player->y;
+		while (j < player->y + player->height)
 		{
 			// mlx_pixel_put() in mlx lib is SUPER slow, so we have to create our own pixel_put() 😵
-			my_mlx_pixel_put(params, i, j, COLOR_R);
+			my_mlx_pixel_put(img, i, j, player->color);
 			j++;
 		}
 		i++;
@@ -37,12 +37,12 @@ void move_player(t_params *params)
 	int new_player_y;
 	int move_step;
 
-	move_step = params->player.walk_direction * params->player.walk_speed;
-	new_player_x = params->player.x + cos(params->player.rotation_angle) * move_step;
-	new_player_y = params->player.y + sin(params->player.rotation_angle) * move_step;
-	params->player.x = new_player_x;
-	params->player.y = new_player_y;
-	render_player(params, COLOR_R);
+	move_step = player->walk_direction * player->walk_speed;
+	new_player_x = player->x + cos(player->rotation_angle) * move_step;
+	new_player_y = player->y + sin(player->rotation_angle) * move_step;
+	player->x = new_player_x;
+	player->y = new_player_y;
+	//render_player(player, img, COLOR_R);
 }
 
 int process_input(int keycode, t_params *params)
@@ -52,6 +52,7 @@ int process_input(int keycode, t_params *params)
 		mlx_destroy_window(params->mlx.mlx_ptr, params->mlx.win_ptr);
 		exit(0);
 	}
+
 	else if (keycode == KEY_W)
 		params->player.walk_direction = 1;
 	else if (keycode == KEY_S)
@@ -60,7 +61,11 @@ int process_input(int keycode, t_params *params)
 		params->player.turn_direction = 1;
 	else if (keycode == KEY_A)
 		params->player.turn_direction = -1;
-	move_player(params);
+
+	// change the parameter of t_player and render them
+	move_player(&params->player, &params->img);
+	render(params);
+
 	return (1);
 }
 
