@@ -84,19 +84,23 @@ int main(void)
 {
 	t_params params;
 
-	setvbuf(stdout, (char *)NULL, _IONBF, 0);
-
+	// init some info
 	params.mlx.mlx_ptr = mlx_init();
 	params.mlx.win_ptr = mlx_new_window(params.mlx.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
-	init_player(&params);
-	printf("params.player.x: %d\n", params.player.x);
-	printf("params.player.y: %d\n", params.player.y);
+	init_player(&params.player);
+
+	// create a image on the window
 	params.img.img = mlx_new_image(params.mlx.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
 	params.img.addr = mlx_get_data_addr(params.img.img, &params.img.bits_per_pixel, &params.img.line_length, &params.img.endian);
-	render_player(&params, COLOR_R);
+
+	// render a player and push the image to window
+	render_player(&params.player, &params.img);
 	mlx_put_image_to_window(params.mlx.mlx_ptr, params.mlx.win_ptr, params.img.img, 0, 0);
-	// the second/third params of mlx_hook() ('2' and '1L<<0') are confusing, I don't understand them 🤔
+
+	// accept key input and call some function via process_input()
 	mlx_hook(params.mlx.win_ptr, 2, 1L << 0, &process_input, &params);
+
+	// make the game continuous
 	mlx_loop(params.mlx.mlx_ptr);
 
 	return (0);
