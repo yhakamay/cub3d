@@ -31,7 +31,18 @@ void render_player(t_player *player, t_img *img)
 	}
 }
 
-void move_player(t_params *params)
+void render(t_params *params)
+{
+	render_player(&params->player, &params->img);
+
+	// two functions below are coming soon...
+	// render_minimap;
+	// render_view;
+
+	mlx_put_image_to_window(params->mlx.mlx_ptr, params->mlx.win_ptr, params->img.img, 0, 0);
+}
+
+void move_player(t_player *player, t_img *img)
 {
 	int new_player_x;
 	int new_player_y;
