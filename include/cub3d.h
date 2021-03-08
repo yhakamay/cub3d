@@ -24,13 +24,22 @@
 #define PI 3.14159265
 #define TWO_PI 6.28318530
 
+#define PLAYER_WALK_SPEED 10
+#define PLAYER_TURN_SPEED 10 * (PI / 180)
+#define PLAYER_DIAMETER 5
+#define PLAYER_COLOR 0x00FF0000
+#define PLAYER_LINE 20
+
 // these are based on macOS
-// if you want to use on othe OS, replace them
+// if you want to use on other OS, replace them
+// see: https://qiita.com/baba163/items/e2390c4529ec0448151d
 #define KEY_ESC 53
 #define KEY_A 0
 #define KEY_S 1
 #define KEY_D 2
 #define KEY_W 13
+#define KEY_ARROW_RIGHT 123
+#define KEY_ARROW_LEFT 124
 
 typedef struct s_img
 {
