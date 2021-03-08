@@ -12,6 +12,9 @@
 #define WINDOW_HEIGHT 600
 #define WINDOW_TITLE "cub3d"
 
+#define X_EVENT_KEY_PRESSED 2
+#define X_EVENT_KEY_RELEASED 3
+
 #define MINIMAP_SCALE_FACTOR 1.0
 #define TILE_SIZE 20
 
