@@ -95,37 +95,64 @@ void move_player(t_player *player, t_img *img)
 
 	player->x = new_player_x;
 	player->y = new_player_y;
+
+	printf("move_player() called\n");
 }
 
-int process_input(int keycode, t_params *params)
+void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr)
+{
+	mlx_destroy_window(mlx_ptr, win_ptr);
+	exit(0);
+}
+
+int key_pressed(int keycode, t_params *params)
 {
 	if (keycode == KEY_ESC)
-	{
-		mlx_destroy_window(params->mlx.mlx_ptr, params->mlx.win_ptr);
-		exit(0);
-	}
-	else if (keycode == KEY_W)
-		params->player.walk_direction = 1; // up
+		exit_game(params->mlx.mlx_ptr, params->mlx.win_ptr);
+
+	if (keycode == KEY_W)
+		params->player.walk_direction = 1; // move forward
 	else if (keycode == KEY_S)
-		params->player.walk_direction = -1; // down
-	// else if (keycode == KEY_D)
-	// else if (keycode == KEY_A)
+		params->player.walk_direction = -1; // move backward
+	// if (keycode == KEY_D)
+	// if (keycode == KEY_A)
+	if (keycode == KEY_ARROW_LEFT)
+		params->player.turn_direction = 1;
 	else if (keycode == KEY_ARROW_RIGHT)
 		params->player.turn_direction = -1;
-	else if (keycode == KEY_ARROW_LEFT)
-		params->player.turn_direction = 1;
 	else
 		return (1);
 
-	// change the parameter of t_player and render them
+	printf("player.walk_direction: %f\n", params->player.walk_direction);
+
 	move_player(&params->player, &params->img);
-	params->player.turn_direction = 0;
 	render(params);
 
-	printf("▼▼▼▼▼\n");
-	printf("player.x: %f\n", params->player.x);
-	printf("player.y: %f\n", params->player.y);
-	printf("▲▲▲▲▲\n\n\n");
+	// printf("▼▼▼▼▼\n");
+	// printf("player.x: %f\n", params->player.x);
+	// printf("player.y: %f\n", params->player.y);
+	// printf("▲▲▲▲▲\n\n\n");
+
+	return (1);
+}
+
+int key_released(int keycode, t_params *params)
+{
+	if (keycode == KEY_W)
+		params->player.walk_direction = 0;
+	else if (keycode == KEY_S)
+		params->player.walk_direction = 0;
+	// if (keycode == KEY_D)
+	// if (keycode == KEY_A)
+	if (keycode == KEY_ARROW_LEFT)
+		params->player.turn_direction = 0;
+	else if (keycode == KEY_ARROW_RIGHT)
+		params->player.turn_direction = 0;
+	else
+		return (1);
+
+	move_player(&params->player, &params->img);
+	render(params);
 
 	return (1);
 }
@@ -148,10 +175,12 @@ int main(void)
 
 	// render a player and push the image to window
 	render_player(&params.player, &params.img);
+	render_minimap(&params);
 	mlx_put_image_to_window(params.mlx.mlx_ptr, params.mlx.win_ptr, params.img.img, 0, 0);
 
 	// accept key input and call some function via process_input()
-	mlx_hook(params.mlx.win_ptr, 2, 1L << 0, &process_input, &params);
+	mlx_hook(params.mlx.win_ptr, X_EVENT_KEY_PRESSED, 1L << 0, key_pressed, &params);
+	mlx_hook(params.mlx.win_ptr, X_EVENT_KEY_RELEASED, 1L << 0, key_released, &params);
 
 	// make the game continuous
 	mlx_loop(params.mlx.mlx_ptr);
