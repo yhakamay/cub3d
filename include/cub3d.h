@@ -58,13 +58,13 @@ typedef struct s_mlx
 
 typedef struct s_player
 {
-	int x;
-	int y;
 	int color;
-	int width;
-	int height;
-	int turn_direction; // -1 for left, +1 for right;
-	int walk_direction;
+	float x;
+	float y;
+	float width;
+	float height;
+	float turn_direction; // -1 for left, +1 for right;
+	float walk_direction;
 	float rotation_angle;
 	float walk_speed;
 	float turn_speed;
