@@ -46,15 +46,6 @@ void render_rect(int x, int y, int width, int height, int color, t_img *img)
 	}
 }
 
-// void render_line(float x, float y, float len, int color, t_img *img)
-// {
-// 	float i;
-// 	float j;
-	
-// 	i = x;
-// 	while (i < )
-// }
-
 void render_minimap(t_params *params)
 {
 	int i;
