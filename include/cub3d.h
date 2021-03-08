@@ -8,20 +8,18 @@
 
 #include "../include/mlx/mlx.h"
 
-#define FALSE 0
-#define TRUE 1
-
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
 #define WINDOW_TITLE "cub3d"
+
+#define MINIMAP_SCALE_FACTOR 1.0
+#define TILE_SIZE 20
 
 #define MAP_NUM_ROWS 13
 #define MAP_NUM_COLS 20
 
 #define FPS 30
 #define FRAME_TIME_LENGTH (1000 / FPS)
-
-#define MINIMAP_SCALE_FACTOR 1.0
 
 #define PI 3.14159265
 #define TWO_PI 6.28318530
