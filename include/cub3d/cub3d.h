@@ -64,10 +64,10 @@ typedef struct s_mlx
 typedef struct s_player
 {
 	int color;
-	float x;
-	float y;
-	float width;
-	float height;
+	int x;
+	int y;
+	int width;
+	int height;
 	float turn_direction; // -1 for left, +1 for right;
 	float walk_direction;
 	float rotation_angle;
@@ -86,8 +86,9 @@ typedef struct s_params
 void my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr);
 void init_player(t_player *player);
-void render_line(float x_start, float y_start, float rotaion_angle, float length, int color, t_img *img);
-void render_rect(float x, float y, float width, float height, int color, t_img *img);
+void render_line(int x_start, int y_start, float rotaion_angle, int length, int color, t_img *img);
+void render_rect(int x, int y, int width, int height, int color, t_img *img);
+void render_circle(int x, int y, int r, int color, t_img *img);
 void render_everything(t_params *params);
 void move_player(t_player *player, t_img *img);
 int key_pressed(int keycode, t_params *params);
