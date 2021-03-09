@@ -86,8 +86,6 @@ void move_player(t_player *player, t_img *img)
 
 	player->x = new_player_x;
 	player->y = new_player_y;
-
-	printf("move_player() called\n");
 }
 
 void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr)

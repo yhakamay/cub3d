@@ -70,15 +70,8 @@ int key_pressed(int keycode, t_params *params)
 	else
 		return (1);
 
-	printf("player.walk_direction: %f\n", params->player.walk_direction);
-
 	move_player(&params->player, &params->img);
 	render_everything(params);
-
-	// printf("▼▼▼▼▼\n");
-	// printf("player.x: %f\n", params->player.x);
-	// printf("player.y: %f\n", params->player.y);
-	// printf("▲▲▲▲▲\n\n\n");
 
 	return (1);
 }
