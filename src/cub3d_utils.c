@@ -22,18 +22,6 @@ void init_player(t_player *player)
 	player->turn_speed = PLAYER_TURN_SPEED;
 }
 
-//int get_direction(float rotation_angle)
-//{
-//	if (rotation_angle >= 0 && rotation_angle < 0.5 * PI)
-//		return (DOWN_RIGHT);
-//	else if (rotation_angle >= 0.5 * PI && rotation_angle < PI)
-//		return (DOWN_LEFT);
-//	else if (rotation_angle >= PI && rotation_angle < 1.5 * PI)
-//		return (UP_LEFT);
-//	else
-//		return (UP_RIGHT);
-//}
-
 void render_line(int x_start, int y_start, float rotaion_angle, int length, int color, t_img *img)
 {
 	int x_end;
@@ -46,7 +34,6 @@ void render_line(int x_start, int y_start, float rotaion_angle, int length, int 
 	x_end = x_start + cos(rotaion_angle) * length;
 	y_end = y_start + sin(rotaion_angle) * length;
 
-	//x_delta = (rotaion_angle < 45 * (PI / 180)) ? (x_end - x_start) : (y_end - y_start);
 	x_delta = x_end - x_start;
 	x_sign = x_delta < 0 ? -1 : 1;
 	x_base_len = abs(x_delta);
