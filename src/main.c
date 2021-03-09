@@ -75,6 +75,8 @@ void render_player(t_player *player, t_img *img)
 
 void render_everything(t_params *params)
 {
+	refresh_img(&params->img);
+
 	render_player(&params->player, &params->img);
 	render_minimap(params);
 

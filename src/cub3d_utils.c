@@ -22,6 +22,24 @@ void init_player(t_player *player)
 	player->turn_speed = PLAYER_TURN_SPEED;
 }
 
+void refresh_img(t_img *img)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < WINDOW_HEIGHT)
+	{
+		j = 0;
+		while (j < WINDOW_WIDTH)
+		{
+			my_mlx_pixel_put(img, i, j, COLOR_BLACK);
+			j++;
+		}
+		i++;
+	}
+}
+
 void render_line(int x_start, int y_start, float rotaion_angle, int length, int color, t_img *img)
 {
 	int x_end;
