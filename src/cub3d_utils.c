@@ -39,17 +39,17 @@ void render_line(float x_start, float y_start, float rotaion_angle, float length
 	float x_end;
 	float y_end;
 
-	x_end = x_start + (cos(rotaion_angle) * length);
-	y_end = y_start + (sin(rotaion_angle) * length);
+	x_end = x_start + cos(rotaion_angle) * length;
+	y_end = y_start + sin(rotaion_angle) * length;
 
 	my_mlx_pixel_put(img, x_end, y_end, color);
 }
 
 // TODO: x, y, width, and height should be float
-void render_rect(int x, int y, int width, int height, int color, t_img *img)
+void render_rect(float x, float y, float width, float height, int color, t_img *img)
 {
-	int i;
-	int j;
+	float i;
+	float j;
 
 	i = x;
 	while (i < x + width)
