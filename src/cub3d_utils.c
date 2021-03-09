@@ -42,7 +42,40 @@ void render_line(float x_start, float y_start, float rotaion_angle, float length
 	x_end = x_start + cos(rotaion_angle) * length;
 	y_end = y_start + sin(rotaion_angle) * length;
 
-	my_mlx_pixel_put(img, x_end, y_end, color);
+	if (x_start < x_end) // facing down
+	{
+		if (y_start < y_end) // down right
+		{
+			while (x_start < x_end && y_start < y_end)
+				my_mlx_pixel_put(img, x_start, y_start, color);
+			x_start += 0.1;
+			y_start += 0.1;
+		}
+		else // down left
+		{
+			while (x_start < x_end)
+				my_mlx_pixel_put(img, x_start, y_start, color);
+			x_start -= 0.1;
+			y_start += 0.1;
+		}
+	}
+	else // facing up
+	{
+		if (y_start > y_end) // up left
+		{
+			while (x_start < x_end && y_start < y_end)
+				my_mlx_pixel_put(img, x_start, y_start, color);
+			x_start -= 0.1;
+			y_start -= 0.1;
+		}
+		else // up right
+		{
+			while (x_start < x_end && y_start < y_end)
+				my_mlx_pixel_put(img, x_start, y_start, color);
+			x_start += 0.1;
+			y_start -= 0.1;
+		}
+	}
 }
 
 // TODO: x, y, width, and height should be float
