@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../include/cub3d/cub3d.h"
 
 void my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -20,4 +20,124 @@ void init_player(t_player *player)
 	player->rotation_angle = PI / 2;
 	player->walk_speed = PLAYER_WALK_SPEED;
 	player->turn_speed = PLAYER_TURN_SPEED;
+}
+
+//int get_direction(float rotation_angle)
+//{
+//	if (rotation_angle >= 0 && rotation_angle < 0.5 * PI)
+//		return (DOWN_RIGHT);
+//	else if (rotation_angle >= 0.5 * PI && rotation_angle < PI)
+//		return (DOWN_LEFT);
+//	else if (rotation_angle >= PI && rotation_angle < 1.5 * PI)
+//		return (UP_LEFT);
+//	else
+//		return (UP_RIGHT);
+//}
+
+void render_line(float x_start, float y_start, float rotaion_angle, float length, int color, t_img *img)
+{
+	float x_end;
+	float y_end;
+
+	x_end = x_start + cos(rotaion_angle) * length;
+	y_end = y_start + sin(rotaion_angle) * length;
+
+	if (x_start < x_end) // facing down
+	{
+		if (y_start < y_end) // down right
+		{
+			while (x_start < x_end && y_start < y_end)
+				my_mlx_pixel_put(img, x_start, y_start, color);
+			x_start += 0.1;
+			y_start += 0.1;
+		}
+		else // down left
+		{
+			while (x_start < x_end)
+				my_mlx_pixel_put(img, x_start, y_start, color);
+			x_start -= 0.1;
+			y_start += 0.1;
+		}
+	}
+	else // facing up
+	{
+		if (y_start > y_end) // up left
+		{
+			while (x_start < x_end && y_start < y_end)
+				my_mlx_pixel_put(img, x_start, y_start, color);
+			x_start -= 0.1;
+			y_start -= 0.1;
+		}
+		else // up right
+		{
+			while (x_start < x_end && y_start < y_end)
+				my_mlx_pixel_put(img, x_start, y_start, color);
+			x_start += 0.1;
+			y_start -= 0.1;
+		}
+	}
+}
+
+// TODO: x, y, width, and height should be float
+void render_rect(float x, float y, float width, float height, int color, t_img *img)
+{
+	float i;
+	float j;
+
+	i = x;
+	while (i < x + width)
+	{
+		j = y;
+		while (j < y + height)
+		{
+			my_mlx_pixel_put(img, i, j, color);
+			j++;
+		}
+		i++;
+	}
+}
+
+int key_pressed(int keycode, t_params *params)
+{
+	if (keycode == KEY_ESC)
+		exit_game(params->mlx.mlx_ptr, params->mlx.win_ptr);
+
+	if (keycode == KEY_W)
+		params->player.walk_direction = 1; // move forward
+	else if (keycode == KEY_S)
+		params->player.walk_direction = -1; // move backward
+	// if (keycode == KEY_D)
+	// if (keycode == KEY_A)
+	else if (keycode == KEY_ARROW_LEFT)
+		params->player.turn_direction = 1;
+	else if (keycode == KEY_ARROW_RIGHT)
+		params->player.turn_direction = -1;
+	else
+		return (1);
+
+	move_player(&params->player, &params->img);
+	render_everything(params);
+
+	return (1);
+}
+
+int key_released(int keycode, t_params *params)
+{
+	if (keycode == KEY_W)
+		params->player.walk_direction = 0;
+	else if (keycode == KEY_S)
+		params->player.walk_direction = 0;
+	// if (keycode == KEY_D)
+	// if (keycode == KEY_A)
+	else if (keycode == KEY_ARROW_LEFT)
+		params->player.turn_direction = 0;
+	else if (keycode == KEY_ARROW_RIGHT)
+		params->player.turn_direction = 0;
+	else
+		return (1);
+
+	move_player(&params->player, &params->img);
+	render_everything(params);
+
+	return (1);
 }
