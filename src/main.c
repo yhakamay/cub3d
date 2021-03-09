@@ -80,12 +80,18 @@ void move_player(t_player *player, t_img *img)
 {
 	player->rotation_angle += player->turn_direction * player->turn_speed;
 
+	if (player->rotation_angle > 2 * PI)
+		player->rotation_angle = 0;
+	if (player->rotation_angle < 0)
+		player->rotation_angle = 2 * PI;
 	float move_step = player->walk_direction * player->walk_speed;
 	float new_player_x = player->x + cos(player->rotation_angle) * move_step;
 	float new_player_y = player->y + sin(player->rotation_angle) * move_step;
 
 	player->x = new_player_x;
 	player->y = new_player_y;
+
+	//printf("player.rotation_angle: %f\n", player->rotation_angle);
 }
 
 void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr)
