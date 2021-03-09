@@ -34,66 +34,65 @@ void init_player(t_player *player)
 //		return (UP_RIGHT);
 //}
 
-void render_line(float x_start, float y_start, float rotaion_angle, float length, int color, t_img *img)
+void render_line(int x_start, int y_start, float rotaion_angle, int length, int color, t_img *img)
 {
-	float x_end;
-	float y_end;
+	int x_end;
+	int y_end;
+	int x_sign;
+	int x_delta;
+	int x_base_len;
+	int i;
 
 	x_end = x_start + cos(rotaion_angle) * length;
 	y_end = y_start + sin(rotaion_angle) * length;
 
-	if (x_start < x_end) // facing down
+	//x_delta = (rotaion_angle < 45 * (PI / 180)) ? (x_end - x_start) : (y_end - y_start);
+	x_delta = x_end - x_start;
+	x_sign = x_delta < 0 ? -1 : 1;
+	x_base_len = abs(x_delta);
+
+	i = 0;
+	while (i < x_base_len)
 	{
-		if (y_start < y_end) // down right
-		{
-			while (x_start < x_end && y_start < y_end)
-				my_mlx_pixel_put(img, x_start, y_start, color);
-			x_start += 0.1;
-			y_start += 0.1;
-		}
-		else // down left
-		{
-			while (x_start < x_end)
-				my_mlx_pixel_put(img, x_start, y_start, color);
-			x_start -= 0.1;
-			y_start += 0.1;
-		}
-	}
-	else // facing up
-	{
-		if (y_start > y_end) // up left
-		{
-			while (x_start < x_end && y_start < y_end)
-				my_mlx_pixel_put(img, x_start, y_start, color);
-			x_start -= 0.1;
-			y_start -= 0.1;
-		}
-		else // up right
-		{
-			while (x_start < x_end && y_start < y_end)
-				my_mlx_pixel_put(img, x_start, y_start, color);
-			x_start += 0.1;
-			y_start -= 0.1;
-		}
+		my_mlx_pixel_put(img, x_start + (i * x_sign), y_start + (tan(rotaion_angle) * i * x_sign), color);
+		i++;
 	}
 }
 
-// TODO: x, y, width, and height should be float
-void render_rect(float x, float y, float width, float height, int color, t_img *img)
+void render_circle(int x, int y, int r, int color, t_img *img)
 {
-	float i;
-	float j;
+	int x_i;
+	int y_i;
 
-	i = x;
-	while (i < x + width)
+	x_i = x - r;
+	while (x_i < x + r)
 	{
-		j = y;
-		while (j < y + height)
+		y_i = y - r;
+		while (y_i < y + r)
 		{
-			my_mlx_pixel_put(img, i, j, color);
-			j++;
+			if ((pow((y_i - x), 2.0)) + pow((x_i - y), 2.0) <= pow(r, 2.0))
+				my_mlx_pixel_put(img, x_i, y_i, color);
+			y_i++;
 		}
-		i++;
+		x_i++;
+	}
+}
+
+void render_rect(int x, int y, int width, int height, int color, t_img *img)
+{
+	int x_i;
+	int y_i;
+
+	x_i = x - (width / 2);
+	while (x_i < x + width / 2)
+	{
+		y_i = y - (height / 2);
+		while (y_i < y + height / 2)
+		{
+			my_mlx_pixel_put(img, x_i, y_i, color);
+			y_i++;
+		}
+		x_i++;
 	}
 }
 
