@@ -6,7 +6,7 @@
 /*   By: matsuki <matsuki@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 12:19:22 by matsuki           #+#    #+#             */
-/*   Updated: 2021/03/09 23:29:34 by matsuki          ###   ########.fr       */
+/*   Updated: 2021/03/09 23:32:46 by matsuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "../src/gnl/get_next_line.h"
-#include "../src/libft/libft.h"
+#include "gnl/get_next_line.h"
+#include "libft/libft.h"
 
 typedef struct	s_map
 {
