@@ -54,11 +54,11 @@ void render_minimap(t_params *params)
 
 void render_player(t_player *player, t_img *img)
 {
-	render_circle(player->x,
-				  player->y,
-				  player->width,
-				  player->color,
-				  img);
+	//render_circle(player->x,
+	//			  player->y,
+	//			  player->width,
+	//			  player->color,
+	//			  img);
 	render_rect(player->x,
 				player->y,
 				player->width,
