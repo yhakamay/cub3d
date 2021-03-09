@@ -54,10 +54,21 @@ void render_minimap(t_params *params)
 
 void render_player(t_player *player, t_img *img)
 {
-	render_rect(player->x, player->y, player->width, player->height, player->color, img);
+	render_rect(player->x,
+				player->y,
+				player->width,
+				player->height,
+				player->color,
+				img);
+	render_line(player->x,
+				player->y,
+				player->rotation_angle,
+				PLAYER_RAY_LENGTH,
+				player->color,
+				img);
 }
 
-void render(t_params *params)
+void render_everything(t_params *params)
 {
 	render_player(&params->player, &params->img);
 	render_minimap(params);
@@ -89,6 +100,7 @@ int main(void)
 {
 	t_params params;
 
+	// setvbuf below will be used when we debug using printf
 	setvbuf(stdout, (char *)NULL, _IONBF, 0);
 
 	// init some info
