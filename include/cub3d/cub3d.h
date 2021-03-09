@@ -31,7 +31,8 @@
 #define PLAYER_TURN_SPEED 10 * (PI / 180)
 #define PLAYER_DIAMETER 5
 #define PLAYER_COLOR 0x00FF0000
-#define PLAYER_RAY_LENGTH 20
+#define PLAYER_RAY_LENGTH 50
+#define PLAYER_RAY_RESOLUTION 2
 #define PLAYER_LINE 20
 
 // these are based on macOS
@@ -86,7 +87,7 @@ void my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr);
 void init_player(t_player *player);
 void render_line(float x_start, float y_start, float rotaion_angle, float length, int color, t_img *img);
-void render_rect(int x, int y, int width, int height, int color, t_img *img);
+void render_rect(float x, float y, float width, float height, int color, t_img *img);
 void render_everything(t_params *params);
 void move_player(t_player *player, t_img *img);
 int key_pressed(int keycode, t_params *params);
