@@ -53,3 +53,8 @@ dkms.conf
 
 # DS_Store
 .DS_Store
+
+# commitizen
+node_modules/
+package-lock.json
+package.json
