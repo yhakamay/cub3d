@@ -27,24 +27,6 @@ int Map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
-void render_rect(int x, int y, int width, int height, int color, t_img *img)
-{
-	int i;
-	int j;
-
-	i = x;
-	while (i < x + width)
-	{
-		j = y;
-		while (j < y + height)
-		{
-			my_mlx_pixel_put(img, i, j, color);
-			j++;
-		}
-		i++;
-	}
-}
-
 void render_minimap(t_params *params)
 {
 	int i;
@@ -101,58 +83,6 @@ void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr)
 {
 	mlx_destroy_window(mlx_ptr, win_ptr);
 	exit(0);
-}
-
-int key_pressed(int keycode, t_params *params)
-{
-	if (keycode == KEY_ESC)
-		exit_game(params->mlx.mlx_ptr, params->mlx.win_ptr);
-
-	if (keycode == KEY_W)
-		params->player.walk_direction = 1; // move forward
-	else if (keycode == KEY_S)
-		params->player.walk_direction = -1; // move backward
-	// if (keycode == KEY_D)
-	// if (keycode == KEY_A)
-	else if (keycode == KEY_ARROW_LEFT)
-		params->player.turn_direction = 1;
-	else if (keycode == KEY_ARROW_RIGHT)
-		params->player.turn_direction = -1;
-	else
-		return (1);
-
-	printf("player.walk_direction: %f\n", params->player.walk_direction);
-
-	move_player(&params->player, &params->img);
-	render(params);
-
-	// printf("▼▼▼▼▼\n");
-	// printf("player.x: %f\n", params->player.x);
-	// printf("player.y: %f\n", params->player.y);
-	// printf("▲▲▲▲▲\n\n\n");
-
-	return (1);
-}
-
-int key_released(int keycode, t_params *params)
-{
-	if (keycode == KEY_W)
-		params->player.walk_direction = 0;
-	else if (keycode == KEY_S)
-		params->player.walk_direction = 0;
-	// if (keycode == KEY_D)
-	// if (keycode == KEY_A)
-	else if (keycode == KEY_ARROW_LEFT)
-		params->player.turn_direction = 0;
-	else if (keycode == KEY_ARROW_RIGHT)
-		params->player.turn_direction = 0;
-	else
-		return (1);
-
-	move_player(&params->player, &params->img);
-	render(params);
-
-	return (1);
 }
 
 int main(void)
