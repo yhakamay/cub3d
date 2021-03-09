@@ -17,7 +17,7 @@ void init_player(t_player *player)
 	player->height = PLAYER_DIAMETER;
 	player->turn_direction = 0;
 	player->walk_direction = 0;
-	player->rotation_angle = PI / 2;
+	player->rotation_angle = 0;
 	player->walk_speed = PLAYER_WALK_SPEED;
 	player->turn_speed = PLAYER_TURN_SPEED;
 }
