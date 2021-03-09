@@ -54,6 +54,11 @@ void render_minimap(t_params *params)
 
 void render_player(t_player *player, t_img *img)
 {
+	render_circle(player->x,
+				  player->y,
+				  player->width,
+				  player->color,
+				  img);
 	render_rect(player->x,
 				player->y,
 				player->width,
@@ -76,14 +81,19 @@ void render_everything(t_params *params)
 	mlx_put_image_to_window(params->mlx.mlx_ptr, params->mlx.win_ptr, params->img.img, 0, 0);
 }
 
+float normalize_angle(float rotation_angle)
+{
+	rotation_angle = fmod(rotation_angle, 2 * PI);
+	rotation_angle += rotation_angle < 0 ? 2 * PI : 0;
+
+	return (rotation_angle);
+}
+
 void move_player(t_player *player, t_img *img)
 {
 	player->rotation_angle += player->turn_direction * player->turn_speed;
 
-	if (player->rotation_angle > 2 * PI)
-		player->rotation_angle = 0;
-	if (player->rotation_angle < 0)
-		player->rotation_angle = 2 * PI;
+	player->rotation_angle = normalize_angle(player->rotation_angle);
 	float move_step = player->walk_direction * player->walk_speed;
 	float new_player_x = player->x + cos(player->rotation_angle) * move_step;
 	float new_player_y = player->y + sin(player->rotation_angle) * move_step;
