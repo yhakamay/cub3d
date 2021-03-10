@@ -41,13 +41,16 @@ void init_player(t_player *player)
 // 	return false;
 // }
 
-bool has_wall_at(t_player *player)
+float normalize_angle(float rotation_angle)
 {
-	int x;
-	int y;
+	rotation_angle = fmod(rotation_angle, 2 * PI);
+	rotation_angle += rotation_angle < 0 ? 2 * PI : 0;
 
-	x = player->x;
-	y = player->y;
+	return (rotation_angle);
+}
+
+bool has_wall_at(int x, int y)
+{
 	if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT)
 		return true;
 	return false;
