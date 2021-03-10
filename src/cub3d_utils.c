@@ -160,15 +160,15 @@ int key_pressed(int keycode, t_params *params)
 	if (keycode == KEY_ESC)
 		exit_game(params->mlx.mlx_ptr, params->mlx.win_ptr);
 
-	if (keycode == KEY_W && !has_wall_at(&params->player))
+	if (keycode == KEY_W)
 		params->player.walk_direction = 1; // move forward
-	else if (keycode == KEY_S && !has_wall_at(&params->player))
+	else if (keycode == KEY_S)
 		params->player.walk_direction = -1; // move backward
 	// if (keycode == KEY_D)
 	// if (keycode == KEY_A)
-	else if (keycode == KEY_ARROW_LEFT && !has_wall_at(&params->player))
+	else if (keycode == KEY_ARROW_LEFT)
 		params->player.turn_direction = 1;
-	else if (keycode == KEY_ARROW_RIGHT && !has_wall_at(&params->player))
+	else if (keycode == KEY_ARROW_RIGHT)
 		params->player.turn_direction = -1;
 	else
 		return (1);
@@ -195,6 +195,10 @@ int key_released(int keycode, t_params *params)
 		return (1);
 
 	move_player(&params->player, &params->img);
+
+	/////////////////////////////////////////////////
+	// serious error occurs in render_everything() //
+	/////////////////////////////////////////////////
 	render_everything(params);
 
 	return (1);
