@@ -57,7 +57,7 @@ bool is_inside_map(t_params *params, int x, int y)
 	return (x >= 0 && x < MAP_NUM_COLS * TILE_SIZE && y >= 0 && y < MAP_NUM_ROWS * TILE_SIZE);
 }
 
-t_rays cast_ray(t_params *params, t_player *player, float ray_angle)
+t_ray cast_ray(t_params *params, t_player *player, float ray_angle)
 {
 	ray_angle = normalize_angle(ray_angle);
 
@@ -65,7 +65,7 @@ t_rays cast_ray(t_params *params, t_player *player, float ray_angle)
 	bool is_ray_facing_up = !is_ray_facing_down;
 
 	bool is_ray_facing_right = ray_angle < 0.5 * PI || ray_angle > 1.5 * PI;
-	bool is_ray_facing_left = ray_angle > 0 && ray_angle < PI;
+	bool is_ray_facing_left = !is_ray_facing_right;
 
 	float x_intercept, y_intercept;
 	float x_step, y_step;
@@ -73,7 +73,7 @@ t_rays cast_ray(t_params *params, t_player *player, float ray_angle)
 	bool found_horz_wall_hit = false;
 	float horz_wall_hit_x = 0;
 	float horz_wall_hit_y = 0;
-	int horz_wall_content = 0;
+	//int horz_wall_content = 0;
 
 	y_intercept = floor(player->y / TILE_SIZE) * TILE_SIZE;
 	y_intercept += is_ray_facing_down ? TILE_SIZE : 0;
@@ -90,7 +90,7 @@ t_rays cast_ray(t_params *params, t_player *player, float ray_angle)
 	float next_horz_touch_x = x_intercept;
 	float next_horz_touch_y = y_intercept;
 
-	while (next_horz_touch_x >= 0 && next_horz_touch_x <= WINDOW_WIDTH && next_horz_touch_y <= WINDOW_HEIGHT)
+	while (is_inside_map(params, next_horz_touch_x, next_horz_touch_y))
 	{
 		float x_to_check = next_horz_touch_x;
 		float y_to_check = next_horz_touch_y + (is_ray_facing_up ? -1 : 0);
@@ -99,7 +99,6 @@ t_rays cast_ray(t_params *params, t_player *player, float ray_angle)
 		{
 			horz_wall_hit_x = next_horz_touch_x;
 			horz_wall_hit_y = next_horz_touch_y;
-			horz_wall_content = Map[(int)floor(y_to_check / TILE_SIZE)][(int)floor(x_to_check / TILE_SIZE)];
 			found_horz_wall_hit = true;
 			break;
 		}
@@ -113,7 +112,6 @@ t_rays cast_ray(t_params *params, t_player *player, float ray_angle)
 	bool found_vert_wall_hit = false;
 	float vert_wall_hit_x = 0;
 	float vert_wall_hit_y = 0;
-	int vert_wall_content = 0;
 
 	x_intercept = floor(player->x / TILE_SIZE) * TILE_SIZE;
 	x_intercept += is_ray_facing_right ? TILE_SIZE : 0;
@@ -130,7 +128,7 @@ t_rays cast_ray(t_params *params, t_player *player, float ray_angle)
 	float next_vert_touch_x = x_intercept;
 	float next_vert_touch_y = y_intercept;
 
-	while (next_vert_touch_x >= 0 && next_vert_touch_x <= WINDOW_WIDTH && next_vert_touch_y >= 0 && next_vert_touch_y <= WINDOW_HEIGHT)
+	while (is_inside_map(params, next_vert_touch_x, next_vert_touch_y))
 	{
 		float x_to_check = next_vert_touch_x + (is_ray_facing_left ? -1 : 0);
 		float y_to_check = next_vert_touch_y;
@@ -152,14 +150,13 @@ t_rays cast_ray(t_params *params, t_player *player, float ray_angle)
 	float horz_hit_distance = found_horz_wall_hit ? get_distance(player->x, player->y, horz_wall_hit_x, horz_wall_hit_y) : FLT_MAX;
 	float vert_hit_distance = found_vert_wall_hit ? get_distance(player->x, player->y, vert_wall_hit_x, vert_wall_hit_y) : FLT_MAX;
 
-	t_rays ray;
+	t_ray ray;
 
 	if (vert_hit_distance < horz_hit_distance)
 	{
 		ray.distance = vert_hit_distance;
 		ray.wall_hit_x = vert_wall_hit_x;
 		ray.wall_hit_y = vert_wall_hit_y;
-		ray.wall_hit_content = vert_wall_content;
 		ray.was_hit_vertical = true;
 	}
 	else
@@ -167,28 +164,24 @@ t_rays cast_ray(t_params *params, t_player *player, float ray_angle)
 		ray.distance = horz_hit_distance;
 		ray.wall_hit_x = horz_wall_hit_x;
 		ray.wall_hit_y = horz_wall_hit_y;
-		ray.wall_hit_content = horz_wall_content;
-		ray.was_hit_vertical = true;
+		ray.was_hit_vertical = false;
 	}
 	ray.ray_angle = ray_angle;
-	ray.is_ray_facing_down = is_ray_facing_down;
-	ray.is_ray_facing_up = is_ray_facing_up;
-	ray.is_ray_facing_left = is_ray_facing_left;
-	ray.is_ray_facing_right = is_ray_facing_right;
-
 	return ray;
 }
 
 void render_rays(t_params *params, t_player *player, t_img *img)
 {
 	int i;
-	t_rays *rays;
+	t_ray *rays;
 
-	if (!(rays = malloc(sizeof(t_rays) * NUM_RAYS)))
+	printf("render_rays() has called.\n");
+	if (!(rays = malloc(sizeof(t_ray) * NUM_RAYS)))
 		return;
 	i = 0;
 	while (i < NUM_RAYS)
 	{
+		printf("while loop in render_rays() has called.\n");
 		rays[i] = cast_ray(params, player, player->rotation_angle - FOV_ANGLE * (0.5 - i / (float)WINDOW_WIDTH));
 		render_line(img, player->x, player->y, rays[i].wall_hit_x, rays[i].wall_hit_y, PLAYER_COLOR);
 		i++;
@@ -205,7 +198,7 @@ void render_everything(t_params *params)
 
 	render_player(&params->player, &params->img);
 	render_minimap(params);
-	//render_rays(params, &params->player, &params->img);
+	render_rays(params, &params->player, &params->img);
 
 	mlx_put_image_to_window(params->mlx.mlx_ptr, params->mlx.win_ptr, params->img.img, 0, 0);
 }
@@ -234,6 +227,42 @@ void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr)
 {
 	mlx_destroy_window(mlx_ptr, win_ptr);
 	exit(0);
+}
+
+void render_player(t_player *player, t_img *img)
+{
+	//render_circle(player->x,
+	//			  player->y,
+	//			  player->width,
+	//			  player->color,
+	//			  img);
+	render_rect(player->x,
+				player->y,
+				player->width,
+				player->height,
+				player->color,
+				img);
+	// render_line(player->x,
+	// 			player->y,
+	// 			player->rotation_angle,
+	// 			PLAYER_RAY_LENGTH,
+	// 			player->color,
+	// 			img);
+}
+
+bool map_has_wall_at(float x, float y)
+{
+	if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT)
+		return true;
+	int map_grid_index_x = floor(x / TILE_SIZE);
+	int map_grid_index_y = floor(y / TILE_SIZE);
+
+	return (Map[map_grid_index_y][map_grid_index_x] != 0);
+}
+
+float get_distance(float x1, float y1, float x2, float y2)
+{
+	return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 }
 
 int main(void)
