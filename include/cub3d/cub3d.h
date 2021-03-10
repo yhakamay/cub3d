@@ -118,10 +118,14 @@ void render_rect(int x, int y, int width, int height, int color, t_img *img);
 void render_circle(int x, int y, int r, int color, t_img *img);
 void render_everything(t_params *params);
 void move_player(t_player *player, t_img *img);
-t_rays cast_ray(t_params *params, t_player *player, float ray_angle);
+t_ray cast_ray(t_params *params, t_player *player, float ray_angle);
 void render_rays(t_params *params, t_player *player, t_img *img);
 bool has_wall_at(int x, int y);
 int key_pressed(int keycode, t_params *params);
 int key_released(int keycode, t_params *params);
+
+float get_distance(float x1, float y1, float x2, float y2);
+void render_player(t_player *player, t_img *img);
+bool map_has_wall_at(float x, float y);
 
 #endif
