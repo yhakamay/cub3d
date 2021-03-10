@@ -28,10 +28,10 @@ void refresh_img(t_img *img)
 	int j;
 
 	i = 0;
-	while (i < WINDOW_HEIGHT)
+	while (i < WINDOW_WIDTH)
 	{
 		j = 0;
-		while (j < WINDOW_WIDTH)
+		while (j < WINDOW_HEIGHT)
 		{
 			my_mlx_pixel_put(img, i, j, COLOR_BLACK);
 			j++;
