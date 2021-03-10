@@ -25,8 +25,7 @@ int Map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-};
+	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
 void render_minimap(t_params *params)
 {
@@ -76,12 +75,12 @@ void render_player(t_player *player, t_img *img)
 
 bool map_has_wall_at(float x, float y)
 {
-    if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT)
-        return true;
-    int map_grid_index_x = floor(x / TILE_SIZE);
-    int map_grid_index_y = floor(y / TILE_SIZE);
+	if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT)
+		return true;
+	int map_grid_index_x = floor(x / TILE_SIZE);
+	int map_grid_index_y = floor(y / TILE_SIZE);
 
-    return (Map[map_grid_index_y][map_grid_index_x] != 0);
+	return (Map[map_grid_index_y][map_grid_index_x] != 0);
 }
 
 float get_distance(float x1, float y1, float x2, float y2)
@@ -91,56 +90,56 @@ float get_distance(float x1, float y1, float x2, float y2)
 
 t_rays cast_ray(t_params *params, t_player *player, float ray_angle)
 {
-    ray_angle = normalize_angle(ray_angle);
+	ray_angle = normalize_angle(ray_angle);
 
-    bool is_ray_facing_down = ray_angle > 0 && ray_angle < PI;
-    bool is_ray_facing_up = !is_ray_facing_down;
+	bool is_ray_facing_down = ray_angle > 0 && ray_angle < PI;
+	bool is_ray_facing_up = !is_ray_facing_down;
 
-    bool is_ray_facing_right = ray_angle < 0.5 * PI || ray_angle > 1.5 * PI;
-    bool is_ray_facing_left = ray_angle > 0 && ray_angle < PI;
+	bool is_ray_facing_right = ray_angle < 0.5 * PI || ray_angle > 1.5 * PI;
+	bool is_ray_facing_left = ray_angle > 0 && ray_angle < PI;
 
-    float x_intercept, y_intercept;
-    float x_step, y_step;
+	float x_intercept, y_intercept;
+	float x_step, y_step;
 
-    bool found_horz_wall_hit = false;
-    float horz_wall_hit_x = 0;
-    float horz_wall_hit_y = 0;
-    int horz_wall_content = 0;
+	bool found_horz_wall_hit = false;
+	float horz_wall_hit_x = 0;
+	float horz_wall_hit_y = 0;
+	int horz_wall_content = 0;
 
-    y_intercept = floor(player->y / TILE_SIZE) * TILE_SIZE;
-    y_intercept += is_ray_facing_down ? TILE_SIZE : 0;
+	y_intercept = floor(player->y / TILE_SIZE) * TILE_SIZE;
+	y_intercept += is_ray_facing_down ? TILE_SIZE : 0;
 
-    x_intercept = player->x + (y_intercept - player->y) / tan(ray_angle);
-    
-    y_step = TILE_SIZE;
+	x_intercept = player->x + (y_intercept - player->y) / tan(ray_angle);
+
+	y_step = TILE_SIZE;
 	y_step *= is_ray_facing_up ? -1 : 1;
 
-    x_step = TILE_SIZE / tan(ray_angle);
-    x_step = (is_ray_facing_left && x_step > 0) ? -1 : 1;
-    x_step = (is_ray_facing_right && x_step < 0) ? -1 : 1;
+	x_step = TILE_SIZE / tan(ray_angle);
+	x_step = (is_ray_facing_left && x_step > 0) ? -1 : 1;
+	x_step = (is_ray_facing_right && x_step < 0) ? -1 : 1;
 
-    float next_horz_touch_x = x_intercept;
-    float next_horz_touch_y = y_intercept;
+	float next_horz_touch_x = x_intercept;
+	float next_horz_touch_y = y_intercept;
 
-    while (next_horz_touch_x >= 0 && next_horz_touch_x <= WINDOW_WIDTH && next_horz_touch_y <= WINDOW_HEIGHT)
-    {
-        float x_to_check = next_horz_touch_x;
-        float y_to_check = next_horz_touch_y + (is_ray_facing_up ? -1 : 0);
+	while (next_horz_touch_x >= 0 && next_horz_touch_x <= WINDOW_WIDTH && next_horz_touch_y <= WINDOW_HEIGHT)
+	{
+		float x_to_check = next_horz_touch_x;
+		float y_to_check = next_horz_touch_y + (is_ray_facing_up ? -1 : 0);
 
-        if (map_has_wall_at(x_to_check, x_to_check))
-        {
-            horz_wall_hit_x = next_horz_touch_x;
-            horz_wall_hit_y = next_horz_touch_y;
-            horz_wall_content = Map[(int)floor(y_to_check / TILE_SIZE)][(int)floor(x_to_check / TILE_SIZE)];
-            found_horz_wall_hit = true;
-            break;
-        }
-        else
-        {
-            next_horz_touch_x += x_step;
-            next_horz_touch_y += y_step;
-        }   
-    }
+		if (map_has_wall_at(x_to_check, x_to_check))
+		{
+			horz_wall_hit_x = next_horz_touch_x;
+			horz_wall_hit_y = next_horz_touch_y;
+			horz_wall_content = Map[(int)floor(y_to_check / TILE_SIZE)][(int)floor(x_to_check / TILE_SIZE)];
+			found_horz_wall_hit = true;
+			break;
+		}
+		else
+		{
+			next_horz_touch_x += x_step;
+			next_horz_touch_y += y_step;
+		}
+	}
 
 	bool found_vert_wall_hit = false;
 	float vert_wall_hit_x = 0;
@@ -216,10 +215,10 @@ void render_rays(t_params *params, t_player *player, t_img *img)
 	int i;
 	t_rays *rays;
 
-	if (!(rays = malloc(sizeof(t_rays) * WINDOW_WIDTH)))
-		return ;
+	if (!(rays = malloc(sizeof(t_rays) * NUM_RAYS)))
+		return;
 	i = 0;
-	while (i < WINDOW_WIDTH)
+	while (i < NUM_RAYS)
 	{
 		rays[i] = cast_ray(params, player, player->rotation_angle - FOV_ANGLE * (0.5 - i / (float)WINDOW_WIDTH));
 		render_line(img, player->x, player->y, rays[i].wall_hit_x, rays[i].wall_hit_y, PLAYER_COLOR);
@@ -228,16 +227,16 @@ void render_rays(t_params *params, t_player *player, t_img *img)
 	free(rays);
 }
 
-/////////////////////////////////////////////////
-// serious error occurs in render_everything() //
-/////////////////////////////////////////////////
+///////////////////////////////////////////
+// serious error occurs in render_rays() //
+///////////////////////////////////////////
 void render_everything(t_params *params)
 {
 	refresh_img(&params->img);
 
 	render_player(&params->player, &params->img);
 	render_minimap(params);
-	// render_rays(params, &params->player, &params->img);
+	//render_rays(params, &params->player, &params->img);
 
 	mlx_put_image_to_window(params->mlx.mlx_ptr, params->mlx.win_ptr, params->img.img, 0, 0);
 }
