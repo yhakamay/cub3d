@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <math.h>
+#include <stdbool.h>
 
 #include "../include/mlx/mlx.h"
 
@@ -76,6 +77,21 @@ typedef struct s_player
 	float walk_speed;
 	float turn_speed;
 } t_player;
+
+typedef struct s_ray
+{
+	float ray_angle;
+	float wall_hit_x;
+	float wall_hit_y;
+	float distance;
+	bool was_hit_vertical;
+	bool is_ray_facing_up;
+	bool is_ray_facing_down;
+	bool is_ray_facing_left;
+	bool is_ray_facing_right;
+	bool wall_hit_content;
+};
+
 
 // t_params holds all of parameters
 typedef struct s_params
