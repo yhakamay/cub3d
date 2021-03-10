@@ -242,14 +242,6 @@ void render_everything(t_params *params)
 	mlx_put_image_to_window(params->mlx.mlx_ptr, params->mlx.win_ptr, params->img.img, 0, 0);
 }
 
-float normalize_angle(float rotation_angle)
-{
-	rotation_angle = fmod(rotation_angle, 2 * PI);
-	rotation_angle += rotation_angle < 0 ? 2 * PI : 0;
-
-	return (rotation_angle);
-}
-
 void move_player(t_player *player, t_img *img)
 {
 	// printf("move_player() called\n");
