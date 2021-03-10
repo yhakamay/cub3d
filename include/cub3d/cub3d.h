@@ -6,6 +6,8 @@
 #include <unistd.h>
 #include <math.h>
 #include <stdbool.h>
+#include <limits.h>
+#include <float.h>
 
 #include "../include/mlx/mlx.h"
 
@@ -20,6 +22,8 @@
 
 #define MINIMAP_SCALE_FACTOR 1.0
 #define TILE_SIZE 20
+
+#define NUM_RAYS 10
 
 #define MAP_NUM_ROWS 13
 #define MAP_NUM_COLS 20
@@ -37,6 +41,8 @@
 #define PLAYER_RAY_LENGTH 50
 #define PLAYER_RAY_RESOLUTION 2
 #define PLAYER_LINE 20
+
+#define FOV_ANGLE (60 * (PI / 180))
 
 // these are based on macOS
 // if you want to use on other OS, replace them
@@ -90,8 +96,7 @@ typedef struct s_ray
 	bool is_ray_facing_left;
 	bool is_ray_facing_right;
 	bool wall_hit_content;
-};
-
+} t_rays;
 
 // t_params holds all of parameters
 typedef struct s_params
