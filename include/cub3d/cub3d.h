@@ -96,7 +96,7 @@ typedef struct s_ray
 	bool is_ray_facing_left;
 	bool is_ray_facing_right;
 	bool wall_hit_content;
-} t_rays;
+} t_ray;
 
 // t_params holds all of parameters
 typedef struct s_params
@@ -104,7 +104,7 @@ typedef struct s_params
 	t_mlx mlx;
 	t_img img;
 	t_player player;
-	t_rays rays;
+	t_ray ray;
 } t_params;
 
 void my_mlx_pixel_put(t_img *img, int x, int y, int color);
