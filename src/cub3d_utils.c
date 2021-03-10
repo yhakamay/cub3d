@@ -74,29 +74,49 @@ void refresh_img(t_img *img)
 	}
 }
 
-void render_line(int x_start, int y_start, float rotaion_angle, int length, int color, t_img *img)
+void render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
 {
-	int x_end;
-	int y_end;
-	int x_sign;
-	int x_delta;
-	int x_base_len;
+	double x_delta;
+	double y_delta;
+	double len;
 	int i;
 
-	x_end = x_start + cos(rotaion_angle) * length;
-	y_end = y_start + sin(rotaion_angle) * length;
-
-	x_delta = x_end - x_start;
-	x_sign = x_delta < 0 ? -1 : 1;
-	x_base_len = abs(x_delta);
-
+	x_delta = x2 - x1;
+	y_delta = y2 - y1;
+	len = (fabs(x_delta) >= fabs(y_delta)) ? fabs(x_delta) : fabs(y_delta);
+	x_delta /= len;
+	y_delta /= len;
 	i = 0;
-	while (i < x_base_len)
+	while (i < (int)len)
 	{
-		my_mlx_pixel_put(img, x_start + (i * x_sign), y_start + (tan(rotaion_angle) * i * x_sign), color);
+		my_mlx_pixel_put(img, x1 + (int)(x_delta * i), y1 + (int)(y_delta * i), color);
 		i++;
 	}
 }
+
+// void render_line(int x_start, int y_start, float rotaion_angle, int length, int color, t_img *img)
+// {
+// 	int x_end;
+// 	int y_end;
+// 	int x_sign;
+// 	int x_delta;
+// 	int x_base_len;
+// 	int i;
+
+// 	x_end = x_start + cos(rotaion_angle) * length;
+// 	y_end = y_start + sin(rotaion_angle) * length;
+
+// 	x_delta = x_end - x_start;
+// 	x_sign = x_delta < 0 ? -1 : 1;
+// 	x_base_len = abs(x_delta);
+
+// 	i = 0;
+// 	while (i < x_base_len)
+// 	{
+// 		my_mlx_pixel_put(img, x_start + (i * x_sign), y_start + (tan(rotaion_angle) * i * x_sign), color);
+// 		i++;
+// 	}
+// }
 
 void render_circle(int x, int y, int r, int color, t_img *img)
 {
