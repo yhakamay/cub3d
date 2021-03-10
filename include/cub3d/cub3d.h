@@ -104,6 +104,7 @@ typedef struct s_params
 	t_mlx mlx;
 	t_img img;
 	t_player player;
+	t_rays rays;
 } t_params;
 
 void my_mlx_pixel_put(t_img *img, int x, int y, int color);
