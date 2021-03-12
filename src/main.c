@@ -152,6 +152,18 @@ int main(int argc, char **argv)
 	// setvbuf below will be used when we debug using printf
 	setvbuf(stdout, (char *)NULL, _IONBF, 0);
 
+	//read .cub file
+	read_map(argv[1], &params.map);
+
+	////////////////////////// DEBUG //////////////////////////
+	int i = 0;
+	while (params.map.grid[i][0] != '\0')
+	{
+		printf("%s\n", params.map.grid[i]);
+		i++;
+	}
+	////////////////////////// DEBUG //////////////////////////
+
 	// init some info
 	params.mlx.mlx_ptr = mlx_init();
 	params.mlx.win_ptr = mlx_new_window(params.mlx.mlx_ptr, params.map.window_width, params.map.window_height, WINDOW_TITLE);
