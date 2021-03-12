@@ -12,15 +12,12 @@
 
 #include "../include/cub3d/cub3d.h"
 
-///////////////////////////////////////////
-// serious error occurs in render_rays() //
-///////////////////////////////////////////
 void render_everything(t_params *params)
 {
     refresh_img(&params->img, &params->map);
 
-    render_player(&params->player, &params->img);
     render_minimap(params);
+    render_player(&params->player, &params->img);
     render_rays(params, &params->player, &params->img);
 
     mlx_put_image_to_window(params->mlx.mlx_ptr, params->mlx.win_ptr, params->img.img, 0, 0);

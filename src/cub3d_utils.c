@@ -22,8 +22,8 @@ void my_mlx_pixel_put(t_img *img, int x, int y, int color)
 
 void init_player(t_player *player, t_map *map)
 {
-	player->x = map->window_width / 2;
-	player->y = map->window_height / 2;
+	player->x = 500;
+	player->y = 20;
 	player->color = PLAYER_COLOR;
 	player->width = PLAYER_DIAMETER;
 	player->height = PLAYER_DIAMETER;
