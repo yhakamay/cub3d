@@ -145,49 +145,7 @@ void move_player(t_player *player, t_img *img, t_map *map)
 	}
 }
 
-void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr)
-{
-	mlx_destroy_window(mlx_ptr, win_ptr);
-	exit(0);
-}
-
-void render_player(t_player *player, t_img *img)
-{
-	//render_circle(player->x,
-	//			  player->y,
-	//			  player->width,
-	//			  player->color,
-	//			  img);
-	render_rect(player->x,
-				player->y,
-				player->width,
-				player->height,
-				player->color,
-				img);
-	// render_line(player->x,
-	// 			player->y,
-	// 			player->rotation_angle,
-	// 			PLAYER_RAY_LENGTH,
-	// 			player->color,
-	// 			img);
-}
-
-bool map_has_wall_at(float x, float y)
-{
-	if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT)
-		return true;
-	int map_grid_index_x = floor(x / TILE_SIZE);
-	int map_grid_index_y = floor(y / TILE_SIZE);
-
-	return (Map[map_grid_index_y][map_grid_index_x] != 0);
-}
-
-float get_distance(float x1, float y1, float x2, float y2)
-{
-	return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-}
-
-int main(void)
+int main(int argc, char **argv)
 {
 	t_params params;
 

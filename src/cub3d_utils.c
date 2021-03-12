@@ -48,6 +48,12 @@ void init_player(t_player *player, t_map *map)
 // 	// map->grid = ;
 // }
 
+void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr)
+{
+	mlx_destroy_window(mlx_ptr, win_ptr);
+	exit(0);
+}
+
 float normalize_angle(float rotation_angle)
 {
 	rotation_angle = fmod(rotation_angle, 2 * PI);

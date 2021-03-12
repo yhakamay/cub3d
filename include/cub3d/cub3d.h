@@ -134,27 +134,33 @@ typedef struct s_params
 	t_img img;
 	t_player player;
 	t_ray ray;
+	t_map map;
 } t_params;
 
 void my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr);
-void init_player(t_player *player);
+void init_player(t_player *player, t_map *map);
+// void init_map(t_map *map);
 float normalize_angle(float rotation_angle);
-void refresh_img(t_img *img);
+void refresh_img(t_img *img, t_map *map);
+void render_everything(t_params *params);
+void render_minimap(t_params *params);
 // void render_line(int x_start, int y_start, float rotaion_angle, int length, int color, t_img *img);
 void render_line(t_img *img, int x1, int y1, int x2, int y2, int color);
 void render_rect(int x, int y, int width, int height, int color, t_img *img);
 void render_circle(int x, int y, int r, int color, t_img *img);
-void render_everything(t_params *params);
-void move_player(t_player *player, t_img *img);
-t_ray cast_ray(t_params *params, t_player *player, float ray_angle);
 void render_rays(t_params *params, t_player *player, t_img *img);
-bool has_wall_at(int x, int y);
+void move_player(t_player *player, t_img *img, t_map *map);
+t_ray cast_ray(t_params *params, t_player *player, float ray_angle);
+bool has_wall_at(int x, int y, t_map *map);
 int key_pressed(int keycode, t_params *params);
 int key_released(int keycode, t_params *params);
+bool is_inside_map(t_params *params, int x, int y);
 
 float get_distance(float x1, float y1, float x2, float y2);
 void render_player(t_player *player, t_img *img);
-bool map_has_wall_at(float x, float y);
+bool map_has_wall_at(float x, float y, t_map *map);
+
+void read_map(char *file_pass, t_map *map);
 
 #endif
