@@ -12,51 +12,6 @@
 
 #include "../include/cub3d/cub3d.h"
 
-int Map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
-
-void render_minimap(t_params *params)
-{
-	int i;
-	int j;
-	int x;
-	int y;
-	int tile_color;
-
-	i = 0;
-	while (i < MAP_NUM_ROWS)
-	{
-		j = 0;
-		while (j < MAP_NUM_COLS)
-		{
-			x = j * TILE_SIZE;
-			y = i * TILE_SIZE;
-			tile_color = Map[i][j] != 0 ? 111 : 0;
-
-			render_rect(x, y, TILE_SIZE, TILE_SIZE, tile_color, &params->img);
-			j++;
-		}
-		i++;
-	}
-}
-
-bool is_inside_map(t_params *params, int x, int y)
-{
-	return (x >= 0 && x < MAP_NUM_COLS * TILE_SIZE && y >= 0 && y < MAP_NUM_ROWS * TILE_SIZE);
-}
-
 t_ray cast_ray(t_params *params, t_player *player, float ray_angle)
 {
 	ray_angle = normalize_angle(ray_angle);
@@ -95,7 +50,7 @@ t_ray cast_ray(t_params *params, t_player *player, float ray_angle)
 		float x_to_check = next_horz_touch_x;
 		float y_to_check = next_horz_touch_y + (is_ray_facing_up ? -1 : 0);
 
-		if (map_has_wall_at(x_to_check, x_to_check))
+		if (map_has_wall_at(x_to_check, x_to_check, &params->map))
 		{
 			horz_wall_hit_x = next_horz_touch_x;
 			horz_wall_hit_y = next_horz_touch_y;
@@ -133,7 +88,7 @@ t_ray cast_ray(t_params *params, t_player *player, float ray_angle)
 		float x_to_check = next_vert_touch_x + (is_ray_facing_left ? -1 : 0);
 		float y_to_check = next_vert_touch_y;
 
-		if (map_has_wall_at(x_to_check, y_to_check))
+		if (map_has_wall_at(x_to_check, y_to_check, &params->map))
 		{
 			vert_wall_hit_x = next_vert_touch_x;
 			vert_wall_hit_y = next_vert_touch_y;
@@ -170,40 +125,7 @@ t_ray cast_ray(t_params *params, t_player *player, float ray_angle)
 	return ray;
 }
 
-void render_rays(t_params *params, t_player *player, t_img *img)
-{
-	int i;
-	t_ray *rays;
-
-	printf("render_rays() has called.\n");
-	if (!(rays = malloc(sizeof(t_ray) * NUM_RAYS)))
-		return;
-	i = 0;
-	while (i < NUM_RAYS)
-	{
-		printf("while loop in render_rays() has called.\n");
-		rays[i] = cast_ray(params, player, player->rotation_angle - FOV_ANGLE * (0.5 - i / (float)WINDOW_WIDTH));
-		render_line(img, player->x, player->y, rays[i].wall_hit_x, rays[i].wall_hit_y, PLAYER_COLOR);
-		i++;
-	}
-	free(rays);
-}
-
-///////////////////////////////////////////
-// serious error occurs in render_rays() //
-///////////////////////////////////////////
-void render_everything(t_params *params)
-{
-	refresh_img(&params->img);
-
-	render_player(&params->player, &params->img);
-	render_minimap(params);
-	render_rays(params, &params->player, &params->img);
-
-	mlx_put_image_to_window(params->mlx.mlx_ptr, params->mlx.win_ptr, params->img.img, 0, 0);
-}
-
-void move_player(t_player *player, t_img *img)
+void move_player(t_player *player, t_img *img, t_map *map)
 {
 	// printf("move_player() called\n");
 
@@ -214,7 +136,7 @@ void move_player(t_player *player, t_img *img)
 	float new_player_x = player->x + cos(player->rotation_angle) * move_step;
 	float new_player_y = player->y + sin(player->rotation_angle) * move_step;
 
-	if (has_wall_at(new_player_x, new_player_y))
+	if (has_wall_at(new_player_x, new_player_y, map))
 		return;
 	else
 	{
@@ -274,11 +196,12 @@ int main(void)
 
 	// init some info
 	params.mlx.mlx_ptr = mlx_init();
-	params.mlx.win_ptr = mlx_new_window(params.mlx.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
-	init_player(&params.player);
+	params.mlx.win_ptr = mlx_new_window(params.mlx.mlx_ptr, params.map.window_width, params.map.window_height, WINDOW_TITLE);
+	init_player(&params.player, &params.map);
+	// init_map(&params.map);
 
 	// create a image on the window
-	params.img.img = mlx_new_image(params.mlx.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
+	params.img.img = mlx_new_image(params.mlx.mlx_ptr, params.map.window_width, params.map.window_height);
 	params.img.addr = mlx_get_data_addr(params.img.img, &params.img.bits_per_pixel, &params.img.line_length, &params.img.endian);
 
 	// render a player and push the image to the window

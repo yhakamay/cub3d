@@ -20,10 +20,10 @@ void my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void init_player(t_player *player)
+void init_player(t_player *player, t_map *map)
 {
-	player->x = WINDOW_WIDTH / 2;
-	player->y = WINDOW_HEIGHT / 2;
+	player->x = map->window_width / 2;
+	player->y = map->window_height / 2;
 	player->color = PLAYER_COLOR;
 	player->width = PLAYER_DIAMETER;
 	player->height = PLAYER_DIAMETER;
@@ -34,11 +34,18 @@ void init_player(t_player *player)
 	player->turn_speed = PLAYER_TURN_SPEED;
 }
 
-// bool has_wall_at(int x, int y)
+// void init_map(t_map *map)
 // {
-// 	if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT)
-// 		return true;
-// 	return false;
+// 	map->window_width = WINDOW_WIDTH;
+// 	map->window_height = WINDOW_HEIGHT;
+// 	// map->north_pass = ;
+// 	// map->south_pass = ;
+// 	// map->west_pass = ;
+// 	// map->east_pass = ;
+// 	// map->sprite_pass = ;
+// 	// map->floor_rgb = ;
+// 	// map->ceilling_rgb = ;
+// 	// map->grid = ;
 // }
 
 float normalize_angle(float rotation_angle)
@@ -49,109 +56,49 @@ float normalize_angle(float rotation_angle)
 	return (rotation_angle);
 }
 
-bool has_wall_at(int x, int y)
+bool has_wall_at(int x, int y, t_map *map)
 {
-	if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT)
+	if (x < 0 || x > map->window_width || y < 0 || y > map->window_height)
 		return true;
 	return false;
 }
 
-void refresh_img(t_img *img)
+bool map_has_wall_at(float x, float y, t_map *map)
+{
+	if (x < 0 || x > map->window_width || y < 0 || y > map->window_height)
+		return true;
+	int map_grid_index_x = floor(x / TILE_SIZE);
+	int map_grid_index_y = floor(y / TILE_SIZE);
+
+	return (map->grid[map_grid_index_y][map_grid_index_x] != 0);
+	// return (Map[map_grid_index_y][map_grid_index_x] != 0);
+}
+
+float get_distance(float x1, float y1, float x2, float y2)
+{
+	return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+}
+
+bool is_inside_map(t_params *params, int x, int y)
+{
+	return (x >= 0 && x < MAP_NUM_COLS * TILE_SIZE && y >= 0 && y < MAP_NUM_ROWS * TILE_SIZE);
+}
+
+void refresh_img(t_img *img, t_map *map)
 {
 	int i;
 	int j;
 
 	i = 0;
-	while (i < WINDOW_WIDTH)
+	while (i < map->window_width)
 	{
 		j = 0;
-		while (j < WINDOW_HEIGHT)
+		while (j < map->window_height)
 		{
 			my_mlx_pixel_put(img, i, j, COLOR_BLACK);
 			j++;
 		}
 		i++;
-	}
-}
-
-void render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
-{
-	double x_delta;
-	double y_delta;
-	double len;
-	int i;
-
-	x_delta = x2 - x1;
-	y_delta = y2 - y1;
-	len = (fabs(x_delta) >= fabs(y_delta)) ? fabs(x_delta) : fabs(y_delta);
-	x_delta /= len;
-	y_delta /= len;
-	i = 0;
-	while (i < (int)len)
-	{
-		my_mlx_pixel_put(img, x1 + (int)(x_delta * i), y1 + (int)(y_delta * i), color);
-		i++;
-	}
-}
-
-// void render_line(int x_start, int y_start, float rotaion_angle, int length, int color, t_img *img)
-// {
-// 	int x_end;
-// 	int y_end;
-// 	int x_sign;
-// 	int x_delta;
-// 	int x_base_len;
-// 	int i;
-
-// 	x_end = x_start + cos(rotaion_angle) * length;
-// 	y_end = y_start + sin(rotaion_angle) * length;
-
-// 	x_delta = x_end - x_start;
-// 	x_sign = x_delta < 0 ? -1 : 1;
-// 	x_base_len = abs(x_delta);
-
-// 	i = 0;
-// 	while (i < x_base_len)
-// 	{
-// 		my_mlx_pixel_put(img, x_start + (i * x_sign), y_start + (tan(rotaion_angle) * i * x_sign), color);
-// 		i++;
-// 	}
-// }
-
-void render_circle(int x, int y, int r, int color, t_img *img)
-{
-	int x_i;
-	int y_i;
-
-	x_i = x - r;
-	while (x_i < x + r)
-	{
-		y_i = y - r;
-		while (y_i < y + r)
-		{
-			if ((pow((y_i - x), 2.0)) + pow((x_i - y), 2.0) <= pow(r, 2.0))
-				my_mlx_pixel_put(img, x_i, y_i, color);
-			y_i++;
-		}
-		x_i++;
-	}
-}
-
-void render_rect(int x, int y, int width, int height, int color, t_img *img)
-{
-	int x_i;
-	int y_i;
-
-	x_i = x - (width / 2);
-	while (x_i < x + width / 2)
-	{
-		y_i = y - (height / 2);
-		while (y_i < y + height / 2)
-		{
-			my_mlx_pixel_put(img, x_i, y_i, color);
-			y_i++;
-		}
-		x_i++;
 	}
 }
 
@@ -173,7 +120,7 @@ int key_pressed(int keycode, t_params *params)
 	else
 		return (1);
 
-	move_player(&params->player, &params->img);
+	move_player(&params->player, &params->img, &params->map);
 	render_everything(params);
 
 	return (1);
@@ -194,7 +141,7 @@ int key_released(int keycode, t_params *params)
 	else
 		return (1);
 
-	move_player(&params->player, &params->img);
+	move_player(&params->player, &params->img, &params->map);
 
 	/////////////////////////////////////////////////
 	// serious error occurs in render_everything() //

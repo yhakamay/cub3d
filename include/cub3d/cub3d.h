@@ -11,8 +11,8 @@
 
 #include "../mlx/mlx.h"
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
+// #define WINDOW_WIDTH 800
+// #define WINDOW_HEIGHT 600
 #define WINDOW_TITLE "cub3d"
 
 #define X_EVENT_KEY_PRESSED 2
@@ -20,7 +20,7 @@
 
 #define COLOR_BLACK 000000
 
-#define MINIMAP_SCALE_FACTOR 1.0
+#define MINIMAP_SCALE_FACTOR 1.5
 #define TILE_SIZE 20
 
 #define NUM_RAYS 10
@@ -54,6 +54,21 @@
 #define KEY_W 13
 #define KEY_ARROW_RIGHT 123
 #define KEY_ARROW_LEFT 124
+
+// int Map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
+// 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+// 	{1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
+// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1},
+// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+// 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
 typedef struct s_img
 {
@@ -97,6 +112,20 @@ typedef struct s_ray
 	bool is_ray_facing_right;
 	bool wall_hit_content;
 } t_ray;
+
+typedef struct s_map
+{
+	int window_width;
+	int window_height;
+	char *north_pass;
+	char *south_pass;
+	char *west_pass;
+	char *east_pass;
+	char *sprite_pass;
+	int floor_rgb[3];
+	int ceilling_rgb[3];
+	char grid[200][201];
+} t_map;
 
 // t_params holds all of parameters
 typedef struct s_params
