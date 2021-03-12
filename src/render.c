@@ -48,25 +48,6 @@ void render_minimap(t_params *params)
     }
 }
 
-void render_circle(int x, int y, int r, int color, t_img *img)
-{
-    int x_i;
-    int y_i;
-
-    x_i = x - r;
-    while (x_i < x + r)
-    {
-        y_i = y - r;
-        while (y_i < y + r)
-        {
-            if ((pow((y_i - x), 2.0)) + pow((x_i - y), 2.0) <= pow(r, 2.0))
-                my_mlx_pixel_put(img, x_i, y_i, color);
-            y_i++;
-        }
-        x_i++;
-    }
-}
-
 void render_rect(int x, int y, int width, int height, int color, t_img *img)
 {
     int x_i;
@@ -105,6 +86,40 @@ void render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
     }
 }
 
+void render_rays(t_params *params, t_player *player, t_img *img)
+{
+    int i;
+    t_ray *rays;
+
+    if (!(rays = malloc(sizeof(t_ray) * NUM_RAYS)))
+        return;
+    i = 0;
+    while (i < NUM_RAYS)
+    {
+        rays[i] = cast_ray(params, player, player->rotation_angle - FOV_ANGLE * (0.5 - i / (float)(params->map.window_width)));
+        render_line(img, player->x * MINIMAP_SCALE_FACTOR, player->y * MINIMAP_SCALE_FACTOR, rays[i].wall_hit_x * MINIMAP_SCALE_FACTOR, rays[i].wall_hit_y * MINIMAP_SCALE_FACTOR, PLAYER_COLOR);
+        i++;
+    }
+    free(rays);
+}
+
+void render_player(t_player *player, t_img *img)
+{
+    render_rect(
+        player->x,
+        player->y,
+        player->width * MINIMAP_SCALE_FACTOR,
+        player->height * MINIMAP_SCALE_FACTOR,
+        player->color,
+        img);
+    // render_line(player->x,
+    // 			player->y,
+    // 			player->rotation_angle,
+    // 			PLAYER_RAY_LENGTH,
+    // 			player->color,
+    // 			img);
+}
+
 // old version of render_line() which requires rotation_angle
 // it doesn't work to cast rays, so created new version above
 // void render_line(int x_start, int y_start, float rotaion_angle, int length, int color, t_img *img)
@@ -130,43 +145,3 @@ void render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
 // 		i++;
 // 	}
 // }
-
-void render_rays(t_params *params, t_player *player, t_img *img)
-{
-    int i;
-    t_ray *rays;
-
-    // printf("render_rays() has called.\n");
-    if (!(rays = malloc(sizeof(t_ray) * NUM_RAYS)))
-        return;
-    i = 0;
-    while (i < NUM_RAYS)
-    {
-        // printf("while loop in render_rays() has called.\n");
-        rays[i] = cast_ray(params, player, player->rotation_angle - FOV_ANGLE * (0.5 - i / (float)(params->map.window_width)));
-        render_line(img, player->x * MINIMAP_SCALE_FACTOR, player->y * MINIMAP_SCALE_FACTOR, rays[i].wall_hit_x * MINIMAP_SCALE_FACTOR, rays[i].wall_hit_y * MINIMAP_SCALE_FACTOR, PLAYER_COLOR);
-        i++;
-    }
-    free(rays);
-}
-
-void render_player(t_player *player, t_img *img)
-{
-    //render_circle(player->x,
-    //			  player->y,
-    //			  player->width,
-    //			  player->color,
-    //			  img);
-    render_rect(player->x * MINIMAP_SCALE_FACTOR,
-                player->y * MINIMAP_SCALE_FACTOR,
-                player->width * MINIMAP_SCALE_FACTOR,
-                player->height * MINIMAP_SCALE_FACTOR,
-                player->color,
-                img);
-    // render_line(player->x,
-    // 			player->y,
-    // 			player->rotation_angle,
-    // 			PLAYER_RAY_LENGTH,
-    // 			player->color,
-    // 			img);
-}
