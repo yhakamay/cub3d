@@ -14,8 +14,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "gnl/get_next_line.h"
-#include "libft/libft.h"
+#include "../gnl/get_next_line.h"
+#include "../libft/libft.h"
 
 typedef struct	s_map
 {

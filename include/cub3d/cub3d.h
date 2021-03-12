@@ -10,6 +10,8 @@
 #include <float.h>
 
 #include "../mlx/mlx.h"
+#include "../gnl/get_next_line.h"
+#include "../libft/libft.h"
 
 // #define WINDOW_WIDTH 800
 // #define WINDOW_HEIGHT 600
