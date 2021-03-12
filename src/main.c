@@ -19,6 +19,9 @@ int main(int argc, char **argv)
 	// setvbuf below will be used when we debug using printf
 	setvbuf(stdout, (char *)NULL, _IONBF, 0);
 
+	if (argc != 2)
+		return (no_args_err());
+
 	// read .cub file
 	read_map(argv[1], &params.map);
 

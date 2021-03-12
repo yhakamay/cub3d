@@ -139,11 +139,10 @@ bool has_wall_at(int x, int y, t_map *map);
 int key_pressed(int keycode, t_params *params);
 int key_released(int keycode, t_params *params);
 bool is_inside_map(t_params *params, int x, int y);
-
 float get_distance(float x1, float y1, float x2, float y2);
 void render_player(t_player *player, t_img *img);
 bool map_has_wall_at(float x, float y, t_map *map);
-
 void read_map(char *file_pass, t_map *map);
+int no_args_err(void);
 
 #endif
