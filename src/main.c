@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 	// setvbuf below will be used when we debug using printf
 	setvbuf(stdout, (char *)NULL, _IONBF, 0);
 
-	//read .cub file
+	// read .cub file
 	read_map(argv[1], &params.map);
 
 	////////////////////////// DEBUG //////////////////////////
@@ -35,7 +35,6 @@ int main(int argc, char **argv)
 	params.mlx.mlx_ptr = mlx_init();
 	params.mlx.win_ptr = mlx_new_window(params.mlx.mlx_ptr, params.map.window_width, params.map.window_height, WINDOW_TITLE);
 	init_player(&params.player, &params.map);
-	// init_map(&params.map);
 
 	// create a image on the window
 	params.img.img = mlx_new_image(params.mlx.mlx_ptr, params.map.window_width, params.map.window_height);

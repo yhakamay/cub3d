@@ -36,10 +36,7 @@ void init_player(t_player *player, t_map *map)
 
 void move_player(t_player *player, t_img *img, t_map *map)
 {
-	// printf("move_player() called\n");
-
 	player->rotation_angle += player->turn_direction * player->turn_speed;
-
 	player->rotation_angle = normalize_angle(player->rotation_angle);
 	float move_step = player->walk_direction * player->walk_speed;
 	float new_player_x = player->x + cos(player->rotation_angle) * move_step;
@@ -53,20 +50,6 @@ void move_player(t_player *player, t_img *img, t_map *map)
 		player->y = new_player_y;
 	}
 }
-
-// void init_map(t_map *map)
-// {
-// 	map->window_width = WINDOW_WIDTH;
-// 	map->window_height = WINDOW_HEIGHT;
-// 	// map->north_pass = ;
-// 	// map->south_pass = ;
-// 	// map->west_pass = ;
-// 	// map->east_pass = ;
-// 	// map->sprite_pass = ;
-// 	// map->floor_rgb = ;
-// 	// map->ceilling_rgb = ;
-// 	// map->grid = ;
-// }
 
 void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr)
 {
@@ -97,7 +80,6 @@ bool map_has_wall_at(float x, float y, t_map *map)
 	int map_grid_index_y = floor(y / TILE_SIZE);
 
 	return (map->grid[map_grid_index_y][map_grid_index_x] != 0);
-	// return (Map[map_grid_index_y][map_grid_index_x] != 0);
 }
 
 float get_distance(float x1, float y1, float x2, float y2)
@@ -168,10 +150,6 @@ int key_released(int keycode, t_params *params)
 		return (1);
 
 	move_player(&params->player, &params->img, &params->map);
-
-	/////////////////////////////////////////////////
-	// serious error occurs in render_everything() //
-	/////////////////////////////////////////////////
 	render_everything(params);
 
 	return (1);

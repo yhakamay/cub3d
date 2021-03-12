@@ -13,8 +13,6 @@
 #include "../gnl/get_next_line.h"
 #include "../libft/libft.h"
 
-// #define WINDOW_WIDTH 800
-// #define WINDOW_HEIGHT 600
 #define WINDOW_TITLE "cub3d"
 
 #define X_EVENT_KEY_PRESSED 2
@@ -56,21 +54,6 @@
 #define KEY_W 13
 #define KEY_ARROW_RIGHT 123
 #define KEY_ARROW_LEFT 124
-
-// int Map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
-// 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-// 	{1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
-// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1},
-// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-// 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
 typedef struct s_img
 {
@@ -142,12 +125,10 @@ typedef struct s_params
 void my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr);
 void init_player(t_player *player, t_map *map);
-// void init_map(t_map *map);
 float normalize_angle(float rotation_angle);
 void refresh_img(t_img *img, t_map *map);
 void render_everything(t_params *params);
 void render_minimap(t_params *params);
-// void render_line(int x_start, int y_start, float rotaion_angle, int length, int color, t_img *img);
 void render_line(t_img *img, int x1, int y1, int x2, int y2, int color);
 void render_rect(int x, int y, int width, int height, int color, t_img *img);
 void render_circle(int x, int y, int r, int color, t_img *img);
