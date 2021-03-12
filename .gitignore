@@ -61,3 +61,4 @@ package.json
 
 # VSCode
 .vscode
+cub3d.code-workspace
