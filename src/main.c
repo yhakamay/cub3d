@@ -12,26 +12,6 @@
 
 #include "../include/cub3d/cub3d.h"
 
-void move_player(t_player *player, t_img *img, t_map *map)
-{
-	// printf("move_player() called\n");
-
-	player->rotation_angle += player->turn_direction * player->turn_speed;
-
-	player->rotation_angle = normalize_angle(player->rotation_angle);
-	float move_step = player->walk_direction * player->walk_speed;
-	float new_player_x = player->x + cos(player->rotation_angle) * move_step;
-	float new_player_y = player->y + sin(player->rotation_angle) * move_step;
-
-	if (has_wall_at(new_player_x, new_player_y, map))
-		return;
-	else
-	{
-		player->x = new_player_x;
-		player->y = new_player_y;
-	}
-}
-
 int main(int argc, char **argv)
 {
 	t_params params;
