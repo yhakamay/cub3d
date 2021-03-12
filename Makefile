@@ -11,7 +11,12 @@
 # **************************************************************************** #
 
 all:
-	gcc -L./include/mlx -lmlx -framework OpenGL -framework AppKit src/*.c -I include
+	$(MAKE) -C ./include/libft
+	cp ./include/libft/libft.a ./include/gnl/libft_gnl.a
+	gcc -Wall -Wextra -Werror -c ./include/gnl/get_next_line.c
+	ar rcs ./include/gnl/libft_gnl.a ./include/gnl/get_next_line.o
+	mv ./include/gnl/libft_gnl.a ./src/
+	gcc -L./include/mlx -lmlx -framework OpenGL -framework AppKit src/*.c src/libft_gnl.a -I include
 
 run:
 	./a.out;
