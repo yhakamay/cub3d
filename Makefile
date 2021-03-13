@@ -19,7 +19,7 @@ all:
 	gcc -L./include/mlx -lmlx -framework OpenGL -framework AppKit src/*.c src/libft_gnl.a -I include
 
 run:
-	./a.out;
+	./a.out test/test.cub;
 
 clean:
 	rm a.out;
