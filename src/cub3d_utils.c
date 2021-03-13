@@ -67,9 +67,15 @@ float normalize_angle(float rotation_angle)
 
 bool has_wall_at(int x, int y, t_map *map)
 {
+	int tile_index_x;
+	int tile_index_y;
+
 	if (x < 0 || x > map->window_width || y < 0 || y > map->window_height)
 		return true;
-	return false;
+	tile_index_x = floor(x / TILE_SIZE);
+	tile_index_y = floor(y / TILE_SIZE);
+
+	return (map->grid[tile_index_y][tile_index_x] == '1' ? true : false);
 }
 
 bool map_has_wall_at(float x, float y, t_map *map)
