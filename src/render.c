@@ -39,7 +39,7 @@ void render_minimap(t_params *params)
 		{
 			x = j * TILE_SIZE;
 			y = i * TILE_SIZE;
-			tile_color = params->map.grid[i][j] != '0' ? 111 : 0;
+			tile_color = params->map.grid[i][j] != '0' ? 111111111 : 0;
 
 			render_rect(x * MINIMAP_SCALE_FACTOR, y * MINIMAP_SCALE_FACTOR, TILE_SIZE * MINIMAP_SCALE_FACTOR, TILE_SIZE * MINIMAP_SCALE_FACTOR, tile_color, &params->img);
 			j++;
