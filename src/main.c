@@ -16,8 +16,9 @@ int main(int argc, char **argv)
 {
 	t_params params;
 
-	// setvbuf below will be used when we debug using printf
+#if DEBUG_ON
 	setvbuf(stdout, (char *)NULL, _IONBF, 0);
+#endif
 
 	if (argc != 2)
 		return (no_args_err());

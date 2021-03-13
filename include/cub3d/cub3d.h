@@ -1,6 +1,8 @@
 #ifndef CUB3D_H
 #define CUB3D_H
 
+#define DEBUG_ON 1
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
