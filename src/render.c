@@ -15,11 +15,9 @@
 void render_everything(t_params *params)
 {
 	refresh_img(&params->img, &params->map);
-
 	render_minimap(params);
 	render_player(&params->player, &params->img);
 	render_rays(params, &params->player, &params->img);
-
 	mlx_put_image_to_window(params->mlx.mlx_ptr, params->mlx.win_ptr, params->img.img, 0, 0);
 }
 
@@ -40,7 +38,6 @@ void render_minimap(t_params *params)
 			x = j * TILE_SIZE;
 			y = i * TILE_SIZE;
 			tile_color = params->map.grid[i][j] != '0' ? 111111111 : 0;
-
 			render_rect(x * MINIMAP_SCALE_FACTOR, y * MINIMAP_SCALE_FACTOR, TILE_SIZE * MINIMAP_SCALE_FACTOR, TILE_SIZE * MINIMAP_SCALE_FACTOR, tile_color, &params->img);
 			j++;
 		}
@@ -89,24 +86,18 @@ void render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
 void render_rays(t_params *params, t_player *player, t_img *img)
 {
 	int i;
-	int ray_angle;
+	float ray_angle;
 	t_ray ray;
-	//t_ray *rays;
 
-	//if (!(rays = malloc(sizeof(t_ray) * NUM_RAYS)))
-	//	return;
 	i = 0;
-	ray_angle = player->rotation_angle - 0.5 * FOV_ANGLE;
+	ray_angle = player->rotation_angle - (FOV_ANGLE * 0.5);
 	while (i < NUM_RAYS)
 	{
-		//rays[i] = cast_ray(params, player, player->rotation_angle - FOV_ANGLE * (0.5 - i / (float)(params->map.window_width)));
-		ray = cast_ray(params, player, ray_angle);
-		//render_line(img, player->x, player->y, rays[i].wall_hit_x, rays[i].wall_hit_y, PLAYER_COLOR);
+		ray = cast_ray(params, player, normalize_angle(ray_angle));
 		render_line(img, player->x, player->y, ray.wall_hit_x, ray.wall_hit_y, PLAYER_COLOR);
 		ray_angle += FOV_ANGLE / NUM_RAYS;
 		i++;
 	}
-	//free(rays);
 }
 
 void render_player(t_player *player, t_img *img)
@@ -118,36 +109,4 @@ void render_player(t_player *player, t_img *img)
 		player->height * MINIMAP_SCALE_FACTOR,
 		player->color,
 		img);
-	// render_line(player->x,
-	// 			player->y,
-	// 			player->rotation_angle,
-	// 			PLAYER_RAY_LENGTH,
-	// 			player->color,
-	// 			img);
 }
-
-// old version of render_line() which requires rotation_angle
-// it doesn't work to cast rays, so created new version above
-// void render_line(int x_start, int y_start, float rotaion_angle, int length, int color, t_img *img)
-// {
-// 	int x_end;
-// 	int y_end;
-// 	int x_sign;
-// 	int x_delta;
-// 	int x_base_len;
-// 	int i;
-
-// 	x_end = x_start + cos(rotaion_angle) * length;
-// 	y_end = y_start + sin(rotaion_angle) * length;
-
-// 	x_delta = x_end - x_start;
-// 	x_sign = x_delta < 0 ? -1 : 1;
-// 	x_base_len = abs(x_delta);
-
-// 	i = 0;
-// 	while (i < x_base_len)
-// 	{
-// 		my_mlx_pixel_put(img, x_start + (i * x_sign), y_start + (tan(rotaion_angle) * i * x_sign), color);
-// 		i++;
-// 	}
-// }
