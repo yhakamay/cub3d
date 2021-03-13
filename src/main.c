@@ -24,8 +24,6 @@ int main(int argc, char **argv)
 
 	// read .cub file
 	read_map(argv[1], &params.map);
-	printf("map.width: %d\n", params.map.window_width);
-	printf("map.height: %d\n", params.map.window_height);
 
 	////////////////////////// DEBUG //////////////////////////
 	int i = 0;
