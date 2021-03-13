@@ -96,19 +96,19 @@ typedef struct s_ray
 	float wall_hit_y;
 	float distance;
 	bool was_hit_vertical;
-	bool is_ray_facing_up;
-	bool is_ray_facing_down;
-	bool is_ray_facing_left;
-	bool is_ray_facing_right;
+	bool is_facing_up;
+	bool is_facing_down;
+	bool is_facing_left;
+	bool is_facing_right;
 	bool wall_hit_content;
 } t_ray;
 
 typedef struct s_rc_utils
 {
-	bool is_ray_facing_down;
-	bool is_ray_facing_up;
-	bool is_ray_facing_right;
-	bool is_ray_facing_left;
+	bool is_facing_down;
+	bool is_facing_up;
+	bool is_facing_right;
+	bool is_facing_left;
 	float x_intercept;
 	float y_intercept;
 	float x_step;
