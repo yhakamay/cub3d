@@ -20,7 +20,7 @@
 
 #define COLOR_BLACK 000000
 
-#define MINIMAP_SCALE_FACTOR 1.5
+#define MINIMAP_SCALE_FACTOR 1.0
 #define TILE_SIZE 20
 
 #define NUM_RAYS 10
