@@ -12,119 +12,146 @@
 
 #include "../include/cub3d/cub3d.h"
 
-t_ray cast_ray(t_params *params, t_player *player, float ray_angle)
+static float get_distance(float x1, float y1, float x2, float y2)
 {
-	bool is_ray_facing_down = ray_angle > 0 && ray_angle < PI;
-	bool is_ray_facing_up = !is_ray_facing_down;
-	bool is_ray_facing_right = ray_angle < 0.5 * PI || ray_angle > 1.5 * PI;
-	bool is_ray_facing_left = !is_ray_facing_right;
-	float x_intercept, y_intercept;
-	float x_step, y_step;
+	return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+}
 
-	///////////////////////////////////////////////////
-	//               horizonal check                 //
-	///////////////////////////////////////////////////
-	bool found_horz_wall_hit = false;
-	float horz_wall_hit_x = 0;
-	float horz_wall_hit_y = 0;
+static void calculate_ray_angle(t_rc_utils *rc_utils, float ray_angle)
+{
+	rc_utils->is_ray_facing_down = ray_angle > 0 && ray_angle < PI;
+	rc_utils->is_ray_facing_up = !rc_utils->is_ray_facing_down;
+	rc_utils->is_ray_facing_right = ray_angle < 0.5 * PI || ray_angle > 1.5 * PI;
+	rc_utils->is_ray_facing_left = !rc_utils->is_ray_facing_right;
+}
 
-	y_intercept = floor(player->y / TILE_SIZE) * TILE_SIZE;
-	y_intercept += is_ray_facing_down ? TILE_SIZE : 0;
+static void init_rc_utils_horz(t_rc_utils *rc_utils, t_player *player, float ray_angle)
+{
+	rc_utils->found_horz_wall_hit = false;
+	rc_utils->horz_wall_hit_x = 0;
+	rc_utils->horz_wall_hit_y = 0;
+	rc_utils->y_intercept = floor(player->y / TILE_SIZE) * TILE_SIZE;
+	rc_utils->y_intercept += rc_utils->is_ray_facing_down ? TILE_SIZE : 0;
+	rc_utils->x_intercept = player->x + (rc_utils->y_intercept - player->y) / tan(ray_angle);
+	rc_utils->y_step = TILE_SIZE;
+	rc_utils->y_step *= rc_utils->is_ray_facing_up ? -1 : 1;
+	rc_utils->x_step = TILE_SIZE / tan(ray_angle);
+	rc_utils->x_step *= (rc_utils->is_ray_facing_left && rc_utils->x_step > 0) ? -1 : 1;
+	rc_utils->x_step *= (rc_utils->is_ray_facing_right && rc_utils->x_step < 0) ? -1 : 1;
+}
 
-	x_intercept = player->x + (y_intercept - player->y) / tan(ray_angle);
+static void init_rc_utils_vert(t_rc_utils *rc_utils, t_player *player, float ray_angle)
+{
+	rc_utils->found_vert_wall_hit = false;
+	rc_utils->vert_wall_hit_x = 0;
+	rc_utils->vert_wall_hit_y = 0;
+	rc_utils->x_intercept = floor(player->x / TILE_SIZE) * TILE_SIZE;
+	rc_utils->x_intercept += rc_utils->is_ray_facing_right ? TILE_SIZE : 0;
+	rc_utils->y_intercept = player->y + (rc_utils->x_intercept - player->x) * tan(ray_angle);
+	rc_utils->x_step = TILE_SIZE;
+	rc_utils->x_step *= rc_utils->is_ray_facing_left ? -1 : 1;
+	rc_utils->y_step = TILE_SIZE * tan(ray_angle);
+	rc_utils->y_step *= (rc_utils->is_ray_facing_up && rc_utils->y_step > 0) ? -1 : 1;
+	rc_utils->y_step *= (rc_utils->is_ray_facing_down && rc_utils->y_step < 0) ? -1 : 1;
+}
 
-	y_step = TILE_SIZE;
-	y_step *= is_ray_facing_up ? -1 : 1;
+static void get_ray_distance_horz(t_rc_utils *rc_utils, t_player *player, t_map *map, float ray_angle)
+{
+	float next_horz_touch_x;
+	float next_horz_touch_y;
+	float x_to_check;
+	float y_to_check;
 
-	x_step = TILE_SIZE / tan(ray_angle);
+	next_horz_touch_x = rc_utils->x_intercept;
+	next_horz_touch_y = rc_utils->y_intercept;
 
-	x_step *= (is_ray_facing_left && x_step > 0) ? -1 : 1;
-	x_step *= (is_ray_facing_right && x_step < 0) ? -1 : 1;
-
-	float next_horz_touch_x = x_intercept;
-	float next_horz_touch_y = y_intercept;
-
-	while ((horz_wall_hit_x >= 0 && horz_wall_hit_x <= params->map.window_width) && (horz_wall_hit_y >= 0 && horz_wall_hit_y <= params->map.window_height))
+	while ((rc_utils->horz_wall_hit_x >= 0 && rc_utils->horz_wall_hit_x <= map->window_width) && (rc_utils->horz_wall_hit_y >= 0 && rc_utils->horz_wall_hit_y <= map->window_height))
 	{
-		float x_to_check = next_horz_touch_x;
-		float y_to_check = next_horz_touch_y + (is_ray_facing_up ? -1 : 0);
+		x_to_check = next_horz_touch_x;
+		y_to_check = next_horz_touch_y + (rc_utils->is_ray_facing_up ? -1 : 0);
 
-		if (has_wall_at(x_to_check, y_to_check, &params->map))
+		if (has_wall_at(x_to_check, y_to_check, map))
 		{
-			horz_wall_hit_x = next_horz_touch_x;
-			horz_wall_hit_y = next_horz_touch_y;
-			found_horz_wall_hit = true;
+			rc_utils->horz_wall_hit_x = next_horz_touch_x;
+			rc_utils->horz_wall_hit_y = next_horz_touch_y;
+			rc_utils->found_horz_wall_hit = true;
 			break;
 		}
 		else
 		{
-			next_horz_touch_x += x_step;
-			next_horz_touch_y += y_step;
-			printf("distance of horizonal check: %f", get_distance(player->x, player->y, next_horz_touch_x, next_horz_touch_y));
+			next_horz_touch_x += rc_utils->x_step;
+			next_horz_touch_y += rc_utils->y_step;
 		}
 	}
+}
 
-	///////////////////////////////////////////////////
-	//               vertical check                  //
-	///////////////////////////////////////////////////
+static void get_ray_distance_vert(t_rc_utils *rc_utils, t_player *player, t_map *map, float ray_angle)
+{
+	float next_vert_touch_x = rc_utils->x_intercept;
+	float next_vert_touch_y = rc_utils->y_intercept;
 
-	bool found_vert_wall_hit = false;
-	float vert_wall_hit_x = 0;
-	float vert_wall_hit_y = 0;
-
-	x_intercept = floor(player->x / TILE_SIZE) * TILE_SIZE;
-	x_intercept += is_ray_facing_right ? TILE_SIZE : 0;
-
-	y_intercept = player->y + (x_intercept - player->x) * tan(ray_angle);
-
-	x_step = TILE_SIZE;
-	x_step *= is_ray_facing_left ? -1 : 1;
-
-	y_step = TILE_SIZE * tan(ray_angle);
-	y_step *= (is_ray_facing_up && y_step > 0) ? -1 : 1;
-	y_step *= (is_ray_facing_down && y_step < 0) ? -1 : 1;
-
-	float next_vert_touch_x = x_intercept;
-	float next_vert_touch_y = y_intercept;
-
-	while ((vert_wall_hit_x >= 0 && vert_wall_hit_x <= params->map.window_width) && (vert_wall_hit_y >= 0 && vert_wall_hit_y <= params->map.window_height))
+	while ((rc_utils->vert_wall_hit_x >= 0 && rc_utils->vert_wall_hit_x <= map->window_width) && (rc_utils->vert_wall_hit_y >= 0 && rc_utils->vert_wall_hit_y <= map->window_height))
 	{
-		float x_to_check = next_vert_touch_x + (is_ray_facing_left ? -1 : 0);
+		float x_to_check = next_vert_touch_x + (rc_utils->is_ray_facing_left ? -1 : 0);
 		float y_to_check = next_vert_touch_y;
 
-		if (has_wall_at(x_to_check, y_to_check, &params->map))
+		if (has_wall_at(x_to_check, y_to_check, map))
 		{
-			vert_wall_hit_x = next_vert_touch_x;
-			vert_wall_hit_y = next_vert_touch_y;
-			found_vert_wall_hit = true;
+			rc_utils->vert_wall_hit_x = next_vert_touch_x;
+			rc_utils->vert_wall_hit_y = next_vert_touch_y;
+			rc_utils->found_vert_wall_hit = true;
 			break;
 		}
 		else
 		{
-			next_vert_touch_x += x_step;
-			next_vert_touch_y += y_step;
+			next_vert_touch_x += rc_utils->x_step;
+			next_vert_touch_y += rc_utils->y_step;
 		}
 	}
+}
 
-	float horz_hit_distance = found_horz_wall_hit ? get_distance(player->x, player->y, horz_wall_hit_x, horz_wall_hit_y) : FLT_MAX;
-	float vert_hit_distance = found_vert_wall_hit ? get_distance(player->x, player->y, vert_wall_hit_x, vert_wall_hit_y) : FLT_MAX;
+static void calculate_horz_vert_distance(t_rc_utils *rc_utils, t_player *player)
+{
+	if (rc_utils->found_horz_wall_hit)
+		rc_utils->horz_hit_distance = get_distance(player->x, player->y, rc_utils->horz_wall_hit_x, rc_utils->horz_wall_hit_y);
+	else
+		rc_utils->horz_hit_distance = FLT_MAX;
+	if (rc_utils->found_vert_wall_hit)
+		rc_utils->vert_hit_distance = get_distance(player->x, player->y, rc_utils->vert_wall_hit_x, rc_utils->vert_wall_hit_y);
+	else
+		rc_utils->horz_hit_distance = FLT_MAX;
+}
 
-	t_ray ray;
-
-	if (vert_hit_distance < horz_hit_distance)
+static void fill_ray(t_rc_utils *rc_utils, t_ray *ray, float ray_angle)
+{
+	if (rc_utils->vert_hit_distance < rc_utils->horz_hit_distance)
 	{
-		ray.distance = vert_hit_distance;
-		ray.wall_hit_x = vert_wall_hit_x;
-		ray.wall_hit_y = vert_wall_hit_y;
-		ray.was_hit_vertical = true;
+		ray->distance = rc_utils->vert_hit_distance;
+		ray->wall_hit_x = rc_utils->vert_wall_hit_x;
+		ray->wall_hit_y = rc_utils->vert_wall_hit_y;
+		ray->was_hit_vertical = true;
 	}
 	else
 	{
-		ray.distance = horz_hit_distance;
-		ray.wall_hit_x = horz_wall_hit_x;
-		ray.wall_hit_y = horz_wall_hit_y;
-		ray.was_hit_vertical = false;
+		ray->distance = rc_utils->horz_hit_distance;
+		ray->wall_hit_x = rc_utils->horz_wall_hit_x;
+		ray->wall_hit_y = rc_utils->horz_wall_hit_y;
+		ray->was_hit_vertical = false;
 	}
-	ray.ray_angle = ray_angle;
-	return ray;
+	ray->ray_angle = ray_angle;
+}
+
+t_ray cast_ray(t_params *params, t_player *player, float ray_angle)
+{
+	t_rc_utils rc_utils;
+	t_ray ray;
+
+	calculate_ray_angle(&rc_utils, ray_angle);
+	init_rc_utils_horz(&rc_utils, player, ray_angle);
+	get_ray_distance_horz(&rc_utils, player, &params->map, ray_angle);
+	init_rc_utils_vert(&rc_utils, player, ray_angle);
+	get_ray_distance_vert(&rc_utils, player, &params->map, ray_angle);
+	calculate_horz_vert_distance(&rc_utils, player);
+	fill_ray(&rc_utils, &ray, ray_angle);
+	return (ray);
 }

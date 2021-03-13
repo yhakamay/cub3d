@@ -100,6 +100,30 @@ typedef struct s_ray
 	bool wall_hit_content;
 } t_ray;
 
+typedef struct s_rc_utils
+{
+	bool is_ray_facing_down;
+	bool is_ray_facing_up;
+	bool is_ray_facing_right;
+	bool is_ray_facing_left;
+	float x_intercept;
+	float y_intercept;
+	float x_step;
+	float y_step;
+	bool found_horz_wall_hit;
+	float horz_wall_hit_x;
+	float horz_wall_hit_y;
+	float next_horz_touch_x;
+	float next_horz_touch_y;
+	bool found_vert_wall_hit;
+	float vert_wall_hit_x;
+	float vert_wall_hit_y;
+	float next_vert_touch_x;
+	float next_vert_touch_y;
+	float horz_hit_distance;
+	float vert_hit_distance;
+} t_rc_utils;
+
 typedef struct s_map
 {
 	int window_width;
@@ -122,6 +146,7 @@ typedef struct s_params
 	t_player player;
 	t_ray ray;
 	t_map map;
+	t_rc_utils rc_utils;
 } t_params;
 
 void my_mlx_pixel_put(t_img *img, int x, int y, int color);
