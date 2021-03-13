@@ -88,19 +88,24 @@ void render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
 
 void render_rays(t_params *params, t_player *player, t_img *img)
 {
-    int i;
-    t_ray *rays;
+	int i;
+	//int rayangle;
+	//t_ray ray;
+	t_ray *rays;
 
-    if (!(rays = malloc(sizeof(t_ray) * NUM_RAYS)))
-        return;
-    i = 0;
-    while (i < NUM_RAYS)
-    {
-        rays[i] = cast_ray(params, player, player->rotation_angle - FOV_ANGLE * (0.5 - i / (float)(params->map.window_width)));
-        render_line(img, player->x * MINIMAP_SCALE_FACTOR, player->y * MINIMAP_SCALE_FACTOR, rays[i].wall_hit_x * MINIMAP_SCALE_FACTOR, rays[i].wall_hit_y * MINIMAP_SCALE_FACTOR, PLAYER_COLOR);
-        i++;
-    }
-    free(rays);
+	if (!(rays = malloc(sizeof(t_ray) * NUM_RAYS)))
+		return;
+	i = 0;
+	//rayangle =
+	while (i < NUM_RAYS)
+	{
+		rays[i] = cast_ray(params, player, player->rotation_angle - FOV_ANGLE * (0.5 - i / (float)(params->map.window_width)));
+		//ray = cast_ray(params, player, player->rotation_angle - FOV_ANGLE * (0.5 * NUM - i / (float)(params->map.window_width)));
+		render_line(img, player->x, player->y, rays[i].wall_hit_x, rays[i].wall_hit_y, PLAYER_COLOR);
+		//render_line(img, player->x, player->y, ray.wall_hit_x, ray.wall_hit_y, PLAYER_COLOR);
+		i++;
+	}
+	free(rays);
 }
 
 void render_player(t_player *player, t_img *img)
