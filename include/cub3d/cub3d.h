@@ -25,24 +25,15 @@
 #define MINIMAP_SCALE_FACTOR 1.0
 #define TILE_SIZE 20
 
-#define NUM_RAYS 10
-
-#define MAP_NUM_ROWS 13
-#define MAP_NUM_COLS 20
-
-#define FPS 30
-#define FRAME_TIME_LENGTH (1000 / FPS)
+#define NUM_RAYS 100
 
 #define PI 3.14159265
 #define TWO_PI 6.28318530
 
 #define PLAYER_WALK_SPEED 10
 #define PLAYER_TURN_SPEED 10 * (PI / 180)
-#define PLAYER_DIAMETER 8
+#define PLAYER_DIAMETER 2
 #define PLAYER_COLOR 0x00FF0000
-#define PLAYER_RAY_LENGTH 50
-#define PLAYER_RAY_RESOLUTION 2
-#define PLAYER_LINE 20
 
 #define FOV_ANGLE (60 * (PI / 180))
 
@@ -138,7 +129,6 @@ typedef struct s_map
 	char grid[200][201];
 } t_map;
 
-// t_params holds all of parameters
 typedef struct s_params
 {
 	t_mlx mlx;
@@ -155,20 +145,11 @@ void init_player(t_player *player, t_map *map);
 float normalize_angle(float rotation_angle);
 void refresh_img(t_img *img, t_map *map);
 void render_everything(t_params *params);
-void render_minimap(t_params *params);
-void render_line(t_img *img, int x1, int y1, int x2, int y2, int color);
-void render_rect(int x, int y, int width, int height, int color, t_img *img);
-void render_circle(int x, int y, int r, int color, t_img *img);
-void render_rays(t_params *params, t_player *player, t_img *img);
 void move_player(t_player *player, t_img *img, t_map *map);
 t_ray cast_ray(t_params *params, t_player *player, float ray_angle);
 bool has_wall_at(int x, int y, t_map *map);
 int key_pressed(int keycode, t_params *params);
 int key_released(int keycode, t_params *params);
-bool is_inside_map(t_params *params, int x, int y);
-float get_distance(float x1, float y1, float x2, float y2);
-void render_player(t_player *player, t_img *img);
-bool map_has_wall_at(float x, float y, t_map *map);
 void read_map(char *file_pass, t_map *map);
 int no_args_err(void);
 

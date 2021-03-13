@@ -12,16 +12,25 @@
 
 #include "../include/cub3d/cub3d.h"
 
-void render_everything(t_params *params)
+static void render_rect(int x, int y, int width, int height, int color, t_img *img)
 {
-	refresh_img(&params->img, &params->map);
-	render_minimap(params);
-	render_player(&params->player, &params->img);
-	render_rays(params, &params->player, &params->img);
-	mlx_put_image_to_window(params->mlx.mlx_ptr, params->mlx.win_ptr, params->img.img, 0, 0);
+	int x_i;
+	int y_i;
+
+	x_i = x;
+	while (x_i < x + width)
+	{
+		y_i = y;
+		while (y_i < y + height)
+		{
+			my_mlx_pixel_put(img, x_i, y_i, color);
+			y_i++;
+		}
+		x_i++;
+	}
 }
 
-void render_minimap(t_params *params)
+static void render_minimap(t_params *params)
 {
 	int i;
 	int j;
@@ -45,25 +54,7 @@ void render_minimap(t_params *params)
 	}
 }
 
-void render_rect(int x, int y, int width, int height, int color, t_img *img)
-{
-	int x_i;
-	int y_i;
-
-	x_i = x;
-	while (x_i < x + width)
-	{
-		y_i = y;
-		while (y_i < y + height)
-		{
-			my_mlx_pixel_put(img, x_i, y_i, color);
-			y_i++;
-		}
-		x_i++;
-	}
-}
-
-void render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
+static void render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
 {
 	double x_delta;
 	double y_delta;
@@ -83,7 +74,7 @@ void render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
 	}
 }
 
-void render_rays(t_params *params, t_player *player, t_img *img)
+static void render_rays(t_params *params, t_player *player, t_img *img)
 {
 	int i;
 	float ray_angle;
@@ -100,7 +91,7 @@ void render_rays(t_params *params, t_player *player, t_img *img)
 	}
 }
 
-void render_player(t_player *player, t_img *img)
+static void render_player(t_player *player, t_img *img)
 {
 	render_rect(
 		player->x,
@@ -109,4 +100,13 @@ void render_player(t_player *player, t_img *img)
 		player->height * MINIMAP_SCALE_FACTOR,
 		player->color,
 		img);
+}
+
+void render_everything(t_params *params)
+{
+	refresh_img(&params->img, &params->map);
+	render_minimap(params);
+	render_player(&params->player, &params->img);
+	render_rays(params, &params->player, &params->img);
+	mlx_put_image_to_window(params->mlx.mlx_ptr, params->mlx.win_ptr, params->img.img, 0, 0);
 }

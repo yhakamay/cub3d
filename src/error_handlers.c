@@ -14,6 +14,6 @@
 
 int no_args_err(void)
 {
-    printf("Error. No arguments.\n");
-    return (0);
+	printf("Error. No arguments.\n");
+	return (0);
 }

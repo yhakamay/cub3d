@@ -18,9 +18,7 @@ static int skip_spaces(char *line, int i)
 
 	j = 0;
 	while (line[i + j] == ' ')
-	{
 		j++;
-	}
 	return (j);
 }
 
@@ -227,15 +225,9 @@ void read_map(char *file_pass, t_map *map)
 	while (get_next_line(fd, &line))
 	{
 		if (obj_num < 8)
-		{
-			// printf("obj_num < 8\n");
 			check_obj(map, line, &obj_num);
-		}
 		else
-		{
-			// printf("obj_num >= 8\n");
 			make_map(map, line);
-		}
 		free(line);
 	}
 	make_map(map, line);

@@ -59,8 +59,8 @@ void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr)
 
 float normalize_angle(float rotation_angle)
 {
-	rotation_angle = fmod(rotation_angle, 2 * PI);
-	rotation_angle += rotation_angle < 0 ? 2 * PI : 0;
+	rotation_angle = fmod(rotation_angle, TWO_PI);
+	rotation_angle += rotation_angle < 0 ? TWO_PI : 0;
 
 	return (rotation_angle);
 }
@@ -76,26 +76,6 @@ bool has_wall_at(int x, int y, t_map *map)
 	tile_index_y = floor(y / TILE_SIZE);
 
 	return (map->grid[tile_index_y][tile_index_x] == '1' ? true : false);
-}
-
-bool map_has_wall_at(float x, float y, t_map *map)
-{
-	if (x < 0 || x > map->window_width || y < 0 || y > map->window_height)
-		return true;
-	int map_grid_index_x = floor(x / TILE_SIZE);
-	int map_grid_index_y = floor(y / TILE_SIZE);
-
-	return (map->grid[map_grid_index_y][map_grid_index_x] != 0);
-}
-
-float get_distance(float x1, float y1, float x2, float y2)
-{
-	return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-}
-
-bool is_inside_map(t_params *params, int x, int y)
-{
-	return (x >= 0 && x < MAP_NUM_COLS * TILE_SIZE && y >= 0 && y < MAP_NUM_ROWS * TILE_SIZE);
 }
 
 void refresh_img(t_img *img, t_map *map)
