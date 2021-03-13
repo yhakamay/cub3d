@@ -12,51 +12,6 @@
 
 #include "../include/cub3d/cub3d.h"
 
-void my_mlx_pixel_put(t_img *img, int x, int y, int color)
-{
-	char *dst;
-
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
-
-void init_player(t_player *player, t_map *map)
-{
-	player->x = 300;
-	player->y = 50;
-	player->color = PLAYER_COLOR;
-	player->width = PLAYER_DIAMETER;
-	player->height = PLAYER_DIAMETER;
-	player->turn_direction = 0;
-	player->walk_direction = 0;
-	player->rotation_angle = 0;
-	player->walk_speed = PLAYER_WALK_SPEED;
-	player->turn_speed = PLAYER_TURN_SPEED;
-}
-
-void move_player(t_player *player, t_img *img, t_map *map)
-{
-	player->rotation_angle += player->turn_direction * player->turn_speed;
-	player->rotation_angle = normalize_angle(player->rotation_angle);
-	float move_step = player->walk_direction * player->walk_speed;
-	float new_player_x = player->x + cos(player->rotation_angle) * move_step;
-	float new_player_y = player->y + sin(player->rotation_angle) * move_step;
-
-	if (has_wall_at(new_player_x, new_player_y, map))
-		return;
-	else
-	{
-		player->x = new_player_x;
-		player->y = new_player_y;
-	}
-}
-
-void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr)
-{
-	mlx_destroy_window(mlx_ptr, win_ptr);
-	exit(0);
-}
-
 float normalize_angle(float rotation_angle)
 {
 	rotation_angle = fmod(rotation_angle, TWO_PI);
@@ -78,22 +33,33 @@ bool has_wall_at(int x, int y, t_map *map)
 	return (map->grid[tile_index_y][tile_index_x] == '1' ? true : false);
 }
 
-void refresh_img(t_img *img, t_map *map)
+static void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr)
 {
-	int i;
-	int j;
+	mlx_destroy_window(mlx_ptr, win_ptr);
+	exit(0);
+}
 
-	i = 0;
-	while (i < map->window_width)
+static void move_player(t_player *player, t_img *img, t_map *map)
+{
+	player->rotation_angle += player->turn_direction * player->turn_speed;
+	player->rotation_angle = normalize_angle(player->rotation_angle);
+	float move_step = player->walk_direction * player->walk_speed;
+	float new_player_x = player->x + cos(player->rotation_angle) * move_step;
+	float new_player_y = player->y + sin(player->rotation_angle) * move_step;
+
+	if (has_wall_at(new_player_x, new_player_y, map))
+		return;
+	else
 	{
-		j = 0;
-		while (j < map->window_height)
-		{
-			my_mlx_pixel_put(img, i, j, COLOR_BLACK);
-			j++;
-		}
-		i++;
+		player->x = new_player_x;
+		player->y = new_player_y;
 	}
+
+#if DEBUG_ON
+	printf("-----\n");
+	printf("player.x:\t%d\nplayer.y:\t%d\n\n", player->x, player->y);
+	printf("player.rotation_angle:\t%f\n\n\n", player->rotation_angle * 180 / PI);
+#endif
 }
 
 int key_pressed(int keycode, t_params *params)

@@ -12,6 +12,20 @@
 
 #include "../include/cub3d/cub3d.h"
 
+static void init_player(t_player *player, t_map *map)
+{
+	player->x = 300;
+	player->y = 50;
+	player->color = PLAYER_COLOR;
+	player->width = PLAYER_DIAMETER;
+	player->height = PLAYER_DIAMETER;
+	player->turn_direction = 0;
+	player->walk_direction = 0;
+	player->rotation_angle = 0;
+	player->walk_speed = PLAYER_WALK_SPEED;
+	player->turn_speed = PLAYER_TURN_SPEED;
+}
+
 int main(int argc, char **argv)
 {
 	t_params params;

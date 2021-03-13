@@ -151,13 +151,8 @@ typedef struct s_params
 	t_rc_utils rc_utils;
 } t_params;
 
-void my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr);
-void init_player(t_player *player, t_map *map);
 float normalize_angle(float rotation_angle);
-void refresh_img(t_img *img, t_map *map);
 void render_everything(t_params *params);
-void move_player(t_player *player, t_img *img, t_map *map);
 t_ray cast_ray(t_params *params, t_player *player, float ray_angle);
 bool has_wall_at(int x, int y, t_map *map);
 int key_pressed(int keycode, t_params *params);

@@ -12,6 +12,32 @@
 
 #include "../include/cub3d/cub3d.h"
 
+static void my_mlx_pixel_put(t_img *img, int x, int y, int color)
+{
+	char *dst;
+
+	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
+}
+
+static void refresh_img(t_img *img, t_map *map)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < map->window_width)
+	{
+		j = 0;
+		while (j < map->window_height)
+		{
+			my_mlx_pixel_put(img, i, j, COLOR_BLACK);
+			j++;
+		}
+		i++;
+	}
+}
+
 static void render_rect(int x, int y, int width, int height, int color, t_img *img)
 {
 	int x_i;
