@@ -13,7 +13,7 @@
 #ifndef CUB3D_H
 #define CUB3D_H
 
-#define DEBUG_ON 1
+#define DEBUG_ON 0
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -29,6 +29,8 @@
 
 #define WINDOW_TITLE "cub3d"
 
+#define NUM_RAYS 1000
+
 #define X_EVENT_KEY_PRESSED 2
 #define X_EVENT_KEY_RELEASED 3
 
@@ -37,8 +39,6 @@
 
 #define MINIMAP_SCALE_FACTOR 1.0
 #define TILE_SIZE 20
-
-#define NUM_RAYS 1000
 
 #define PI 3.14159265
 #define TWO_PI 6.28318530
@@ -153,6 +153,7 @@ typedef struct s_params
 } t_params;
 
 float normalize_angle(float rotation_angle);
+void freeeee(void *malloced_var);
 void render_everything(t_params *params);
 t_ray cast_ray(t_params *params, t_player *player, float ray_angle);
 bool has_wall_at(float x, float y, t_map *map);
