@@ -6,7 +6,7 @@
 /*   By: yhakamay <yhakamay@student.42tokyo.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 18:11:56 by yhakamay          #+#    #+#             */
-/*   Updated: 2021/03/14 11:37:56 by matsuki          ###   ########.fr       */
+/*   Updated: 2021/03/14 12:52:20 by matsuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,11 @@ int no_args_err(void)
 int no_file_err(void)
 {
 	printf("Error. No such file.\n");
+	return (0);
+}
+
+int use_forbidden_char_err(void)
+{
+	printf("Error. Use forbidden char in map.\n");
 	return (0);
 }

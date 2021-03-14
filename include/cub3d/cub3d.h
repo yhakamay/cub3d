@@ -6,7 +6,7 @@
 /*   By: yhakamay <yhakamay@student.42tokyo.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:24:34 by yhakamay          #+#    #+#             */
-/*   Updated: 2021/03/14 11:38:16 by matsuki          ###   ########.fr       */
+/*   Updated: 2021/03/14 13:12:42 by matsuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,9 @@ bool has_wall_at(float x, float y, t_map *map);
 int key_pressed(int keycode, t_params *params);
 int key_released(int keycode, t_params *params);
 void read_map(char *file_pass, t_map *map);
+void check_map(t_params *params);
 int no_args_err(void);
 int no_file_err(void);
+int use_forbidden_char_err(void);
 
 #endif
