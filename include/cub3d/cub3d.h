@@ -91,7 +91,8 @@ typedef struct s_player
 	int width;
 	int height;
 	float turn_direction;
-	float walk_direction;
+	float walk_direction_vert;
+	float walk_direction_horz;
 	float rotation_angle;
 	float walk_speed;
 	float turn_speed;

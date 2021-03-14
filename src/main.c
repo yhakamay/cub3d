@@ -18,7 +18,8 @@ static void init_player(t_player *player, t_map *map)
 	player->width = PLAYER_DIAMETER;
 	player->height = PLAYER_DIAMETER;
 	player->turn_direction = 0;
-	player->walk_direction = 0;
+	player->walk_direction_vert = 0;
+	player->walk_direction_horz = 0;
 	player->walk_speed = PLAYER_WALK_SPEED;
 	player->turn_speed = PLAYER_TURN_SPEED;
 }
