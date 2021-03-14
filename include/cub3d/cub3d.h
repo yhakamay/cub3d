@@ -13,7 +13,7 @@
 #ifndef CUB3D_H
 #define CUB3D_H
 
-#define DEBUG_ON 1
+#define DEBUG_ON 0
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -33,6 +33,7 @@
 #define X_EVENT_KEY_RELEASED 3
 
 #define COLOR_BLACK 000000
+#define COLOR_RED 0x00FF0000
 
 #define MINIMAP_SCALE_FACTOR 1.0
 #define TILE_SIZE 20
@@ -42,10 +43,10 @@
 #define PI 3.14159265
 #define TWO_PI 6.28318530
 
-#define PLAYER_WALK_SPEED 10
-#define PLAYER_TURN_SPEED 10 * (PI / 180)
+#define PLAYER_WALK_SPEED 5
+#define PLAYER_TURN_SPEED 5 * (PI / 180)
 #define PLAYER_DIAMETER 2
-#define PLAYER_COLOR 0x00FF0000
+#define PLAYER_COLOR COLOR_RED
 
 #define FOV_ANGLE (60 * (PI / 180))
 
@@ -82,7 +83,7 @@ typedef struct s_player
 	int y;
 	int width;
 	int height;
-	float turn_direction; // -1 for left, +1 for right;
+	float turn_direction;
 	float walk_direction;
 	float rotation_angle;
 	float walk_speed;
