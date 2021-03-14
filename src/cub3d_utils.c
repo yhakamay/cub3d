@@ -66,6 +66,9 @@ static void move_player(t_player *player, t_img *img, t_map *map)
 		player->x = new_player_x;
 		player->y = new_player_y;
 	}
+	printf("player.x:\t%d\n", player->x);
+	printf("player.y:\t%d\n", player->y);
+	printf("\n");
 }
 
 int key_pressed(int keycode, t_params *params)
