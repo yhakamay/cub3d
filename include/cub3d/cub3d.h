@@ -29,13 +29,14 @@
 
 #define WINDOW_TITLE "cub3d"
 
-#define NUM_RAYS 1000
+#define NUM_RAYS 700
 
 #define X_EVENT_KEY_PRESSED 2
 #define X_EVENT_KEY_RELEASED 3
 
 #define COLOR_BLACK 000000
 #define COLOR_RED 0x00FF0000
+#define COLOR_WHITE 0xe3e0e6
 
 #define MINIMAP_SCALE_FACTOR 1.0
 #define TILE_SIZE 20
