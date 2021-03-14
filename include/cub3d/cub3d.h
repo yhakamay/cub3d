@@ -29,10 +29,8 @@
 
 #define WINDOW_TITLE "cub3d"
 
-#define NUM_RAYS 700
-
-#define X_EVENT_KEY_PRESSED 2
-#define X_EVENT_KEY_RELEASED 3
+#define KEY_PRESSED 2
+#define KEY_RELEASED 3
 
 #define COLOR_BLACK 0x000000
 #define COLOR_GRAY 0x808080
@@ -160,6 +158,10 @@ typedef struct s_params
 	t_rc_utils rc_utils;
 } t_params;
 
+int g_num_rays;
+int g_wall_strip_width;
+
+void init_g_val(t_params *params);
 float normalize_angle(float rotation_angle);
 void freeeee(void *malloced_var);
 void render_everything(t_params *params);

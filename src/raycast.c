@@ -84,12 +84,6 @@ static void get_ray_distance_horz(t_rc_utils *rc_utils, t_player *player, t_map 
 			rc_utils->horz_wall_hit_x = next_horz_touch_x;
 			rc_utils->horz_wall_hit_y = next_horz_touch_y;
 			rc_utils->found_horz_wall_hit = true;
-
-#if DEBUG_ON
-			printf("------\n");
-			printf("x_to_check in horizonal check: %f\n", x_to_check);
-			printf("y_to_check in horizonal check: %f\n", y_to_check);
-#endif
 			break;
 		}
 		else
@@ -99,29 +93,6 @@ static void get_ray_distance_horz(t_rc_utils *rc_utils, t_player *player, t_map 
 		}
 	}
 }
-
-//--------------------
-//|         |        |
-//|   kabe  |        |
-//----------.---------
-//|         |        |
-//|         |        |
-//--------------------
-//|         |        |
-//|         |        |
-//--------------------                a
-//|         |        |
-//|         |        |
-//--------------------
-//|         |        |
-//|         |        |
-//--------------------
-//|         |        |
-//|         |        |
-//--------------------
-//|         |        |
-//|         |        |
-//--------------------
 
 static void get_ray_distance_vert(t_rc_utils *rc_utils, t_player *player, t_map *map, float ray_angle)
 {
@@ -142,13 +113,6 @@ static void get_ray_distance_vert(t_rc_utils *rc_utils, t_player *player, t_map 
 			rc_utils->vert_wall_hit_x = next_vert_touch_x;
 			rc_utils->vert_wall_hit_y = next_vert_touch_y;
 			rc_utils->found_vert_wall_hit = true;
-
-#if DEBUG_ON
-			printf("------\n");
-			printf("x_to_check in vertical check: %f\n", x_to_check);
-			printf("y_to_check in vertical check: %f\n", y_to_check);
-#endif
-
 			break;
 		}
 		else
