@@ -104,14 +104,14 @@ static void render_rays(t_params *params, t_player *player, t_img *img)
 {
 	int i;
 	float ray_angle;
-	t_ray ray;
+	t_ray rays[NUM_RAYS];
 
-	i = 0;
 	ray_angle = player->rotation_angle - (FOV_ANGLE * 0.5);
+	i = 0;
 	while (i < NUM_RAYS)
 	{
-		ray = cast_ray(params, player, normalize_angle(ray_angle));
-		render_line(img, player->x, player->y, ray.wall_hit_x, ray.wall_hit_y, PLAYER_COLOR);
+		rays[i] = cast_ray(params, player, normalize_angle(ray_angle));
+		render_line(img, player->x, player->y, rays[i].wall_hit_x, rays[i].wall_hit_y, PLAYER_COLOR);
 		ray_angle += FOV_ANGLE / NUM_RAYS;
 		i++;
 	}
@@ -133,6 +133,6 @@ void render_everything(t_params *params)
 	refresh_img(&params->img, &params->map);
 	render_minimap(params);
 	render_player(&params->player, &params->img);
-	render_rays(params, &params->player, &params->img);
+	render_rays(params, &params->player, &params->img); /* -> render_3d_wall(); */
 	mlx_put_image_to_window(params->mlx.mlx_ptr, params->mlx.win_ptr, params->img.img, 0, 0);
 }
