@@ -9,6 +9,7 @@ cub3d is a simple project like Wolfenstein 3D.
 ## Status
 - 2D ray-casting: done
 - 3D view: almost done
+![image](https://user-images.githubusercontent.com/65002858/111060738-8d1e9880-84e2-11eb-93c9-026310968eec.png)
 
 ## Usage
 0. `cd Desktop && git clone git@github.com:yhakamay/cub3d.git`
