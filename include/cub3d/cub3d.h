@@ -155,7 +155,7 @@ typedef struct s_params
 float normalize_angle(float rotation_angle);
 void render_everything(t_params *params);
 t_ray cast_ray(t_params *params, t_player *player, float ray_angle);
-bool has_wall_at(int x, int y, t_map *map);
+bool has_wall_at(float x, float y, t_map *map);
 int key_pressed(int keycode, t_params *params);
 int key_released(int keycode, t_params *params);
 void read_map(char *file_pass, t_map *map);

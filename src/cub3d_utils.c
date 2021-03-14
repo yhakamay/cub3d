@@ -20,7 +20,7 @@ float normalize_angle(float rotation_angle)
 	return (rotation_angle);
 }
 
-bool has_wall_at(int x, int y, t_map *map)
+bool has_wall_at(float x, float y, t_map *map)
 {
 	int tile_index_x;
 	int tile_index_y;
