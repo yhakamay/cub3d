@@ -6,7 +6,7 @@
 /*   By: yhakamay <yhakamay@student.42tokyo.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:24:34 by yhakamay          #+#    #+#             */
-/*   Updated: 2021/03/13 18:24:35 by yhakamay         ###   ########.fr       */
+/*   Updated: 2021/03/14 11:38:16 by matsuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,5 +160,6 @@ int key_pressed(int keycode, t_params *params);
 int key_released(int keycode, t_params *params);
 void read_map(char *file_pass, t_map *map);
 int no_args_err(void);
+int no_file_err(void);
 
 #endif
