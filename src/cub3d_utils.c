@@ -29,8 +29,7 @@ bool has_wall_at(float x, float y, t_map *map)
 		return true;
 	tile_index_x = floor(x / TILE_SIZE);
 	tile_index_y = floor(y / TILE_SIZE);
-
-	return (map->grid[tile_index_y][tile_index_x] == '1' ? true : false);
+	return (map->grid[tile_index_y][tile_index_x] != '0');
 }
 
 static void exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr)
