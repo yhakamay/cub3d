@@ -65,7 +65,7 @@ static void render_sky(t_img *img, t_map *map)
 
 static void render_floor(t_img *img, t_map *map)
 {
-	render_rect(0, map->window_height / 2, map->window_width, map->window_height, COLOR_GRAY, img);
+	render_rect(0, map->window_height / 2, map->window_width, map->window_height / 2, COLOR_GRAY, img);
 }
 
 static void render_rays(t_params *params, t_player *player, t_img *img)
