@@ -6,7 +6,7 @@
 /*   By: yhakamaya <yhakamaya@student.42tokyo>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 15:47:16 by yhakamaya         #+#    #+#             */
-/*   Updated: 2021/02/22 16:10:29 by yhakamaya        ###   ########.fr       */
+/*   Updated: 2021/03/14 13:17:42 by matsuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 static void init_player(t_player *player, t_map *map)
 {
-	player->x = 300;
-	player->y = 50;
+	//player->x = 300;
+	//player->y = 50;
 	player->color = PLAYER_COLOR;
 	player->width = PLAYER_DIAMETER;
 	player->height = PLAYER_DIAMETER;
 	player->turn_direction = 0;
 	player->walk_direction = 0;
-	player->rotation_angle = 0;
+	//player->rotation_angle = 0;
 	player->walk_speed = PLAYER_WALK_SPEED;
 	player->turn_speed = PLAYER_TURN_SPEED;
 }
@@ -37,6 +37,7 @@ int main(int argc, char **argv)
 	if (argc != 2)
 		return (no_args_err());
 	read_map(argv[1], &params.map);
+	check_map(&params);
 	params.mlx.mlx_ptr = mlx_init();
 	params.mlx.win_ptr = mlx_new_window(params.mlx.mlx_ptr, params.map.window_width, params.map.window_height, WINDOW_TITLE);
 	init_player(&params.player, &params.map);

@@ -20,6 +20,12 @@ float normalize_angle(float rotation_angle)
 	return (rotation_angle);
 }
 
+void freeeee(void *malloced_var)
+{
+	free(malloced_var);
+	malloced_var = NULL;
+}
+
 bool has_wall_at(float x, float y, t_map *map)
 {
 	int tile_index_x;
