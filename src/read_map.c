@@ -6,7 +6,7 @@
 /*   By: matsuki <matsuki@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 12:16:37 by matsuki           #+#    #+#             */
-/*   Updated: 2021/03/09 11:13:35 by matsuki          ###   ########.fr       */
+/*   Updated: 2021/03/14 11:37:30 by matsuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,15 +210,11 @@ void read_map(char *file_pass, t_map *map)
 	int fd;
 	int obj_num;
 
-	//if (file is not .cub file)
-	//{
-	//error
-	//}
 	fd = open(file_pass, O_RDONLY);
 	if (fd == -1)
 	{
-		//error
-		return;
+		no_file_err();
+		exit(0);
 	}
 	obj_num = 0;
 	offset_map(map);
