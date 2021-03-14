@@ -20,7 +20,7 @@ static void my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-static void refresh_img(t_img *img, t_map *map)
+static void render_sky(t_img *img, t_map *map)
 {
 	int i;
 	int j;
@@ -29,6 +29,24 @@ static void refresh_img(t_img *img, t_map *map)
 	while (i < map->window_width)
 	{
 		j = 0;
+		while (j < map->window_height / 2)
+		{
+			my_mlx_pixel_put(img, i, j, COLOR_CYAN);
+			j++;
+		}
+		i++;
+	}
+}
+
+static void render_floor(t_img *img, t_map *map)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < map->window_width)
+	{
+		j = map->window_height / 2;
 		while (j < map->window_height)
 		{
 			my_mlx_pixel_put(img, i, j, COLOR_BLACK);
@@ -161,9 +179,11 @@ static void render_player(t_player *player, t_img *img)
 
 void render_everything(t_params *params)
 {
-	refresh_img(&params->img, &params->map);
+	render_sky(&params->img, &params->map);
+	render_floor(&params->img, &params->map);
+	render_3d_wall(params, &params->player, &params->map, &params->img);
 	render_minimap(params);
 	render_player(&params->player, &params->img);
-	render_rays(params, &params->player, &params->img); /* -> render_3d_wall(); */
+	render_rays(params, &params->player, &params->img);
 	mlx_put_image_to_window(params->mlx.mlx_ptr, params->mlx.win_ptr, params->img.img, 0, 0);
 }
