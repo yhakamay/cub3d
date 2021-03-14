@@ -48,9 +48,10 @@ static void move_player(t_player *player, t_img *img, t_map *map)
 {
 	player->rotation_angle += player->turn_direction * player->turn_speed;
 	player->rotation_angle = normalize_angle(player->rotation_angle);
-	float move_step = player->walk_direction * player->walk_speed;
-	float new_player_x = player->x + cos(player->rotation_angle) * move_step;
-	float new_player_y = player->y + sin(player->rotation_angle) * move_step;
+	float move_step_vert = player->walk_direction_vert * player->walk_speed;
+	float move_step_horz = player->walk_direction_horz * player->walk_speed;
+	float new_player_x = player->x + cos(player->rotation_angle) * move_step_vert - sin(player->rotation_angle) * move_step_horz;
+	float new_player_y = player->y + sin(player->rotation_angle) * move_step_vert + cos(player->rotation_angle) * move_step_horz;
 
 	if (has_wall_at(new_player_x, new_player_y, map))
 		return;
@@ -73,11 +74,13 @@ int key_pressed(int keycode, t_params *params)
 		exit_game(params->mlx.mlx_ptr, params->mlx.win_ptr);
 
 	if (keycode == KEY_W)
-		params->player.walk_direction = 1; // move forward
+		params->player.walk_direction_vert = 1; // move forward
 	else if (keycode == KEY_S)
-		params->player.walk_direction = -1; // move backward
-	// if (keycode == KEY_D)
-	// if (keycode == KEY_A)
+		params->player.walk_direction_vert = -1; // move backward
+	else if (keycode == KEY_D)
+		params->player.walk_direction_horz = 1; // move right
+	else if (keycode == KEY_A)
+		params->player.walk_direction_horz = -1; // move left
 	else if (keycode == KEY_ARROW_LEFT)
 		params->player.turn_direction = 1;
 	else if (keycode == KEY_ARROW_RIGHT)
@@ -94,11 +97,13 @@ int key_pressed(int keycode, t_params *params)
 int key_released(int keycode, t_params *params)
 {
 	if (keycode == KEY_W)
-		params->player.walk_direction = 0;
+		params->player.walk_direction_vert = 0;
 	else if (keycode == KEY_S)
-		params->player.walk_direction = 0;
-	// if (keycode == KEY_D)
-	// if (keycode == KEY_A)
+		params->player.walk_direction_vert = 0;
+	else if (keycode == KEY_D)
+		params->player.walk_direction_horz = 0;
+	else if (keycode == KEY_A)
+		params->player.walk_direction_horz = 0;
 	else if (keycode == KEY_ARROW_LEFT)
 		params->player.turn_direction = 0;
 	else if (keycode == KEY_ARROW_RIGHT)
