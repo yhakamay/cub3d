@@ -13,7 +13,7 @@
 #ifndef CUB3D_H
 #define CUB3D_H
 
-#define DEBUG_ON 0
+#define DEBUG_ON 1
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -38,7 +38,7 @@
 #define MINIMAP_SCALE_FACTOR 1.0
 #define TILE_SIZE 20
 
-#define NUM_RAYS 100
+#define NUM_RAYS 1000
 
 #define PI 3.14159265
 #define TWO_PI 6.28318530
