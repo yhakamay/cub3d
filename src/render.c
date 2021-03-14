@@ -100,6 +100,37 @@ static void render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
 	}
 }
 
+static void render_3d_wall(t_params *params, t_player *player, t_map *map, t_img *img)
+{
+	int i;
+	int wall_strip_width;
+	int wall_strip_height;
+	float correct_wall_distance;
+	float distance_to_plane;
+	float ray_angle;
+	t_ray ray;
+
+	ray_angle = player->rotation_angle - (FOV_ANGLE * 0.5);
+	wall_strip_width = map->window_width / NUM_RAYS;
+	i = 0;
+	while (i < NUM_RAYS)
+	{
+		ray = cast_ray(params, player, normalize_angle(ray_angle));
+		correct_wall_distance = ray.distance * cos(ray.ray_angle - player->rotation_angle);
+		distance_to_plane = (map->window_width / 2) / tan(FOV_ANGLE / 2);
+		wall_strip_height = (TILE_SIZE / correct_wall_distance) * distance_to_plane;
+		wall_strip_height = wall_strip_height > map->window_height ? map->window_height : wall_strip_height;
+		render_rect(i * wall_strip_width,
+					(map->window_height / 2) - (wall_strip_height / 2),
+					wall_strip_width,
+					wall_strip_height,
+					COLOR_WHITE,
+					img);
+		ray_angle += FOV_ANGLE / NUM_RAYS;
+		i++;
+	}
+}
+
 static void render_rays(t_params *params, t_player *player, t_img *img)
 {
 	int i;
