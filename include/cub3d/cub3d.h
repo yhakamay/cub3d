@@ -29,8 +29,8 @@
 
 #define WINDOW_TITLE "cub3d"
 
-#define X_EVENT_KEY_PRESSED 2
-#define X_EVENT_KEY_RELEASED 3
+#define KEY_PRESSED 2
+#define KEY_RELEASED 3
 
 #define COLOR_BLACK 0x000000
 #define COLOR_GRAY 0x808080
