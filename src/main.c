@@ -35,6 +35,7 @@ int main(int argc, char **argv)
 		return (no_args_err());
 	read_map(argv[1], &params.map);
 	check_map(&params);
+	init_g_val(&params);
 	params.mlx.mlx_ptr = mlx_init();
 	params.mlx.win_ptr = mlx_new_window(params.mlx.mlx_ptr, params.map.window_width, params.map.window_height, WINDOW_TITLE);
 	init_player(&params.player, &params.map);

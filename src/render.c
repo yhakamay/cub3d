@@ -72,15 +72,15 @@ static void render_rays(t_params *params, t_player *player, t_img *img)
 {
 	int i;
 	float ray_angle;
-	t_ray rays[NUM_RAYS];
+	t_ray rays[g_num_rays];
 
 	ray_angle = player->rotation_angle - (FOV_ANGLE * 0.5);
 	i = 0;
-	while (i < NUM_RAYS)
+	while (i < g_num_rays)
 	{
 		rays[i] = cast_ray(params, player, normalize_angle(ray_angle));
 		render_line(img, player->x, player->y, rays[i].wall_hit_x, rays[i].wall_hit_y, PLAYER_COLOR);
-		ray_angle += FOV_ANGLE / NUM_RAYS;
+		ray_angle += FOV_ANGLE / g_num_rays;
 		i++;
 	}
 }
@@ -123,7 +123,6 @@ static void render_minimap(t_params *params)
 static void render_3d_wall(t_params *params, t_player *player, t_map *map, t_img *img)
 {
 	int i;
-	int wall_strip_width;
 	int wall_strip_height;
 	float correct_wall_distance;
 	float distance_to_plane;
@@ -131,22 +130,21 @@ static void render_3d_wall(t_params *params, t_player *player, t_map *map, t_img
 	t_ray ray;
 
 	ray_angle = player->rotation_angle - (FOV_ANGLE * 0.5);
-	wall_strip_width = map->window_width / NUM_RAYS;
 	i = 0;
-	while (i < NUM_RAYS)
+	while (i < g_num_rays)
 	{
 		ray = cast_ray(params, player, normalize_angle(ray_angle));
 		correct_wall_distance = ray.distance * cos(ray.ray_angle - player->rotation_angle);
 		distance_to_plane = (map->window_width / 2) / tan(FOV_ANGLE / 2);
 		wall_strip_height = (TILE_SIZE / correct_wall_distance) * distance_to_plane;
 		wall_strip_height = wall_strip_height > map->window_height ? map->window_height : wall_strip_height;
-		render_rect(i * wall_strip_width,
+		render_rect(i * g_wall_strip_width,
 					(map->window_height / 2) - (wall_strip_height / 2),
-					wall_strip_width,
+					g_wall_strip_width,
 					wall_strip_height,
 					COLOR_WHITE,
 					img);
-		ray_angle += FOV_ANGLE / NUM_RAYS;
+		ray_angle += FOV_ANGLE / g_num_rays;
 		i++;
 	}
 }

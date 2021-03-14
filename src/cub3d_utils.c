@@ -12,6 +12,12 @@
 
 #include "../include/cub3d/cub3d.h"
 
+void init_g_val(t_params *params)
+{
+	g_wall_strip_width = 2;
+	g_num_rays = params->map.window_width / g_wall_strip_width;
+}
+
 float normalize_angle(float rotation_angle)
 {
 	rotation_angle = fmod(rotation_angle, TWO_PI);
@@ -59,12 +65,6 @@ static void move_player(t_player *player, t_img *img, t_map *map)
 		player->x = new_player_x;
 		player->y = new_player_y;
 	}
-
-#if DEBUG_ON
-	printf("-----\n");
-	printf("player.x:\t%d\nplayer.y:\t%d\n\n", player->x, player->y);
-	printf("player.rotation_angle:\t%f\n\n\n", player->rotation_angle * 180 / PI);
-#endif
 }
 
 int key_pressed(int keycode, t_params *params)
