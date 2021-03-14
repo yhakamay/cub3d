@@ -100,29 +100,6 @@ static void get_ray_distance_horz(t_rc_utils *rc_utils, t_player *player, t_map 
 	}
 }
 
-//--------------------
-//|         |        |
-//|   kabe  |        |
-//----------.---------
-//|         |        |
-//|         |        |
-//--------------------
-//|         |        |
-//|         |        |
-//--------------------                a
-//|         |        |
-//|         |        |
-//--------------------
-//|         |        |
-//|         |        |
-//--------------------
-//|         |        |
-//|         |        |
-//--------------------
-//|         |        |
-//|         |        |
-//--------------------
-
 static void get_ray_distance_vert(t_rc_utils *rc_utils, t_player *player, t_map *map, float ray_angle)
 {
 	float next_vert_touch_x;
