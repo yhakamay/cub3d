@@ -20,42 +20,6 @@ static void my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-static void render_sky(t_img *img, t_map *map)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (i < map->window_width)
-	{
-		j = 0;
-		while (j < map->window_height / 2)
-		{
-			my_mlx_pixel_put(img, i, j, COLOR_CYAN);
-			j++;
-		}
-		i++;
-	}
-}
-
-static void render_floor(t_img *img, t_map *map)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (i < map->window_width)
-	{
-		j = map->window_height / 2;
-		while (j < map->window_height)
-		{
-			my_mlx_pixel_put(img, i, j, COLOR_BLACK);
-			j++;
-		}
-		i++;
-	}
-}
-
 static void render_rect(int x, int y, int width, int height, int color, t_img *img)
 {
 	int x_i;
@@ -71,30 +35,6 @@ static void render_rect(int x, int y, int width, int height, int color, t_img *i
 			y_i++;
 		}
 		x_i++;
-	}
-}
-
-static void render_minimap(t_params *params)
-{
-	int i;
-	int j;
-	int x;
-	int y;
-	int tile_color;
-
-	i = 0;
-	while (params->map.grid[i][0] != '\0')
-	{
-		j = 0;
-		while (params->map.grid[i][j] != '\0')
-		{
-			x = j * TILE_SIZE;
-			y = i * TILE_SIZE;
-			tile_color = params->map.grid[i][j] != '0' ? COLOR_GRAY : COLOR_BLACK;
-			render_rect(x * MINIMAP_SCALE_FACTOR, y * MINIMAP_SCALE_FACTOR, TILE_SIZE * MINIMAP_SCALE_FACTOR, TILE_SIZE * MINIMAP_SCALE_FACTOR, tile_color, &params->img);
-			j++;
-		}
-		i++;
 	}
 }
 
@@ -114,6 +54,68 @@ static void render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
 	while (i < (int)len)
 	{
 		my_mlx_pixel_put(img, x1 + (int)(x_delta * i), y1 + (int)(y_delta * i), color);
+		i++;
+	}
+}
+
+static void render_sky(t_img *img, t_map *map)
+{
+	render_rect(0, 0, map->window_width, map->window_height / 2, COLOR_CYAN, img);
+}
+
+static void render_floor(t_img *img, t_map *map)
+{
+	render_rect(0, map->window_height / 2, map->window_width, map->window_height, COLOR_GRAY, img);
+}
+
+static void render_rays(t_params *params, t_player *player, t_img *img)
+{
+	int i;
+	float ray_angle;
+	t_ray rays[NUM_RAYS];
+
+	ray_angle = player->rotation_angle - (FOV_ANGLE * 0.5);
+	i = 0;
+	while (i < NUM_RAYS)
+	{
+		rays[i] = cast_ray(params, player, normalize_angle(ray_angle));
+		render_line(img, player->x, player->y, rays[i].wall_hit_x, rays[i].wall_hit_y, PLAYER_COLOR);
+		ray_angle += FOV_ANGLE / NUM_RAYS;
+		i++;
+	}
+}
+
+static void render_player(t_player *player, t_img *img)
+{
+	render_rect(
+		player->x,
+		player->y,
+		player->width * MINIMAP_SCALE_FACTOR,
+		player->height * MINIMAP_SCALE_FACTOR,
+		player->color,
+		img);
+}
+
+static void render_minimap(t_params *params)
+{
+	int i;
+	int j;
+	int x;
+	int y;
+	int tile_color;
+
+	i = 0;
+	while (params->map.grid[i][0] != '\0')
+	{
+		j = 0;
+		while (params->map.grid[i][j] != '\0')
+		{
+			x = j * TILE_SIZE;
+			y = i * TILE_SIZE;
+			tile_color = params->map.grid[i][j] != '0' ? COLOR_YELLOW : COLOR_GRAY;
+			render_rect(x * MINIMAP_SCALE_FACTOR, y * MINIMAP_SCALE_FACTOR, TILE_SIZE * MINIMAP_SCALE_FACTOR, TILE_SIZE * MINIMAP_SCALE_FACTOR, tile_color, &params->img);
+			j++;
+		}
 		i++;
 	}
 }
@@ -147,34 +149,6 @@ static void render_3d_wall(t_params *params, t_player *player, t_map *map, t_img
 		ray_angle += FOV_ANGLE / NUM_RAYS;
 		i++;
 	}
-}
-
-static void render_rays(t_params *params, t_player *player, t_img *img)
-{
-	int i;
-	float ray_angle;
-	t_ray rays[NUM_RAYS];
-
-	ray_angle = player->rotation_angle - (FOV_ANGLE * 0.5);
-	i = 0;
-	while (i < NUM_RAYS)
-	{
-		rays[i] = cast_ray(params, player, normalize_angle(ray_angle));
-		render_line(img, player->x, player->y, rays[i].wall_hit_x, rays[i].wall_hit_y, PLAYER_COLOR);
-		ray_angle += FOV_ANGLE / NUM_RAYS;
-		i++;
-	}
-}
-
-static void render_player(t_player *player, t_img *img)
-{
-	render_rect(
-		player->x,
-		player->y,
-		player->width * MINIMAP_SCALE_FACTOR,
-		player->height * MINIMAP_SCALE_FACTOR,
-		player->color,
-		img);
 }
 
 void render_everything(t_params *params)
