@@ -27,8 +27,10 @@ void	calculate_ray_angle(t_rc_utils *rc_utils, float ray_angle)
 
 bool	is_around_window(t_rc_utils *rc_utils, t_map *map)
 {
-	if (rc_utils->horz_wall_hit_x < 0 && rc_utils->horz_wall_hit_x > map->window_width &&
-		rc_utils->horz_wall_hit_y < 0 && rc_utils->horz_wall_hit_y > map->window_height)
+	if (rc_utils->horz_wall_hit_x < 0 &&
+		rc_utils->horz_wall_hit_x > map->window_width &&
+		rc_utils->horz_wall_hit_y < 0
+		&& rc_utils->horz_wall_hit_y > map->window_height)
 		return (false);
 	else
 		return (true);

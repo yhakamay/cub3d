@@ -12,9 +12,9 @@
 
 #include "../include/cub3d/cub3d.h"
 
-static int skip_spaces(char *line, int i)
+static int	skip_spaces(char *line, int i)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (line[i + j] == ' ')
@@ -22,10 +22,10 @@ static int skip_spaces(char *line, int i)
 	return (j);
 }
 
-static void check_obj(t_map *map, char *line, int *obj_num)
+static void	check_obj(t_map *map, char *line, int *obj_num)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -189,10 +189,10 @@ static void offset_map(t_map *map)
 	ft_memset(map->grid, 0, 200 * 201);
 }
 
-static void make_map(t_map *map, char *line)
+static void	make_map(t_map *map, char *line)
 {
-	static int i;
-	int len;
+	static int	i;
+	int			len;
 
 	len = ft_strlen(line);
 	;
@@ -204,11 +204,11 @@ static void make_map(t_map *map, char *line)
 	i++;
 }
 
-void read_map(char *file_path, t_map *map)
+void		read_map(char *file_path, t_map *map)
 {
-	char *line;
-	int fd;
-	int obj_num;
+	char	*line;
+	int		fd;
+	int		obj_num;
 
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)

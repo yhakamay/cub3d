@@ -68,5 +68,5 @@ void		check_map_info(t_params *params)
 void		check_map(t_params *params)
 {
 	check_map_info(params);
-	/* check_map_is_closed(&params->map); */
+	//check_map_is_closed(&params->map);
 }
