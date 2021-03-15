@@ -12,19 +12,19 @@
 
 #include "../include/cub3d/cub3d.h"
 
-int no_args_err(void)
+int	no_args_err(void)
 {
 	printf("Error. No arguments.\n");
 	return (0);
 }
 
-int no_file_err(void)
+int	no_file_err(void)
 {
 	printf("Error. No such file.\n");
 	return (0);
 }
 
-int use_forbidden_char_err(void)
+int	use_forbidden_char_err(void)
 {
 	printf("Error. Use forbidden char in map.\n");
 	return (0);

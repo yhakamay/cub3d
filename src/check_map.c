@@ -27,7 +27,7 @@ static bool	is_player(t_params *params, char c)
 	return (true);
 }
 
-static bool is_forbidden_char(char c)
+static bool	is_forbidden_char(char c)
 {
 	if (c >= '0' && c <= '2')
 		return (false);
@@ -37,9 +37,7 @@ static bool is_forbidden_char(char c)
 		return (true);
 }
 
-
-
-void	check_map_info(t_params *params)
+void		check_map_info(t_params *params)
 {
 	int	i;
 	int	j;
@@ -67,8 +65,8 @@ void	check_map_info(t_params *params)
 	}
 }
 
-void	check_map(t_params *params)
+void		check_map(t_params *params)
 {
 	check_map_info(params);
-	//check_map_is_closed(&params->map);
+	/* check_map_is_closed(&params->map); */
 }

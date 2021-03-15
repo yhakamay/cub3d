@@ -158,21 +158,31 @@ typedef struct s_params
 	t_rc_utils rc_utils;
 } t_params;
 
-extern int g_num_rays;
-extern int g_wall_strip_width;
+extern int	g_num_rays;
+extern int	g_wall_strip_width;
 
-void init_g_val(t_params *params);
-float normalize_angle(float rotation_angle);
-void freeeee(void *malloced_var);
-void render_everything(t_params *params);
-t_ray cast_ray(t_params *params, t_player *player, float ray_angle);
-bool has_wall_at(float x, float y, t_map *map);
-int key_pressed(int keycode, t_params *params);
-int key_released(int keycode, t_params *params);
-void read_map(char *file_pass, t_map *map);
-void check_map(t_params *params);
-int no_args_err(void);
-int no_file_err(void);
-int use_forbidden_char_err(void);
+void	init_g_val(t_params *params);
+void	init_player(t_player *player, t_map *map);
+void	init_rc_utils_horz(t_rc_utils *rc_utils, t_player *player, float ray_angle);
+void	init_rc_utils_vert(t_rc_utils *rc_utils, t_player *player, float ray_angle);
+
+int		key_pressed(int keycode, t_params *params);
+int		key_released(int keycode, t_params *params);
+
+float	get_distance(float x1, float y1, float x2, float y2);
+void	calculate_ray_angle(t_rc_utils *rc_utils, float ray_angle);
+bool	is_around_window(t_rc_utils *rc_utils, t_map *map);
+
+float	normalize_angle(float rotation_angle);
+void	render_everything(t_params *params);
+t_ray	cast_ray(t_params *params, t_player *player, float ray_angle);
+bool	has_wall_at(float x, float y, t_map *map);
+int		key_pressed(int keycode, t_params *params);
+int		key_released(int keycode, t_params *params);
+void	read_map(char *file_pass, t_map *map);
+void	check_map(t_params *params);
+int		no_args_err(void);
+int		no_file_err(void);
+int		use_forbidden_char_err(void);
 
 #endif
