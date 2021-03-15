@@ -179,7 +179,7 @@ t_ray	cast_ray(t_params *params, t_player *player, float ray_angle);
 bool	has_wall_at(float x, float y, t_map *map);
 int		key_pressed(int keycode, t_params *params);
 int		key_released(int keycode, t_params *params);
-void	read_map(char *file_pass, t_map *map);
+void	read_map(char *file_path, t_map *map);
 void	check_map(t_params *params);
 int		no_args_err(void);
 int		no_file_err(void);

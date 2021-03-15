@@ -204,13 +204,13 @@ static void make_map(t_map *map, char *line)
 	i++;
 }
 
-void read_map(char *file_pass, t_map *map)
+void read_map(char *file_path, t_map *map)
 {
 	char *line;
 	int fd;
 	int obj_num;
 
-	fd = open(file_pass, O_RDONLY);
+	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
 	{
 		no_file_err();
