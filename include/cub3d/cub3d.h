@@ -6,7 +6,7 @@
 /*   By: yhakamay <yhakamay@student.42tokyo.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 18:24:34 by yhakamay          #+#    #+#             */
-/*   Updated: 2021/03/14 13:12:42 by matsuki          ###   ########.fr       */
+/*   Updated: 2021/03/15 10:13:28 by matsuki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,8 @@ typedef struct s_params
 	t_rc_utils rc_utils;
 } t_params;
 
-int g_num_rays;
-int g_wall_strip_width;
+extern int g_num_rays;
+extern int g_wall_strip_width;
 
 void init_g_val(t_params *params);
 float normalize_angle(float rotation_angle);

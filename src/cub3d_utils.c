@@ -12,6 +12,9 @@
 
 #include "../include/cub3d/cub3d.h"
 
+int g_num_rays;
+int g_wall_strip_width;
+
 void init_g_val(t_params *params)
 {
 	g_wall_strip_width = 2;
