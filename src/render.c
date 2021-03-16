@@ -12,7 +12,7 @@
 
 #include "../include/cub3d/cub3d.h"
 
-static void my_mlx_pixel_put(t_img *img, int x, int y, int color)
+static void draw_pixel(t_img *img, int x, int y, int color)
 {
 	char *dst;
 
@@ -31,7 +31,7 @@ static void render_rect(int x, int y, int width, int height, int color, t_img *i
 		y_i = y;
 		while (y_i < y + height)
 		{
-			my_mlx_pixel_put(img, x_i, y_i, color);
+			draw_pixel(img, x_i, y_i, color);
 			y_i++;
 		}
 		x_i++;
@@ -53,7 +53,7 @@ static void render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
 	i = 0;
 	while (i < (int)len)
 	{
-		my_mlx_pixel_put(img, x1 + (int)(x_delta * i), y1 + (int)(y_delta * i), color);
+		draw_pixel(img, x1 + (int)(x_delta * i), y1 + (int)(y_delta * i), color);
 		i++;
 	}
 }
