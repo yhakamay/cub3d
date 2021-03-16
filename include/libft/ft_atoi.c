@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static int		is_blank(char c)
+static int			is_blank(char c)
 {
 	if ((c >= '\t' && c <= '\r') || c == ' ')
 		return (1);
@@ -28,7 +28,7 @@ static long long	check_overflow(long long n, int sign)
 	return (0);
 }
 
-int			ft_atoi(const char *s)
+int					ft_atoi(const char *s)
 {
 	int			sign;
 	long long	n;
