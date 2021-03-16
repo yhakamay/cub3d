@@ -37,6 +37,27 @@ static bool	is_forbidden_char(char c)
 		return (true);
 }
 
+int		check_map_is_closed(t_map *map, int x, int y)
+{
+	int	ret;
+
+	if (x < 0 || x > 200 || y < 0 || y > 200)
+		return (1);
+	else if (map->reached[y][x] == true)
+		return (0);
+	map->reached[y][x] = true;
+	if (map->grid[y][x] == '1')
+		return (0);
+	else if (map->grid[y][x] == '\0')
+		return (1);
+	ret = 0;
+	ret += check_map_is_closed(map, x + 1, y);
+	ret += check_map_is_closed(map, x - 1, y);
+	ret += check_map_is_closed(map, x, y + 1);
+	ret += check_map_is_closed(map, x, y - 1);
+	return (ret);
+}
+
 void		check_map_info(t_params *params)
 {
 	int	i;
@@ -67,6 +88,15 @@ void		check_map_info(t_params *params)
 
 void		check_map(t_params *params)
 {
+	int tile_index_x;
+	int tile_index_y;
+
 	check_map_info(params);
-	//check_map_is_closed(&params->map);
+	tile_index_x = floor(params->player.x / TILE_SIZE);
+	tile_index_y = floor(params->player.y / TILE_SIZE);
+	if (check_map_is_closed(&params->map, tile_index_x, tile_index_y))
+	{
+		map_is_not_closed_err();
+		exit(0);
+	}
 }
