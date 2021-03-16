@@ -29,24 +29,19 @@ static void	move_player(t_player *p, t_img *img, t_map *map)
 	p->rotation_angle = normalize_angle(p->rotation_angle);
 	move_step_vert = p->walk_direction_vert * p->walk_speed;
 	move_step_horz = p->walk_direction_horz * p->walk_speed;
-	new_p_x = p->x + cos(p->rotation_angle) *
+	new_p_x = roundf(p->x + cos(p->rotation_angle) *
 				move_step_vert - sin(p->rotation_angle) *
-				move_step_horz;
-	new_p_y = p->y + sin(p->rotation_angle) *
+				move_step_horz);
+	new_p_y = roundf(p->y + sin(p->rotation_angle) *
 				move_step_vert + cos(p->rotation_angle) *
-				move_step_horz;
+				move_step_horz);
 	if (has_wall_at(new_p_x, new_p_y, map))
 		return ;
 	else
 	{
-		new_p_x = roundf(new_p_x);
-		new_p_y = roundf(new_p_y);
 		p->x = new_p_x;
 		p->y = new_p_y;
 	}
-	printf("player.x:\t%d\n", p->x);
-	printf("player.y:\t%d\n", p->y);
-	printf("\n");
 }
 
 int			key_pressed(int keycode, t_params *params)

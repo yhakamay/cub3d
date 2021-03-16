@@ -18,7 +18,7 @@
 # include <fcntl.h>
 # include "../libft/libft.h"
 
-#define BUFFER_SIZE 32
+# define BUFFER_SIZE 32
 
 int		get_next_line(int fd, char **line);
 
