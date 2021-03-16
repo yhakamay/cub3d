@@ -146,6 +146,7 @@ typedef struct s_map
 	int floor_rgb[3];
 	int ceilling_rgb[3];
 	char grid[200][201];
+	bool reached[200][200];
 } t_map;
 
 typedef struct s_params
@@ -184,5 +185,6 @@ void	check_map(t_params *params);
 int		no_args_err(void);
 int		no_file_err(void);
 int		use_forbidden_char_err(void);
+int		map_is_not_closed_err(void);
 
 #endif

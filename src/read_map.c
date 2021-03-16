@@ -187,6 +187,7 @@ static void offset_map(t_map *map)
 	map->ceilling_rgb[1] = 0;
 	map->ceilling_rgb[2] = 0;
 	ft_memset(map->grid, 0, 200 * 201);
+	ft_memset(map->reached, false, 200 * 200);
 }
 
 static void	make_map(t_map *map, char *line)
