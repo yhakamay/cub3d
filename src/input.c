@@ -39,6 +39,8 @@ static void	move_player(t_player *p, t_img *img, t_map *map)
 		return ;
 	else
 	{
+		new_p_x = roundf(new_p_x);
+		new_p_y = roundf(new_p_y);
 		p->x = new_p_x;
 		p->y = new_p_y;
 	}
