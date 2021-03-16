@@ -190,6 +190,7 @@ int				key_pressed(int keycode, t_params *params);
 int				key_released(int keycode, t_params *params);
 void			read_map(char *file_path, t_map *map);
 void			check_map(t_params *params);
+int				map_is_not_closed_err();
 int				no_args_err(void);
 int				no_file_err(void);
 int				use_forbidden_char_err(void);
