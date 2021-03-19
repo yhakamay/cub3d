@@ -12,12 +12,22 @@
 
 #include "../include/cub3d/cub3d.h"
 
-static int	skip_spaces(char *line, int i)
+static int	num_of_spaces(char *line, int i)
 {
 	int	j;
 
 	j = 0;
 	while (line[i + j] == ' ')
+		j++;
+	return (j);
+}
+
+static int	num_of_numbers(char *line, int i)
+{
+	int	j;
+
+	j = 0;
+	while (line[i + j] >= '0' && line[i + j] <= '9')
 		j++;
 	return (j);
 }
@@ -29,148 +39,164 @@ static void	check_obj(t_map *map, char *line, int *obj_num)
 
 	i = 0;
 	j = 0;
-	i += skip_spaces(line, i);
-	//if (line[i] == '\0')
-	//{
-	//error
-	//}
+	i += num_of_spaces(line, i);
 	if (line[i] == 'R')
 	{
 		i++;
-		i += skip_spaces(line, i);
-		//if(not number)
-		//{
-		//error
-		//}
+		i += num_of_spaces(line, i);
 		while (line[i] >= '0' && line[i] <= '9')
 		{
-			//need error handring etc)into int
 			map->window_width = map->window_width * 10 + line[i] - '0';
 			i++;
 		}
-		i += skip_spaces(line, i);
-		//if(not number or 改行)
-		//{
-		//error
-		//}
+		if (line[i] != ' ')
+		{
+			cub_file_err();
+			exit(0);
+		}
+		i += num_of_spaces(line, i);
 		while (line[i] >= '0' && line[i] <= '9')
 		{
 			map->window_height = map->window_height * 10 + line[i] - '0';
 			i++;
 		}
-		//if (いらないやつがこのあとにあったら)
-		//{
-		//error
-		//}
+		if (ft_strlen(line + i) != num_of_spaces(line, i))
+		{
+			cub_file_err();
+			exit(0);
+		}
 		(*obj_num)++;
 	}
 	else if (line[i] == 'N' && line[i + 1] == 'O')
 	{
-		//if (line[i + 2] == '\0')
-		//{
-		//error
-		//}
 		i += 2;
 		map->north_pass = ft_strtrim(line + i, " ");
-		//if (いらないやつがこのあとにあったら)
-		//{
-		//error
-		//}
+		if (ft_strlen(line + i) != ft_strlen(map->north_pass) + num_of_spaces(line, i))
+		{
+			cub_file_err();
+			exit(0);
+		}
 		(*obj_num)++;
 	}
 	else if (line[i] == 'S' && line[i + 1] == 'O')
 	{
-		//if (line[i + 2] == '\0')
-		//{
-		//error
-		//}
 		i += 2;
 		map->south_pass = ft_strtrim(line + i, " ");
-		//if (いらないやつがこのあとにあったら)
-		//{
-		//error
-		//}
+		if (ft_strlen(line + i) != ft_strlen(map->south_pass) + num_of_spaces(line, i))
+		{
+			cub_file_err();
+			exit(0);
+		}
 		(*obj_num)++;
 	}
 	else if (line[i] == 'W' && line[i + 1] == 'E')
 	{
-		//if (line[i + 2] == '\0')
-		//{
-		//error
-		//}
 		i += 2;
 		map->west_pass = ft_strtrim(line + i, " ");
-		//if (いらないやつがこのあとにあったら)
-		//{
-		//error
-		//}
+		if (ft_strlen(line + i) != ft_strlen(map->west_pass) + num_of_spaces(line, i))
+		{
+			cub_file_err();
+			exit(0);
+		}
 		(*obj_num)++;
 	}
 	else if (line[i] == 'E' && line[i + 1] == 'A')
 	{
-		//if (line[i + 2] == '\0')
-		//{
-		//error
-		//}
 		i += 2;
 		map->east_pass = ft_strtrim(line + i, " ");
-		//if (いらないやつがこのあとにあったら)
-		//{
-		//error
-		//}
+		if (ft_strlen(line + i) != ft_strlen(map->east_pass) + num_of_spaces(line, i))
+		{
+			cub_file_err();
+			exit(0);
+		}
 		(*obj_num)++;
 	}
 	else if (line[i] == 'S')
 	{
-		//if (line[i + 1] == '\0')
-		//{
-		//error
-		//}
 		i++;
 		map->sprite_pass = ft_strtrim(line + i, " ");
-		//if (いらないやつがこのあとにあったら)
-		//{
-		//error
-		//}
+		if (ft_strlen(line + i) != ft_strlen(map->sprite_pass) + num_of_spaces(line, i))
+		{
+			cub_file_err();
+			exit(0);
+		}
 		(*obj_num)++;
 	}
 	else if (line[i] == 'F')
 	{
 		i++;
-		i += skip_spaces(line, i);
+		i += num_of_spaces(line, i);
 		while (j < 3)
 		{
-			while (line[i] >= '0' && line[i] <= '9')
+			int count;
+			count = num_of_numbers(line, i);
+			if (count > 3 || count == 0)
 			{
-				map->floor_rgb[j] = map->floor_rgb[j] * 10 + line[i] - '0';
-				i++;
+				cub_file_err();
+				exit(0);
 			}
-			//if (map->floor_rgb[j] > 255 || そもそもおかしかったら)
-			//{
-			//error
-			//}
+			map->floor_rgb[j] = ft_atoi(line + i);
+			if (map->floor_rgb[j] > 255)
+			{
+				cub_file_err();
+				exit(0);
+			}
+			i += count;
+			if (j == 2)
+			{
+				break ;
+			}
+			else if (line[i] != ',')
+			{
+				cub_file_err();
+				exit(0);
+			}
 			i++;
 			j++;
+		}
+		if (ft_strlen(line + i) != num_of_spaces(line, i))
+		{
+			cub_file_err();
+			exit(0);
 		}
 		(*obj_num)++;
 	}
 	else if (line[i] == 'C')
 	{
 		i++;
-		i += skip_spaces(line, i);
+		i += num_of_spaces(line, i);
 		while (j < 3)
 		{
-			while (line[i] >= '0' && line[i] <= '9')
+			int count;
+			count = num_of_numbers(line, i);
+			if (count > 3 || count == 0)
 			{
-				map->ceilling_rgb[j] = map->ceilling_rgb[j] * 10 + line[i] - '0';
-				i++;
+				cub_file_err();
+				exit(0);
 			}
-			//if (map->ceilling_rgb[j] == -1 || map->ceillingrgb[j] > 255)
-			//{
-			//error
-			//}
+			map->ceilling_rgb[j] = ft_atoi(line + i);
+			if (map->ceilling_rgb[j] > 255)
+			{
+				cub_file_err();
+				exit(0);
+			}
+			i += count;
+			if (j == 2)
+			{
+				break ;
+			}
+			else if (line[i] != ',')
+			{
+				cub_file_err();
+				exit(0);
+			}
 			i++;
 			j++;
+		}
+		if (ft_strlen(line + i) != num_of_spaces(line, i))
+		{
+			cub_file_err();
+			exit(0);
 		}
 		(*obj_num)++;
 	}
@@ -190,17 +216,22 @@ static void offset_map(t_map *map)
 	ft_memset(map->reached, false, 200 * 200);
 }
 
-static void	make_map(t_map *map, char *line)
+static void	make_map(t_map *map, char *line, int *obj_num)
 {
 	static int	i;
 	int			len;
 
 	len = ft_strlen(line);
-	;
-	//if ((len > 200)
-	//{
-	//error;
-	//}
+	if (len == 0)
+	{
+		(*obj_num)++;
+		return ;
+	}
+	else if (len > 200 || i > 200)
+	{
+		cub_file_err();
+		exit(0);
+	}
 	ft_memcpy(map->grid[i], line, len + 1);
 	i++;
 }
@@ -223,10 +254,16 @@ void		read_map(char *file_path, t_map *map)
 	{
 		if (obj_num < 8)
 			check_obj(map, line, &obj_num);
+		else if (obj_num == 8)
+			make_map(map, line, &obj_num);
 		else
-			make_map(map, line);
+		{
+			free(line);
+			cub_file_err();
+			exit(0);
+		}
 		free(line);
 	}
-	make_map(map, line);
+	make_map(map, line, &obj_num);
 	free(line);
 }
