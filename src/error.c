@@ -14,18 +14,18 @@
 
 int	no_args_err(void)
 {
-	printf("Error. No arguments.\n");
+	printf("Error.\nNo arguments.\n");
 	return (0);
 }
 
 int	no_file_err(void)
 {
-	printf("Error. No such file.\n");
+	printf("Error.\nNo such file.\n");
 	return (0);
 }
 
 int	cub_file_err(void)
 {
-	printf("Error. .cub file is not appropriate.\n");
+	printf("Error.\n.cub file is not appropriate.\n");
 	return (0);
 }
