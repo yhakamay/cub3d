@@ -14,7 +14,7 @@
 
 void	init_g_val(t_params *params)
 {
-	g_wall_strip_width = 2;
+	g_wall_strip_width = 1;
 	g_num_rays = params->map.window_width / g_wall_strip_width;
 }
 
