@@ -70,6 +70,11 @@ static void	check_obj(t_map *map, char *line, int *obj_num)
 	else if (line[i] == 'N' && line[i + 1] == 'O')
 	{
 		i += 2;
+		if (line[i] != ' ')
+		{
+			cub_file_err();
+			exit(0);
+		}
 		map->north_pass = ft_strtrim(line + i, " ");
 		if (ft_strlen(line + i) != ft_strlen(map->north_pass) + num_of_spaces(line, i))
 		{
@@ -81,6 +86,11 @@ static void	check_obj(t_map *map, char *line, int *obj_num)
 	else if (line[i] == 'S' && line[i + 1] == 'O')
 	{
 		i += 2;
+		if (line[i] != ' ')
+		{
+			cub_file_err();
+			exit(0);
+		}
 		map->south_pass = ft_strtrim(line + i, " ");
 		if (ft_strlen(line + i) != ft_strlen(map->south_pass) + num_of_spaces(line, i))
 		{
@@ -92,6 +102,11 @@ static void	check_obj(t_map *map, char *line, int *obj_num)
 	else if (line[i] == 'W' && line[i + 1] == 'E')
 	{
 		i += 2;
+		if (line[i] != ' ')
+		{
+			cub_file_err();
+			exit(0);
+		}
 		map->west_pass = ft_strtrim(line + i, " ");
 		if (ft_strlen(line + i) != ft_strlen(map->west_pass) + num_of_spaces(line, i))
 		{
@@ -103,6 +118,11 @@ static void	check_obj(t_map *map, char *line, int *obj_num)
 	else if (line[i] == 'E' && line[i + 1] == 'A')
 	{
 		i += 2;
+		if (line[i] != ' ')
+		{
+			cub_file_err();
+			exit(0);
+		}
 		map->east_pass = ft_strtrim(line + i, " ");
 		if (ft_strlen(line + i) != ft_strlen(map->east_pass) + num_of_spaces(line, i))
 		{
@@ -114,6 +134,11 @@ static void	check_obj(t_map *map, char *line, int *obj_num)
 	else if (line[i] == 'S')
 	{
 		i++;
+		if (line[i] != ' ')
+		{
+			cub_file_err();
+			exit(0);
+		}
 		map->sprite_pass = ft_strtrim(line + i, " ");
 		if (ft_strlen(line + i) != ft_strlen(map->sprite_pass) + num_of_spaces(line, i))
 		{
