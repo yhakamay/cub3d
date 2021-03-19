@@ -24,14 +24,8 @@ int	no_file_err(void)
 	return (0);
 }
 
-int	use_forbidden_char_err(void)
+int	cub_file_err(void)
 {
-	printf("Error. Use forbidden char in map.\n");
-	return (0);
-}
-
-int	map_is_not_closed_err(void)
-{
-	printf("Error. Map is not closed.\n");
+	printf("Error. .cub file is not appropriate.\n");
 	return (0);
 }

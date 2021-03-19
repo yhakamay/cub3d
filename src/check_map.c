@@ -77,7 +77,7 @@ void		check_map_info(t_params *params)
 			}
 			else if (is_forbidden_char(params->map.grid[i][j]))
 			{
-				use_forbidden_char_err();
+				cub_file_err();
 				exit(0);
 			}
 			j++;
@@ -96,7 +96,7 @@ void		check_map(t_params *params)
 	tile_index_y = floor(params->player.y / TILE_SIZE);
 	if (check_map_is_closed(&params->map, tile_index_x, tile_index_y))
 	{
-		map_is_not_closed_err();
+		cub_file_err();
 		exit(0);
 	}
 }
