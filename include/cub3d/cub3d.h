@@ -190,8 +190,9 @@ int				key_pressed(int keycode, t_params *params);
 int				key_released(int keycode, t_params *params);
 void			read_map(char *file_path, t_map *map);
 void			check_map(t_params *params);
-int				cub_file_err(void);
-int				no_args_err(void);
-int				no_file_err(void);
+void			no_args_err(void);
+void			no_file_err(void);
+void			cub_file_err(void);
+
 
 #endif

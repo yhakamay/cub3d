@@ -50,10 +50,7 @@ static void	check_obj(t_map *map, char *line, int *obj_num)
 			i++;
 		}
 		if (line[i] != ' ')
-		{
 			cub_file_err();
-			exit(0);
-		}
 		i += num_of_spaces(line, i);
 		while (line[i] >= '0' && line[i] <= '9')
 		{
@@ -61,90 +58,57 @@ static void	check_obj(t_map *map, char *line, int *obj_num)
 			i++;
 		}
 		if (ft_strlen(line + i) != num_of_spaces(line, i))
-		{
 			cub_file_err();
-			exit(0);
-		}
 		(*obj_num)++;
 	}
 	else if (line[i] == 'N' && line[i + 1] == 'O')
 	{
 		i += 2;
 		if (line[i] != ' ')
-		{
 			cub_file_err();
-			exit(0);
-		}
 		map->north_pass = ft_strtrim(line + i, " ");
 		if (ft_strlen(line + i) != ft_strlen(map->north_pass) + num_of_spaces(line, i))
-		{
 			cub_file_err();
-			exit(0);
-		}
 		(*obj_num)++;
 	}
 	else if (line[i] == 'S' && line[i + 1] == 'O')
 	{
 		i += 2;
 		if (line[i] != ' ')
-		{
 			cub_file_err();
-			exit(0);
-		}
 		map->south_pass = ft_strtrim(line + i, " ");
 		if (ft_strlen(line + i) != ft_strlen(map->south_pass) + num_of_spaces(line, i))
-		{
 			cub_file_err();
-			exit(0);
-		}
 		(*obj_num)++;
 	}
 	else if (line[i] == 'W' && line[i + 1] == 'E')
 	{
 		i += 2;
 		if (line[i] != ' ')
-		{
 			cub_file_err();
-			exit(0);
-		}
 		map->west_pass = ft_strtrim(line + i, " ");
 		if (ft_strlen(line + i) != ft_strlen(map->west_pass) + num_of_spaces(line, i))
-		{
 			cub_file_err();
-			exit(0);
-		}
 		(*obj_num)++;
 	}
 	else if (line[i] == 'E' && line[i + 1] == 'A')
 	{
 		i += 2;
 		if (line[i] != ' ')
-		{
 			cub_file_err();
-			exit(0);
-		}
 		map->east_pass = ft_strtrim(line + i, " ");
 		if (ft_strlen(line + i) != ft_strlen(map->east_pass) + num_of_spaces(line, i))
-		{
 			cub_file_err();
-			exit(0);
-		}
 		(*obj_num)++;
 	}
 	else if (line[i] == 'S')
 	{
 		i++;
 		if (line[i] != ' ')
-		{
 			cub_file_err();
-			exit(0);
-		}
 		map->sprite_pass = ft_strtrim(line + i, " ");
 		if (ft_strlen(line + i) != ft_strlen(map->sprite_pass) + num_of_spaces(line, i))
-		{
 			cub_file_err();
-			exit(0);
-		}
 		(*obj_num)++;
 	}
 	else if (line[i] == 'F')
@@ -156,34 +120,22 @@ static void	check_obj(t_map *map, char *line, int *obj_num)
 			int count;
 			count = num_of_numbers(line, i);
 			if (count > 3 || count == 0)
-			{
 				cub_file_err();
-				exit(0);
-			}
 			map->floor_rgb[j] = ft_atoi(line + i);
 			if (map->floor_rgb[j] > 255)
-			{
 				cub_file_err();
-				exit(0);
-			}
 			i += count;
 			if (j == 2)
 			{
 				break ;
 			}
 			else if (line[i] != ',')
-			{
 				cub_file_err();
-				exit(0);
-			}
 			i++;
 			j++;
 		}
 		if (ft_strlen(line + i) != num_of_spaces(line, i))
-		{
 			cub_file_err();
-			exit(0);
-		}
 		(*obj_num)++;
 	}
 	else if (line[i] == 'C')
@@ -195,34 +147,22 @@ static void	check_obj(t_map *map, char *line, int *obj_num)
 			int count;
 			count = num_of_numbers(line, i);
 			if (count > 3 || count == 0)
-			{
 				cub_file_err();
-				exit(0);
-			}
 			map->ceilling_rgb[j] = ft_atoi(line + i);
 			if (map->ceilling_rgb[j] > 255)
-			{
 				cub_file_err();
-				exit(0);
-			}
 			i += count;
 			if (j == 2)
 			{
 				break ;
 			}
 			else if (line[i] != ',')
-			{
 				cub_file_err();
-				exit(0);
-			}
 			i++;
 			j++;
 		}
 		if (ft_strlen(line + i) != num_of_spaces(line, i))
-		{
 			cub_file_err();
-			exit(0);
-		}
 		(*obj_num)++;
 	}
 }
@@ -253,10 +193,7 @@ static void	make_map(t_map *map, char *line, int *obj_num)
 		return ;
 	}
 	else if (len > 200 || i > 200)
-	{
 		cub_file_err();
-		exit(0);
-	}
 	ft_memcpy(map->grid[i], line, len + 1);
 	i++;
 }
@@ -269,10 +206,7 @@ void		read_map(char *file_path, t_map *map)
 
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
-	{
 		no_file_err();
-		exit(0);
-	}
 	obj_num = 0;
 	offset_map(map);
 	while (get_next_line(fd, &line))
@@ -285,7 +219,6 @@ void		read_map(char *file_path, t_map *map)
 		{
 			free(line);
 			cub_file_err();
-			exit(0);
 		}
 		free(line);
 	}
