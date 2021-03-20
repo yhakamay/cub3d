@@ -10,16 +10,50 @@
 #                                                                              #
 # **************************************************************************** #
 
-all:
+NAME = cub3d
+CC = clang
+CFLAGS = -O3 -Wall -Wextra -Werror
+MLX = ./include/mlx
+MLXFLAGS = -lmlx -framework OpenGL -framework AppKit
+HEADER = cub3d.h
+SRC = cub3d \
+		cub3d_utils \
+		check_map \
+		error \
+		init \
+		input \
+		raycast \
+		raycast_utils \
+		read_map \
+		render \
+		texture
+ADD = $(addsuffix .c, $(addprefix src/, $(SRC)))
+OBJ = $(ADD: .c=.o)
+BIN = $(addsuffix .o, $(SRC))
+.PHONY: all clean fclean re
+
+all:	$(NAME)
+
+$(NAME): $(OBJ)
+	@echo "\n\033[0;33mCompiling..."
 	$(MAKE) -C ./include/libft
-	cp ./include/libft/libft.a ./include/gnl/libft_gnl.a
-	gcc -Wall -Wextra -Werror -c ./include/gnl/get_next_line.c -o ./include/gnl/get_next_line.o
+	$(CC) $(CFLAGS) -c ./include/gnl/get_next_line.c -o ./include/gnl/get_next_line.o
+	mv ./include/libft/libft.a ./include/gnl/libft_gnl.a
 	ar rcs ./include/gnl/libft_gnl.a ./include/gnl/get_next_line.o
 	mv ./include/gnl/libft_gnl.a ./src/
-	gcc -L./include/mlx -lmlx -framework OpenGL -framework AppKit src/*.c src/libft_gnl.a -I include
+	$(CC) -L $(MLX) $(MLXFLAGS) $(OBJ) src/libft_gnl.a -I $(HEADER)
+	@echo "\033[0m"
 
 run:
 	./a.out test/test.cub;
 
 clean:
-	rm a.out;
+	@echo "\033[0;31mCleaning..."
+	rm -rf $(OBJ)
+	rm -f bitmap.bmp
+	@echo "\033[0m"
+
+fclean:	clean
+	@echo "\033[0;31mRemoving executable..."
+	rm -f $(NAME)
+	@echo "\033[0m"
