@@ -47,13 +47,13 @@ $(NAME): $(OBJ)
 run:
 	./a.out test/test.cub;
 
-clean:
-	@echo "\033[0;31mCleaning..."
-	rm -rf $(OBJ)
-	rm -f bitmap.bmp
-	@echo "\033[0m"
+#clean:
+#	@echo "\033[0;31mCleaning..."
+#	rm -rf $(OBJ)
+#	rm -f bitmap.bmp
+#	@echo "\033[0m"
 
-fclean:	clean
-	@echo "\033[0;31mRemoving executable..."
-	rm -f $(NAME)
-	@echo "\033[0m"
+#fclean:	clean
+#	@echo "\033[0;31mRemoving executable..."
+#	rm -f $(NAME)
+#	@echo "\033[0m"
