@@ -25,6 +25,7 @@ SRC = cub3d \
 		raycast \
 		raycast_utils \
 		read_map \
+		read_map_utils \
 		render \
 		texture
 ADD = $(addsuffix .c, $(addprefix src/, $(SRC)))

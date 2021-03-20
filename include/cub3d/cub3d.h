@@ -193,6 +193,13 @@ void			check_map(t_params *params);
 void			no_args_err(void);
 void			no_file_err(void);
 void			cub_file_err(void);
+int				num_of_spaces(char *line, int i);
+int				num_of_numbers(char *line, int i);
 
+// read_map_utils.c
+void			get_resolution(t_map *map, char *line, int i, int *obj_num);
+void			get_wall_texture(t_map *map, char *line, int i, int *obj_num);
+void			get_floor_ceiling_texture(t_map *map, char *line, int i, int j, int *obj_num, char f_or_c);
+void			get_sprite_texture(t_map *map, char *line, int i, int *obj_num);
 
 #endif
