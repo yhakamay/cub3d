@@ -148,8 +148,8 @@ static void	check_obj(t_map *map, char *line, int *obj_num)
 			count = num_of_numbers(line, i);
 			if (count > 3 || count == 0)
 				cub_file_err();
-			map->ceilling_rgb[j] = ft_atoi(line + i);
-			if (map->ceilling_rgb[j] > 255)
+			map->ceiling_rgb[j] = ft_atoi(line + i);
+			if (map->ceiling_rgb[j] > 255)
 				cub_file_err();
 			i += count;
 			if (j == 2)
@@ -174,9 +174,9 @@ static void offset_map(t_map *map)
 	map->floor_rgb[0] = 0;
 	map->floor_rgb[1] = 0;
 	map->floor_rgb[2] = 0;
-	map->ceilling_rgb[0] = 0;
-	map->ceilling_rgb[1] = 0;
-	map->ceilling_rgb[2] = 0;
+	map->ceiling_rgb[0] = 0;
+	map->ceiling_rgb[1] = 0;
+	map->ceiling_rgb[2] = 0;
 	ft_memset(map->grid, 0, 200 * 201);
 	ft_memset(map->reached, false, 200 * 200);
 }

@@ -150,7 +150,7 @@ typedef struct	s_map
 	char	*east_pass;
 	char	*sprite_pass;
 	int		floor_rgb[3];
-	int		ceilling_rgb[3];
+	int		ceiling_rgb[3];
 	char	grid[200][201];
 	bool	reached[200][200];
 }				t_map;
