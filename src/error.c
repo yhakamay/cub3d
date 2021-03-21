@@ -15,17 +15,17 @@
 void	no_args_err(void)
 {
 	printf("Error.\nNo arguments.\n");
-	exit(0);
+	exit_game();
 }
 
 void	no_file_err(void)
 {
 	printf("Error.\nNo such file.\n");
-	exit(0);
+	exit_game();
 }
 
 void	cub_file_err(void)
 {
 	printf("Error.\n.cub file is not appropriate.\n");
-	exit(0);
+	exit_game();
 }

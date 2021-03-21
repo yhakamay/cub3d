@@ -185,7 +185,7 @@ void			calculate_ray_angle(t_rc_utils *rc_utils, float ray_angle);
 bool			is_around_window(t_rc_utils *rc_utils, t_map *map);
 
 // cub3d_utils.c
-int				exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr);
+int				exit_game(void);
 float			normalize_angle(float rotation_angle);
 bool			has_wall_at(float x, float y, t_map *map);
 

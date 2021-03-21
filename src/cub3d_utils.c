@@ -15,11 +15,9 @@
 int g_num_rays;
 int g_wall_strip_width;
 
-int		exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr)
+int			exit_game(void)
 {
-	//mlx_destroy_window(mlx_ptr, win_ptr);
 	exit(0);
-	return (1);
 }
 
 float		normalize_angle(float angle)
