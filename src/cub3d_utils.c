@@ -15,6 +15,11 @@
 int g_num_rays;
 int g_wall_strip_width;
 
+int			exit_game(void)
+{
+	exit(0);
+}
+
 float		normalize_angle(float angle)
 {
 	angle = fmod(angle, TWO_PI);

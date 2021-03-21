@@ -37,7 +37,7 @@ static bool	is_forbidden_char(char c)
 		return (true);
 }
 
-int		check_map_is_closed(t_map *map, int x, int y)
+int			check_map_is_closed(t_map *map, int x, int y)
 {
 	int	ret;
 
@@ -76,10 +76,7 @@ void		check_map_info(t_params *params)
 				params->map.grid[i][j] = '0';
 			}
 			else if (is_forbidden_char(params->map.grid[i][j]))
-			{
 				cub_file_err();
-				exit(0);
-			}
 			j++;
 		}
 		i++;
@@ -108,8 +105,5 @@ void		check_map(t_params *params)
 	tile_index_x = floor(params->player.x / TILE_SIZE);
 	tile_index_y = floor(params->player.y / TILE_SIZE);
 	if (check_map_is_closed(&params->map, tile_index_x, tile_index_y))
-	{
 		cub_file_err();
-		exit(0);
-	}
 }

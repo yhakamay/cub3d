@@ -12,20 +12,20 @@
 
 #include "../include/cub3d/cub3d.h"
 
-int	no_args_err(void)
+void	no_args_err(void)
 {
 	printf("Error.\nNo arguments.\n");
-	return (0);
+	exit_game();
 }
 
-int	no_file_err(void)
+void	no_file_err(void)
 {
 	printf("Error.\nNo such file.\n");
-	return (0);
+	exit_game();
 }
 
-int	cub_file_err(void)
+void	cub_file_err(void)
 {
 	printf("Error.\n.cub file is not appropriate.\n");
-	return (0);
+	exit_game();
 }

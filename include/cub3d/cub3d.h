@@ -31,6 +31,7 @@
 
 # define KEY_PRESSED 2
 # define KEY_RELEASED 3
+# define WINDOW_CLOSED 17
 
 # define COLOR_BLACK 0x000000
 # define COLOR_GRAY 0x808080
@@ -159,7 +160,7 @@ typedef struct	s_map
 	char	*east_pass;
 	char	*sprite_pass;
 	int		floor_rgb[3];
-	int		ceilling_rgb[3];
+	int		ceiling_rgb[3];
 	char	grid[200][201];
 	bool	reached[200][200];
 }				t_map;
@@ -185,6 +186,7 @@ void			init_rc_utils_horz(
 void			init_rc_utils_vert(
 					t_rc_utils *rc_utils, t_player *player, float ray_angle);
 
+// input.c
 int				key_pressed(int keycode, t_params *params);
 int				key_released(int keycode, t_params *params);
 
@@ -192,16 +194,25 @@ float			get_distance(float x1, float y1, float x2, float y2);
 void			calculate_ray_angle(t_rc_utils *rc_utils, float ray_angle);
 bool			is_around_window(t_rc_utils *rc_utils, t_map *map);
 
+// cub3d_utils.c
+int				exit_game(void);
 float			normalize_angle(float rotation_angle);
+bool			has_wall_at(float x, float y, t_map *map);
+
 void			render_everything(t_params *params);
 t_ray			cast_ray(t_params *params, t_player *player, float ray_angle);
-bool			has_wall_at(float x, float y, t_map *map);
-int				key_pressed(int keycode, t_params *params);
-int				key_released(int keycode, t_params *params);
 void			read_map(char *file_path, t_map *map);
 void			check_map(t_params *params);
-int				cub_file_err(void);
-int				no_args_err(void);
-int				no_file_err(void);
+void			no_args_err(void);
+void			no_file_err(void);
+void			cub_file_err(void);
+int				num_of_spaces(char *line, int i);
+int				num_of_numbers(char *line, int i);
+
+// read_map_utils.c
+void			get_resolution(t_map *map, char *line, int i, int *obj_num);
+void			get_wall_texture(t_map *map, char *line, int i, int *obj_num);
+void			get_floor_ceiling_texture(t_map *map, char *line, int i, int j, int *obj_num, char f_or_c);
+void			get_sprite_texture(t_map *map, char *line, int i, int *obj_num);
 
 #endif
