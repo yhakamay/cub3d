@@ -83,11 +83,24 @@ void		check_map_info(t_params *params)
 	}
 }
 
+void		check_all_pass(t_params *params)
+{
+	params->texture.north.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr, params->map.north_pass, &params->texture.north.width, &params->texture.north.height);
+	params->texture.south.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr, params->map.south_pass, &params->texture.south.width, &params->texture.south.height);
+	params->texture.west.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr, params->map.west_pass, &params->texture.west.width, &params->texture.west.height);
+	params->texture.east.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr, params->map.east_pass, &params->texture.east.width, &params->texture.east.height);
+	if (params->texture.north.img == NULL || params->texture.south.img == NULL || params->texture.west.img == NULL || params->texture.east.img == NULL)
+	{
+		cub_file_err();
+	}
+}
+
 void		check_map(t_params *params)
 {
 	int tile_index_x;
 	int tile_index_y;
 
+	check_all_pass(params);
 	check_map_info(params);
 	tile_index_x = floor(params->player.x / TILE_SIZE);
 	tile_index_y = floor(params->player.y / TILE_SIZE);

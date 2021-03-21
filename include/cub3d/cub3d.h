@@ -82,6 +82,14 @@ typedef struct	s_img
 	int		endian;
 }				t_img;
 
+typedef struct	s_texture
+{
+	t_img	north;
+	t_img	south;
+	t_img	west;
+	t_img	east;
+}				t_texture;
+
 typedef struct	s_mlx
 {
 	void	*mlx_ptr;
@@ -109,6 +117,7 @@ typedef struct	s_ray
 	float	wall_hit_x;
 	float	wall_hit_y;
 	float	distance;
+	float	length_from_leftside;
 	bool	was_hit_vertical;
 	bool	is_facing_up;
 	bool	is_facing_down;
@@ -160,6 +169,7 @@ typedef struct	s_params
 {
 	t_mlx		mlx;
 	t_img		img;
+	t_texture	texture;
 	t_player	player;
 	t_ray		ray;
 	t_map		map;

@@ -120,6 +120,27 @@ static void render_minimap(t_params *params)
 	}
 }
 
+static void	render_texture(t_params *params, t_img *img, t_ray *ray, int x, int height)
+{
+	int			col;
+	int			i;
+	int			j;
+
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
+	col = ray->length_from_leftside / TILE_SIZE * height;
+	i = 0;
+	while (i < height)
+	{
+		j = 0;
+		while (j < g_wall_strip_width)
+		{
+			draw_pixel(&params->img, x, params->map.window_height / 2 - height / 2 + i, *(unsigned int *)(img->addr + (int)roundf(i * img->height / height) * img->line_length + (int)roundf((col + j) * img->width / height) * (img->bits_per_pixel / 8)));
+			j++;
+		}
+		i++;
+	}
+}
+
 static void render_3d_wall(t_params *params, t_player *player, t_map *map, t_img *img)
 {
 	int i;
@@ -141,42 +162,22 @@ static void render_3d_wall(t_params *params, t_player *player, t_map *map, t_img
 		if (ray.was_hit_vertical == true && (ray_angle < 0.5 * PI || ray_angle > 1.5 * PI))
 		{
 			//west wall
-			render_rect(i * g_wall_strip_width,
-						(map->window_height / 2) - (wall_strip_height / 2),
-						g_wall_strip_width,
-						wall_strip_height,
-						COLOR_WHITE,
-						img);
+			render_texture(params, &params->texture.west, &ray, i * g_wall_strip_width, wall_strip_height);
 		}
 		else if (ray.was_hit_vertical == true && (ray_angle >= 0.5 * PI && ray_angle <= 1.5 * PI))
 		{
 			//east wall
-			render_rect(i * g_wall_strip_width,
-						(map->window_height / 2) - (wall_strip_height / 2),
-						g_wall_strip_width,
-						wall_strip_height,
-						COLOR_GREEN,
-						img);
+			render_texture(params, &params->texture.east, &ray, i * g_wall_strip_width, wall_strip_height);
 		}
 		else if (ray.was_hit_vertical == false && (ray_angle >= 0 && ray_angle < PI))
 		{
 			//north wall
-			render_rect(i * g_wall_strip_width,
-						(map->window_height / 2) - (wall_strip_height / 2),
-						g_wall_strip_width,
-						wall_strip_height,
-						COLOR_BLUE,
-						img);
+			render_texture(params, &params->texture.north, &ray, i * g_wall_strip_width, wall_strip_height);
 		}
 		else if (ray.was_hit_vertical == false && (ray_angle >= PI && ray_angle < 2 * PI))
 		{
 			//south wall
-			render_rect(i * g_wall_strip_width,
-						(map->window_height / 2) - (wall_strip_height / 2),
-						g_wall_strip_width,
-						wall_strip_height,
-						COLOR_RED,
-						img);
+			render_texture(params, &params->texture.south, &ray, i * g_wall_strip_width, wall_strip_height);
 		}
 		ray_angle = normalize_angle(ray_angle + FOV_ANGLE / g_num_rays);
 		i++;

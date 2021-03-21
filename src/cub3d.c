@@ -14,10 +14,10 @@
 
 static void	setup(char *file_path, t_params *params)
 {
+	params->mlx.mlx_ptr = mlx_init();
 	read_map(file_path, &params->map);
 	check_map(params);
 	init_g_val(params);
-	params->mlx.mlx_ptr = mlx_init();
 	params->mlx.win_ptr = mlx_new_window(
 		params->mlx.mlx_ptr,
 		params->map.window_width,
