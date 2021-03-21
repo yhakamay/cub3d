@@ -37,7 +37,7 @@ static bool	is_forbidden_char(char c)
 		return (true);
 }
 
-int		check_map_is_closed(t_map *map, int x, int y)
+int			check_map_is_closed(t_map *map, int x, int y)
 {
 	int	ret;
 

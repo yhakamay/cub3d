@@ -31,7 +31,7 @@ static void	check_obj(t_map *map, char *line, int *obj_num)
 		get_floor_ceiling_texture(map, line, i, 0, obj_num, line[i]);
 }
 
-static void offset_map(t_map *map)
+static void	offset_map(t_map *map)
 {
 	map->window_width = 0;
 	map->window_height = 0;

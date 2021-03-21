@@ -24,11 +24,6 @@ static void	setup(char *file_path, t_params *params)
 		params->map.window_height,
 		WINDOW_TITLE);
 	init_player(&params->player, &params->map);
-	//params->img.img = mlx_xpm_file_to_image(
-	//	params->mlx.mlx_ptr,
-	//	"../textures/wall_n.xpm",
-	//	&params->img.width,
-	//	&params->img.height);
 	params->img.img = mlx_new_image(
 		params->mlx.mlx_ptr,
 		params->map.window_width,
