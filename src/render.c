@@ -141,6 +141,27 @@ static void	render_texture(t_params *params, t_img *img, t_ray *ray, int x, int 
 	}
 }
 
+static void	render_texture_reverse(t_params *params, t_img *img, t_ray *ray, int x, int height)
+{
+	int			col;
+	int			i;
+	int			j;
+
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
+	col = ray->length_from_leftside / TILE_SIZE * height;
+	i = 0;
+	while (i < height)
+	{
+		j = 0;
+		while (j < g_wall_strip_width)
+		{
+			draw_pixel(&params->img, x, params->map.window_height / 2 - height / 2 + i, *(unsigned int *)(img->addr + ((int)roundf(i * img->height / height) + 1) * img->line_length - (img->bits_per_pixel / 8) - (int)roundf((col + j) * img->width / height) * (img->bits_per_pixel / 8)));
+			j++;
+		}
+		i++;
+	}
+}
+
 static void render_3d_wall(t_params *params, t_player *player, t_map *map, t_img *img)
 {
 	int i;
@@ -162,7 +183,7 @@ static void render_3d_wall(t_params *params, t_player *player, t_map *map, t_img
 		if (ray.was_hit_vertical == true && (ray_angle < 0.5 * PI || ray_angle > 1.5 * PI))
 		{
 			//west wall
-			render_texture(params, &params->texture.west, &ray, i * g_wall_strip_width, wall_strip_height);
+			render_texture_reverse(params, &params->texture.west, &ray, i * g_wall_strip_width, wall_strip_height);
 		}
 		else if (ray.was_hit_vertical == true && (ray_angle >= 0.5 * PI && ray_angle <= 1.5 * PI))
 		{
@@ -177,7 +198,7 @@ static void render_3d_wall(t_params *params, t_player *player, t_map *map, t_img
 		else if (ray.was_hit_vertical == false && (ray_angle >= PI && ray_angle < 2 * PI))
 		{
 			//south wall
-			render_texture(params, &params->texture.south, &ray, i * g_wall_strip_width, wall_strip_height);
+			render_texture_reverse(params, &params->texture.south, &ray, i * g_wall_strip_width, wall_strip_height);
 		}
 		ray_angle = normalize_angle(ray_angle + FOV_ANGLE / g_num_rays);
 		i++;

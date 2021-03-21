@@ -99,10 +99,7 @@ static void		fill_ray(t_rc_utils *rc_utils, t_ray *ray, float ray_angle)
 		ray->distance = rc_utils->vert_hit_distance;
 		ray->wall_hit_x = rc_utils->vert_wall_hit_x;
 		ray->wall_hit_y = rc_utils->vert_wall_hit_y;
-		if (rc_utils->is_facing_left)
-			ray->length_from_leftside = floor(ray->wall_hit_y / TILE_SIZE) * TILE_SIZE + TILE_SIZE - ray->wall_hit_y;
-		else
-			ray->length_from_leftside = floor(ray->wall_hit_y / TILE_SIZE) * TILE_SIZE - ray->wall_hit_y;
+		ray->length_from_leftside = floor(ray->wall_hit_y / TILE_SIZE) * TILE_SIZE + TILE_SIZE - ray->wall_hit_y;
 		ray->was_hit_vertical = true;
 	}
 	else
@@ -110,10 +107,7 @@ static void		fill_ray(t_rc_utils *rc_utils, t_ray *ray, float ray_angle)
 		ray->distance = rc_utils->horz_hit_distance;
 		ray->wall_hit_x = rc_utils->horz_wall_hit_x;
 		ray->wall_hit_y = rc_utils->horz_wall_hit_y;
-		if (rc_utils->is_facing_up)
-			ray->length_from_leftside = floor(ray->wall_hit_x / TILE_SIZE) * TILE_SIZE - ray->wall_hit_x;
-		else
-			ray->length_from_leftside = floor(ray->wall_hit_y / TILE_SIZE) * TILE_SIZE + TILE_SIZE - ray->wall_hit_x;
+		ray->length_from_leftside = floor(ray->wall_hit_x / TILE_SIZE) * TILE_SIZE - ray->wall_hit_x;
 		ray->was_hit_vertical = false;
 	}
 	ray->ray_angle = ray_angle;
