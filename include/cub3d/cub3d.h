@@ -205,4 +205,7 @@ void			get_wall_texture(t_map *map, char *line, int i, int *obj_num);
 void			get_floor_ceiling_texture(t_map *map, char *line, int i, int j, int *obj_num, char f_or_c);
 void			get_sprite_texture(t_map *map, char *line, int i, int *obj_num);
 
+// save.c
+void			save_screenshot(t_params *params);
+
 #endif

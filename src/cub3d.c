@@ -39,8 +39,10 @@ int			main(int argc, char **argv)
 {
 	t_params	params;
 
-	if (argc != 2)
+	if (argc == 1)
 		no_args_err();
+	if (argc ==3 && argv[2] == "--save")
+		save_screenshot(&params);
 	setup(argv[1], &params);
 	render_everything(&params);
 	mlx_hook(params.mlx.win_ptr, KEY_PRESSED, 1L << 0, key_pressed, &params);
