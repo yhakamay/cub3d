@@ -12,12 +12,6 @@
 
 #include "../include/cub3d/cub3d.h"
 
-static void	exit_game(t_mlx *mlx_ptr, t_mlx *win_ptr)
-{
-	mlx_destroy_window(mlx_ptr, win_ptr);
-	exit(0);
-}
-
 static void	move_player(t_player *p, t_img *img, t_map *map)
 {
 	float move_step_vert;

@@ -50,6 +50,7 @@ int			main(int argc, char **argv)
 	render_everything(&params);
 	mlx_hook(params.mlx.win_ptr, KEY_PRESSED, 1L << 0, key_pressed, &params);
 	mlx_hook(params.mlx.win_ptr, KEY_RELEASED, 1L << 0, key_released, &params);
+	mlx_hook(params.mlx.win_ptr, WINDOW_CLOSED, 1L << 17, exit_game, &params);
 	mlx_loop(params.mlx.mlx_ptr);
 	return (0);
 }
