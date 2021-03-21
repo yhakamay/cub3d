@@ -38,7 +38,7 @@ all:	$(NAME)
 $(NAME): $(OBJ)
 	@echo "\n\033[0;33mCompiling..."
 	$(MAKE) -C ./include/libft
-	$(CC) $(CFLAGS) -c ./include/gnl/get_next_line.c -o ./include/gnl/get_next_line.o
+	$(MAKE) -C ./include/gnl
 	mv ./include/libft/libft.a ./include/gnl/libft_gnl.a
 	ar rcs ./include/gnl/libft_gnl.a ./include/gnl/get_next_line.o
 	mv ./include/gnl/libft_gnl.a ./src/
