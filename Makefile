@@ -31,6 +31,7 @@ SRC = cub3d \
 ADD = $(addsuffix .c, $(addprefix src/, $(SRC)))
 OBJ = $(ADD: .c=.o)
 BIN = $(addsuffix .o, $(SRC))
+EXEC = cub3D
 .PHONY: all clean fclean re
 
 all:	$(NAME)
@@ -42,19 +43,16 @@ $(NAME): $(OBJ)
 	mv ./include/libft/libft.a ./include/gnl/libft_gnl.a
 	ar rcs ./include/gnl/libft_gnl.a ./include/gnl/get_next_line.o
 	mv ./include/gnl/libft_gnl.a ./src/
-	$(CC) -L $(MLX) $(MLXFLAGS) $(OBJ) src/libft_gnl.a -I $(HEADER)
+	$(CC) -L $(MLX) $(MLXFLAGS) $(OBJ) src/libft_gnl.a -I $(HEADER) -o $(EXEC)
 	@echo "\033[0m"
 
 run:
-	./a.out test/test.cub;
+	./$(EXEC) test/test.cub;
 
-#clean:
-#	@echo "\033[0;31mCleaning..."
-#	rm -rf $(OBJ)
-#	rm -f bitmap.bmp
-#	@echo "\033[0m"
+clean:
+	@echo "\033[0;31mCleaning..."
+	@echo "\033[0m"
 
-#fclean:	clean
-#	@echo "\033[0;31mRemoving executable..."
-#	rm -f $(NAME)
-#	@echo "\033[0m"
+fclean:	clean
+	@echo "\033[0;31mRemoving executable..."
+	@echo "\033[0m"
