@@ -27,7 +27,8 @@ SRC = cub3d \
 		read_map \
 		read_map_utils \
 		render \
-		texture
+		texture \
+		save
 ADD = $(addsuffix .c, $(addprefix src/, $(SRC)))
 OBJ = $(ADD: .c=.o)
 BIN = $(addsuffix .o, $(SRC))
