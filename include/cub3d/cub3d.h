@@ -58,6 +58,9 @@
 
 # define FOV_ANGLE (60 * (PI / 180))
 
+# define FILE_H_SIZE 14
+# define INFO_H_SIZE 40
+
 /*
 ** these are based on macOS
 ** if you want to use on other OS, replace them
@@ -203,9 +206,13 @@ void			render_everything(t_params *params);
 t_ray			cast_ray(t_params *params, t_player *player, float ray_angle);
 void			read_map(char *file_path, t_map *map);
 void			check_map(t_params *params);
+
+// error.c
+void			screenshot_err(void);
 void			no_args_err(void);
 void			no_file_err(void);
 void			cub_file_err(void);
+
 int				num_of_spaces(char *line, int i);
 int				num_of_numbers(char *line, int i);
 

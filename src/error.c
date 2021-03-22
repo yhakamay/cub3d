@@ -12,6 +12,12 @@
 
 #include "../include/cub3d/cub3d.h"
 
+void	screenshot_err(void)
+{
+	printf("Error.\nCould not create 'screenshot.bmp'\n");
+	exit_game();
+}
+
 void	no_args_err(void)
 {
 	printf("Error.\nNo arguments.\n");
