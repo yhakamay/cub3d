@@ -134,7 +134,11 @@ static void	render_texture(t_params *params, t_img *img, t_ray *ray, int x, int 
 		j = 0;
 		while (j < g_wall_strip_width)
 		{
-			draw_pixel(&params->img, x, params->map.window_height / 2 - height / 2 + i, *(unsigned int *)(img->addr + (int)roundf(i * img->height / height) * img->line_length + (int)roundf((col + j) * img->width / height) * (img->bits_per_pixel / 8)));
+			draw_pixel(
+				&params->img,
+				x,
+				params->map.window_height / 2 - height / 2 + i,
+				*(unsigned int *)(img->addr + (int)roundf(i * img->height / height) * img->line_length + (int)roundf((col + j) * img->width / height) * (img->bits_per_pixel / 8)));
 			j++;
 		}
 		i++;
