@@ -126,7 +126,6 @@ static void	render_texture(t_params *params, t_img *img, t_ray *ray, int x, int 
 	int			i;
 	int			j;
 
-	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
 	col = ray->length_from_leftside / TILE_SIZE * height;
 	i = 0;
 	while (i < height)
@@ -134,11 +133,7 @@ static void	render_texture(t_params *params, t_img *img, t_ray *ray, int x, int 
 		j = 0;
 		while (j < g_wall_strip_width)
 		{
-			draw_pixel(
-				&params->img,
-				x,
-				params->map.window_height / 2 - height / 2 + i,
-				*(unsigned int *)(img->addr + (int)roundf(i * img->height / height) * img->line_length + (int)roundf((col + j) * img->width / height) * (img->bits_per_pixel / 8)));
+			draw_pixel(&params->img, x, params->map.window_height / 2 - height / 2 + i, *(int *)(img->addr + (int)roundf(i * img->height / height) * img->line_length + (int)roundf((col + j) * img->width / height) * (img->bits_per_pixel / 8)));
 			j++;
 		}
 		i++;
@@ -151,7 +146,6 @@ static void	render_texture_reverse(t_params *params, t_img *img, t_ray *ray, int
 	int			i;
 	int			j;
 
-	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
 	col = ray->length_from_leftside / TILE_SIZE * height;
 	i = 0;
 	while (i < height)

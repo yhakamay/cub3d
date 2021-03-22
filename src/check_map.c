@@ -90,9 +90,11 @@ void		check_all_pass(t_params *params)
 	params->texture.west.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr, params->map.west_pass, &params->texture.west.width, &params->texture.west.height);
 	params->texture.east.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr, params->map.east_pass, &params->texture.east.width, &params->texture.east.height);
 	if (params->texture.north.img == NULL || params->texture.south.img == NULL || params->texture.west.img == NULL || params->texture.east.img == NULL)
-	{
 		cub_file_err();
-	}
+	params->texture.north.addr = mlx_get_data_addr(params->texture.north.img, &params->texture.north.bits_per_pixel, &params->texture.north.line_length, &params->texture.north.endian);
+	params->texture.south.addr = mlx_get_data_addr(params->texture.south.img, &params->texture.south.bits_per_pixel, &params->texture.south.line_length, &params->texture.south.endian);
+	params->texture.west.addr = mlx_get_data_addr(params->texture.west.img, &params->texture.west.bits_per_pixel, &params->texture.west.line_length, &params->texture.west.endian);
+	params->texture.east.addr = mlx_get_data_addr(params->texture.east.img, &params->texture.east.bits_per_pixel, &params->texture.east.line_length, &params->texture.east.endian);
 }
 
 void		check_map(t_params *params)
