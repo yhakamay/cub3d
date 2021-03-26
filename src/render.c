@@ -229,6 +229,11 @@ static void render_3d_wall(t_params *params, t_player *player, t_map *map, t_img
 		else if (ray.was_hit_vertical == false && (ray_angle >= PI && ray_angle < 2 * PI))
 			render_texture_reverse(params, &params->texture.south, &ray, i * g_wall_strip_width, wall_strip_height);
 		ray_angle = normalize_angle(ray_angle + FOV_ANGLE / g_num_rays);
+
+		printf("player.x: %d\n", player->x);
+		printf("player.y: %d\n", player->y);
+		printf("player.walk_speed: %f\n\n", player->walk_speed);
+		printf("correct_wall_distance: %f\n\n", correct_wall_distance);
 		i++;
 	}
 }
