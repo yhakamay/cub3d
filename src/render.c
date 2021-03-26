@@ -216,26 +216,18 @@ static void render_3d_wall(t_params *params, t_player *player, t_map *map, t_img
 		correct_wall_distance = correct_wall_distance == 0 ? 3.0 : correct_wall_distance;
 		distance_to_plane = (map->window_width / 2) / tan(FOV_ANGLE / 2);
 		wall_strip_height = (TILE_SIZE / correct_wall_distance) * distance_to_plane;
+		//west wall
 		if (ray.was_hit_vertical == true && (ray_angle < 0.5 * PI || ray_angle > 1.5 * PI))
-		{
-			//west wall
 			render_texture_reverse(params, &params->texture.west, &ray, i * g_wall_strip_width, wall_strip_height);
-		}
+		//east wall
 		else if (ray.was_hit_vertical == true && (ray_angle >= 0.5 * PI && ray_angle <= 1.5 * PI))
-		{
-			//east wall
 			render_texture(params, &params->texture.east, &ray, i * g_wall_strip_width, wall_strip_height);
-		}
+		//north wall
 		else if (ray.was_hit_vertical == false && (ray_angle >= 0 && ray_angle < PI))
-		{
-			//north wall
 			render_texture(params, &params->texture.north, &ray, i * g_wall_strip_width, wall_strip_height);
-		}
+		//south wall
 		else if (ray.was_hit_vertical == false && (ray_angle >= PI && ray_angle < 2 * PI))
-		{
-			//south wall
 			render_texture_reverse(params, &params->texture.south, &ray, i * g_wall_strip_width, wall_strip_height);
-		}
 		ray_angle = normalize_angle(ray_angle + FOV_ANGLE / g_num_rays);
 		i++;
 	}
