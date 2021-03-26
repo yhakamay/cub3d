@@ -225,4 +225,9 @@ void			get_sprite_texture(t_map *map, char *line, int i, int *obj_num);
 // save.c
 void			save_screenshot(t_params *params);
 
+// render.c
+void			draw_pixel(t_img *img, int x, int y, int color);
+void			render_rect(int x, int y, int width, int height, int color, t_img *img);
+void			render_line(t_img *img, int x1, int y1, int x2, int y2, int color);
+
 #endif

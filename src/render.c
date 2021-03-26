@@ -12,7 +12,7 @@
 
 #include "../include/cub3d/cub3d.h"
 
-static void draw_pixel(t_img *img, int x, int y, int color)
+void draw_pixel(t_img *img, int x, int y, int color)
 {
 	char *dst;
 
@@ -20,7 +20,7 @@ static void draw_pixel(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-static void render_rect(int x, int y, int width, int height, int color, t_img *img)
+void render_rect(int x, int y, int width, int height, int color, t_img *img)
 {
 	int x_i;
 	int y_i;
@@ -38,7 +38,7 @@ static void render_rect(int x, int y, int width, int height, int color, t_img *i
 	}
 }
 
-static void render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
+void render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
 {
 	double x_delta;
 	double y_delta;
