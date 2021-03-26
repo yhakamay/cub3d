@@ -122,18 +122,23 @@ static void render_minimap(t_params *params)
 
 static void	render_texture(t_params *params, t_img *img, t_ray *ray, int x, int height)
 {
-	int			col;
+	char		*color_addr;
+	float		col;
 	int			i;
 	int			j;
 
-	col = ray->length_from_leftside / TILE_SIZE * height;
+	col = ray->length_from_leftside * height / TILE_SIZE;
 	i = 0;
 	while (i < height)
 	{
 		j = 0;
 		while (j < g_wall_strip_width)
 		{
-			draw_pixel(&params->img, x, params->map.window_height / 2 - height / 2 + i, *(int *)(img->addr + (int)roundf(i * img->height / height) * img->line_length + (int)roundf((col + j) * img->width / height) * (img->bits_per_pixel / 8)));
+			color_addr = img->addr + (int)roundf(i * img->height / height) * img->line_length + (int)roundf((col + j) * img->width / height) * (img->bits_per_pixel / 8);
+			if (params->map.window_height / 2 - height / 2 + i >= 0 && params->map.window_height / 2 - height / 2 + i <= params->map.window_height)
+			{
+				draw_pixel(&params->img, x, params->map.window_height / 2 - height / 2 + i, *(int *)(color_addr));
+			}
 			j++;
 		}
 		i++;
@@ -142,23 +147,56 @@ static void	render_texture(t_params *params, t_img *img, t_ray *ray, int x, int 
 
 static void	render_texture_reverse(t_params *params, t_img *img, t_ray *ray, int x, int height)
 {
-	int			col;
+	char		*color_addr;
+	float		col;
 	int			i;
 	int			j;
 
-	col = ray->length_from_leftside / TILE_SIZE * height;
+	col = ray->length_from_leftside * height/ TILE_SIZE;
 	i = 0;
 	while (i < height)
 	{
 		j = 0;
 		while (j < g_wall_strip_width)
 		{
-			draw_pixel(&params->img, x, params->map.window_height / 2 - height / 2 + i, *(unsigned int *)(img->addr + ((int)roundf(i * img->height / height) + 1) * img->line_length - (img->bits_per_pixel / 8) - (int)roundf((col + j) * img->width / height) * (img->bits_per_pixel / 8)));
+			color_addr = img->addr + ((int)roundf(i * img->height / height) + 1) * img->line_length - (int)roundf((col + j) * img->width / height + 1) * (img->bits_per_pixel / 8);
+			if (params->map.window_height / 2 - height / 2 + i >= 0 && params->map.window_height / 2 - height / 2 + i <= params->map.window_height)
+			{
+				draw_pixel(&params->img, x, params->map.window_height / 2 - height / 2 + i, *(unsigned int *)(color_addr));
+			}
 			j++;
 		}
 		i++;
 	}
 }
+
+static void	render_texture_sprite(t_params *params, t_img *img, t_ray *ray, int x, int height)
+{
+	char		*color_addr;
+	int			color;
+	float		col;
+	int			i;
+	int			j;
+
+	col = ray->length_from_leftside * height / TILE_SIZE;
+	i = 0;
+	while (i < height)
+	{
+		j = 0;
+		while (j < g_wall_strip_width)
+		{
+			color_addr = img->addr + (int)roundf(i * img->height / height) * img->line_length + (int)roundf((col + j) * img->width / height) * (img->bits_per_pixel / 8);
+			color = *(int *)color_addr;
+			if (color != 0)
+			{
+				draw_pixel(&params->img, x, params->map.window_height / 2 - height / 2 + i, *(int *)(color_addr));
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 
 static void render_3d_wall(t_params *params, t_player *player, t_map *map, t_img *img)
 {
@@ -177,7 +215,6 @@ static void render_3d_wall(t_params *params, t_player *player, t_map *map, t_img
 		correct_wall_distance = ray.distance * cos(ray.ray_angle - player->rotation_angle);
 		distance_to_plane = (map->window_width / 2) / tan(FOV_ANGLE / 2);
 		wall_strip_height = (TILE_SIZE / correct_wall_distance) * distance_to_plane;
-		wall_strip_height = wall_strip_height > map->window_height ? map->window_height : wall_strip_height;
 		if (ray.was_hit_vertical == true && (ray_angle < 0.5 * PI || ray_angle > 1.5 * PI))
 		{
 			//west wall
@@ -208,6 +245,7 @@ void render_everything(t_params *params)
 	render_sky(&params->img, &params->map);
 	render_floor(&params->img, &params->map);
 	render_3d_wall(params, &params->player, &params->map, &params->img);
+	render_sprite(params, &params->player, &params->map, &params->img);
 	render_minimap(params);
 	render_player(&params->player, &params->img);
 	render_rays(params, &params->player, &params->img);
