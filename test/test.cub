@@ -2,13 +2,13 @@ R      1536    864
 
 
 
-      SO ./textures/koto_south.xpm
-WE ./textures/koto_west.xpm
+SO ./textures/eagle.xpm
+WE ./textures/greystone.xpm
 
 
 
-EA     ./textures/koto_east.xpm
-NO ./textures/koto_north.xpm
+EA ./textures/mossy.xpm
+NO ./textures/redbrick.xpm
 S ./path_to_the_sprite_texture
 
 F 220,100,0
