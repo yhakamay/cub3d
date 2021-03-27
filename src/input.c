@@ -14,10 +14,10 @@
 
 static void	move_player(t_player *p, t_img *img, t_map *map)
 {
-	float move_step_vert;
-	float move_step_horz;
-	float new_p_x;
-	float new_p_y;
+	float	move_step_vert;
+	float	move_step_horz;
+	float	new_p_x;
+	float	new_p_y;
 
 	p->rotation_angle += p->turn_direction * p->turn_speed;
 	p->rotation_angle = normalize_angle(p->rotation_angle);

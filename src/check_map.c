@@ -71,8 +71,8 @@ void		check_map_info(t_params *params)
 		{
 			if (is_player(params, params->map.grid[i][j]))
 			{
-				params->player.x = (j + 0.5) * TILE_SIZE;
-				params->player.y = (i + 0.5) * TILE_SIZE;
+				params->player.x = (j + 0.5) * TILE_SIZE + 1;
+				params->player.y = (i + 0.5) * TILE_SIZE + 1;
 				params->map.grid[i][j] = '0';
 			}
 			else if (is_forbidden_char(params->map.grid[i][j]))

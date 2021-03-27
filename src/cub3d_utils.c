@@ -34,7 +34,7 @@ bool		has_wall_at(float x, float y, t_map *map)
 
 	if (x < 0 || x > map->window_width || y < 0 || y > map->window_height)
 		return (true);
-	tile_index_x = floor(x / TILE_SIZE);
-	tile_index_y = floor(y / TILE_SIZE);
+	tile_index_x = x / TILE_SIZE;
+	tile_index_y = y / TILE_SIZE;
 	return (map->grid[tile_index_y][tile_index_x] == '1');
 }

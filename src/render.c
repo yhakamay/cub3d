@@ -12,15 +12,15 @@
 
 #include "../include/cub3d/cub3d.h"
 
-void draw_pixel(t_img *img, int x, int y, int color)
+void		draw_pixel(t_img *img, int x, int y, int color)
 {
-	char *dst;
+	char	*dst;
 
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 }
 
-void render_rect(int x, int y, int width, int height, int color, t_img *img)
+void		render_rect(int x, int y, int width, int height, int color, t_img *img)
 {
 	int x_i;
 	int y_i;
@@ -38,12 +38,12 @@ void render_rect(int x, int y, int width, int height, int color, t_img *img)
 	}
 }
 
-void render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
+void		render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
 {
-	double x_delta;
-	double y_delta;
-	double len;
-	int i;
+	double	x_delta;
+	double	y_delta;
+	double	len;
+	int		i;
 
 	x_delta = x2 - x1;
 	y_delta = y2 - y1;
@@ -70,9 +70,9 @@ static void render_floor(t_img *img, t_map *map)
 
 static void render_rays(t_params *params, t_player *player, t_img *img)
 {
-	int i;
-	float ray_angle;
-	t_ray rays[g_num_rays];
+	int		i;
+	float	ray_angle;
+	t_ray	rays[g_num_rays];
 
 	ray_angle = player->rotation_angle - (FOV_ANGLE * 0.5);
 	i = 0;
@@ -122,10 +122,10 @@ static void render_minimap(t_params *params)
 
 static void	render_texture(t_params *params, t_img *img, t_ray *ray, int x, int height)
 {
-	char		*color_addr;
-	float		col;
-	int			i;
-	int			j;
+	char	*color_addr;
+	float	col;
+	int		i;
+	int		j;
 
 	col = ray->length_from_leftside * height / TILE_SIZE;
 	i = 0;
@@ -147,12 +147,12 @@ static void	render_texture(t_params *params, t_img *img, t_ray *ray, int x, int 
 
 static void	render_texture_reverse(t_params *params, t_img *img, t_ray *ray, int x, int height)
 {
-	char		*color_addr;
-	float		col;
-	int			i;
-	int			j;
+	char	*color_addr;
+	float	col;
+	int		i;
+	int		j;
 
-	col = ray->length_from_leftside * height/ TILE_SIZE;
+	col = ray->length_from_leftside * height / TILE_SIZE;
 	i = 0;
 	while (i < height)
 	{
@@ -170,13 +170,13 @@ static void	render_texture_reverse(t_params *params, t_img *img, t_ray *ray, int
 	}
 }
 
-static void	render_texture_sprite(t_params *params, t_img *img, t_ray *ray, int x, int height)
+static void render_texture_sprite(t_params *params, t_img *img, t_ray *ray, int x, int height)
 {
-	char		*color_addr;
-	int			color;
-	float		col;
-	int			i;
-	int			j;
+	char	*color_addr;
+	int		color;
+	float	col;
+	int		i;
+	int		j;
 
 	col = ray->length_from_leftside * height / TILE_SIZE;
 	i = 0;
@@ -188,24 +188,21 @@ static void	render_texture_sprite(t_params *params, t_img *img, t_ray *ray, int 
 			color_addr = img->addr + (int)roundf(i * img->height / height) * img->line_length + (int)roundf((col + j) * img->width / height) * (img->bits_per_pixel / 8);
 			color = *(int *)color_addr;
 			if (color != 0)
-			{
 				draw_pixel(&params->img, x, params->map.window_height / 2 - height / 2 + i, *(int *)(color_addr));
-			}
 			j++;
 		}
 		i++;
 	}
 }
 
-
-static void render_3d_wall(t_params *params, t_player *player, t_map *map, t_img *img)
+static void	render_3d_wall(t_params *params, t_player *player, t_map *map, t_img *img)
 {
-	int i;
-	int wall_strip_height;
-	float correct_wall_distance;
-	float distance_to_plane;
-	float ray_angle;
-	t_ray ray;
+	int		i;
+	int		wall_strip_height;
+	float	correct_wall_distance;
+	float	distance_to_plane;
+	float	ray_angle;
+	t_ray	ray;
 
 	ray_angle = normalize_angle(player->rotation_angle - (FOV_ANGLE * 0.5));
 	i = 0;
@@ -213,7 +210,6 @@ static void render_3d_wall(t_params *params, t_player *player, t_map *map, t_img
 	{
 		ray = cast_ray(params, player, ray_angle);
 		correct_wall_distance = ray.distance * cos(ray.ray_angle - player->rotation_angle);
-		correct_wall_distance = correct_wall_distance == 0 ? 3.0 : correct_wall_distance;
 		distance_to_plane = (map->window_width / 2) / tan(FOV_ANGLE / 2);
 		wall_strip_height = (TILE_SIZE / correct_wall_distance) * distance_to_plane;
 		//west wall
@@ -229,16 +225,11 @@ static void render_3d_wall(t_params *params, t_player *player, t_map *map, t_img
 		else if (ray.was_hit_vertical == false && (ray_angle >= PI && ray_angle < 2 * PI))
 			render_texture_reverse(params, &params->texture.south, &ray, i * g_wall_strip_width, wall_strip_height);
 		ray_angle = normalize_angle(ray_angle + FOV_ANGLE / g_num_rays);
-
-		printf("player.x: %d\n", player->x);
-		printf("player.y: %d\n", player->y);
-		printf("player.walk_speed: %f\n\n", player->walk_speed);
-		printf("correct_wall_distance: %f\n\n", correct_wall_distance);
 		i++;
 	}
 }
 
-void render_everything(t_params *params)
+void		render_everything(t_params *params)
 {
 	render_sky(&params->img, &params->map);
 	render_floor(&params->img, &params->map);

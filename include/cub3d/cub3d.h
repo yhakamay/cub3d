@@ -51,7 +51,7 @@
 # define PI 3.14159265
 # define TWO_PI 6.28318530
 
-# define PLAYER_WALK_SPEED 3
+# define PLAYER_WALK_SPEED 2
 # define PLAYER_TURN_SPEED 3 * (PI / 180)
 # define PLAYER_DIAMETER 2
 # define PLAYER_COLOR COLOR_RED
