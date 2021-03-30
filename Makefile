@@ -28,6 +28,7 @@ SRC = cub3d \
 		read_map_utils \
 		render \
 		texture \
+		sprite \
 		save
 ADD = $(addsuffix .c, $(addprefix src/, $(SRC)))
 OBJ = $(ADD: .c=.o)
