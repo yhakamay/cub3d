@@ -27,6 +27,11 @@ static bool	is_player(t_params *params, char c)
 	return (true);
 }
 
+static bool	is_sprite(char c)
+{
+	return (c == '2');
+}
+
 static bool	is_forbidden_char(char c)
 {
 	if (c >= '0' && c <= '2')
@@ -58,6 +63,32 @@ int			check_map_is_closed(t_map *map, int x, int y)
 	return (ret);
 }
 
+static void	locate_sprites(t_map *map, t_sprite *sprites)
+{
+	int	i;
+	int	j;
+	int	k;
+
+	sprites = (t_sprite *)malloc(g_num_sprites);
+	i = 0;
+	k = 0;
+	while (map->grid[i][0] != '\0')
+	{
+		j = 0;
+		while (map->grid[i][j] != '\0')
+		{
+			if (is_sprite(map->grid[i][j]))
+			{
+				sprites[k].x = (j + 0.5) * TILE_SIZE;
+				sprites[k].y = (i + 0.5) * TILE_SIZE;
+				k++;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 void		check_map_info(t_params *params)
 {
 	int	i;
@@ -75,6 +106,8 @@ void		check_map_info(t_params *params)
 				params->player.y = (i + 0.5) * TILE_SIZE + 1;
 				params->map.grid[i][j] = '0';
 			}
+			else if (is_sprite(params->map.grid[i][j]))
+				g_num_sprites++;
 			else if (is_forbidden_char(params->map.grid[i][j]))
 				cub_file_err();
 			j++;
@@ -104,6 +137,7 @@ void		check_map(t_params *params)
 
 	check_all_pass(params);
 	check_map_info(params);
+	locate_sprites(&params->map, params->sprites);
 	tile_index_x = floor(params->player.x / TILE_SIZE);
 	tile_index_y = floor(params->player.y / TILE_SIZE);
 	if (check_map_is_closed(&params->map, tile_index_x, tile_index_y))

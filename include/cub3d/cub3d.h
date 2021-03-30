@@ -168,6 +168,14 @@ typedef struct	s_map
 	bool	reached[200][200];
 }				t_map;
 
+typedef struct	s_sprite
+{
+	int		x;
+	int		y;
+	float	distance; // player <-> sprite
+	bool	visible;
+}				t_sprite;
+
 typedef struct	s_params
 {
 	t_mlx		mlx;
@@ -177,10 +185,12 @@ typedef struct	s_params
 	t_ray		ray;
 	t_map		map;
 	t_rc_utils	rc_utils;
+	t_sprite	*sprites;
 }				t_params;
 
 extern int	g_num_rays;
 extern int	g_wall_strip_width;
+extern int	g_num_sprites;
 
 void			init_g_val(t_params *params);
 void			init_player(t_player *player, t_map *map);
@@ -229,5 +239,7 @@ void			save_screenshot(t_params *params);
 void			draw_pixel(t_img *img, int x, int y, int color);
 void			render_rect(int x, int y, int width, int height, int color, t_img *img);
 void			render_line(t_img *img, int x1, int y1, int x2, int y2, int color);
+
+void			render_sprites(t_params *params);
 
 #endif

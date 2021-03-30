@@ -14,6 +14,7 @@
 
 int g_num_rays;
 int g_wall_strip_width;
+int g_num_sprites;
 
 int			exit_game(void)
 {

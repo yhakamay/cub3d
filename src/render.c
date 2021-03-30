@@ -234,9 +234,13 @@ void		render_everything(t_params *params)
 	render_sky(&params->img, &params->map);
 	render_floor(&params->img, &params->map);
 	render_3d_wall(params, &params->player, &params->map, &params->img);
-	render_sprite(params, &params->player, &params->map, &params->img);
 	render_minimap(params);
 	render_player(&params->player, &params->img);
 	render_rays(params, &params->player, &params->img);
+
+	printf("before render_sprites()\n");
+	render_sprites(params);
+	printf("after render_sprites()\n");
+
 	mlx_put_image_to_window(params->mlx.mlx_ptr, params->mlx.win_ptr, params->img.img, 0, 0);
 }
