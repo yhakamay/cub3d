@@ -37,10 +37,7 @@ static void	check_visible_sprites(t_params *params)
 		////////spriteとの距離を更新////////
 		float distance;
 		printf("before get_distance()\n");
-		//distance = get_distance(params->player.x, params->player.y, params->sprites[i].x, params->sprites[i].y);
-		distance = get_distance(params->player.x, params->player.y, ((params->sprites)[i]).x, ((params->sprites)[i]).y);
-		printf("after get_distance()\n");
-		//params->sprites[i].distance = get_distance(params->player.x, params->player.y, params->sprites[i].x, params->sprites[i].y);
+		params->sprites[i].distance = get_distance(params->player.x, params->player.y, params->sprites[i].x, params->sprites[i].y);
 		/////////////////////////////////
 		//        SERIOUS ERROR        //
 		/////////////////////////////////
@@ -110,7 +107,7 @@ void	render_sprites(t_params *params)
 	while(i < g_num_sprites)
 	{
 		printf("distance : %f\n", params->sprites[i].distance);
-		printf("distance : %d\n", params->sprites[i].visible);
+		printf("visible : %d\n", params->sprites[i].visible);
 		printf("\n");
 		i++;
 	}
