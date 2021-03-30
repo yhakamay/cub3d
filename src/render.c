@@ -135,7 +135,7 @@ static void	render_texture(t_params *params, t_img *img, t_ray *ray, int x, int 
 		while (j < g_wall_strip_width)
 		{
 			color_addr = img->addr + (int)roundf(i * img->height / height) * img->line_length + (int)roundf((col + j) * img->width / height) * (img->bits_per_pixel / 8);
-			if (params->map.window_height / 2 - height / 2 + i >= 0 && params->map.window_height / 2 - height / 2 + i <= params->map.window_height)
+			if (params->map.window_height / 2 - height / 2 + i >= 0 && params->map.window_height / 2 - height / 2 + i < params->map.window_height)
 			{
 				draw_pixel(&params->img, x, params->map.window_height / 2 - height / 2 + i, *(int *)(color_addr));
 			}
@@ -160,7 +160,7 @@ static void	render_texture_reverse(t_params *params, t_img *img, t_ray *ray, int
 		while (j < g_wall_strip_width)
 		{
 			color_addr = img->addr + ((int)roundf(i * img->height / height) + 1) * img->line_length - (int)roundf((col + j) * img->width / height + 1) * (img->bits_per_pixel / 8);
-			if (params->map.window_height / 2 - height / 2 + i >= 0 && params->map.window_height / 2 - height / 2 + i <= params->map.window_height)
+			if (params->map.window_height / 2 - height / 2 + i >= 0 && params->map.window_height / 2 - height / 2 + i < params->map.window_height)
 			{
 				draw_pixel(&params->img, x, params->map.window_height / 2 - height / 2 + i, *(unsigned int *)(color_addr));
 			}
