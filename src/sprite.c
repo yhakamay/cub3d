@@ -17,31 +17,28 @@ static void	check_visible_sprites(t_params *params)
 	int			i;
 	float		angle_sprite_player;
 
-	//変数の初期化
 	i = 0;
-	//spriteがvisibleかどうか判定するループ
 	while (i < g_num_sprites)
 	{
-		////////spriteとの距離を更新////////
-		params->sprites[i].distance = get_distance(params->player.x, params->player.y, params->sprites[i].x, params->sprites[i].y);
-		////////angle_sprite_playerの計算////////
-		//playerの位置からのspriteの絶対角度の導出
-		angle_sprite_player = atan2(-(params->sprites[i].y - params->player.y), params->sprites[i].x - params->player.x);
-		//atan2の戻り値をcub3dの角度の取り方に直す
+		params->sprites[i].distance = get_distance(
+			params->player.x,
+			params->player.y,
+			params->sprites[i].x,
+			params->sprites[i].y);
+		angle_sprite_player = atan2(
+			-(params->sprites[i].y - params->player.y),
+			params->sprites[i].x - params->player.x);
 		if (angle_sprite_player < 0)
 			angle_sprite_player *= -1;
 		else
 			angle_sprite_player = 2 * PI - angle_sprite_player;
-		//playerからの相対角度に直す
 		angle_sprite_player = angle_sprite_player - params->player.rotation_angle;
-		//0~PIの範囲に直す
 		if (angle_sprite_player > PI)
 			angle_sprite_player -= 2 * PI;
 		else if (angle_sprite_player < -PI)
 			angle_sprite_player += 2 * PI;
 		params->sprites[i].angle = angle_sprite_player;
 		angle_sprite_player = fabs(angle_sprite_player);
-		//visible判定
 		float	epsilon = 0.2;
 		if (angle_sprite_player <= (float)(FOV_ANGLE / 2) + epsilon)
 			params->sprites[i].visible = true;
@@ -57,10 +54,8 @@ static void	sort_sprites(t_params *params)
 	int			j;
 	t_sprite	temp;
 
-	//変数の初期化
 	i = 0;
 
-	//bubble sort
 	while (i < g_num_sprites - 1)
 	{
 		j = g_num_sprites - 1;
@@ -78,7 +73,12 @@ static void	sort_sprites(t_params *params)
 	}
 }
 
-static void	render_one_sprite(t_params *params, t_sprite *sprite, t_img *img, int x, int height)
+static void	render_one_sprite(
+	t_params *params,
+	t_sprite *sprite,
+	t_img *img,
+	int x,
+	int height)
 {
 	char	*color_addr;
 	int		color;
@@ -93,12 +93,19 @@ static void	render_one_sprite(t_params *params, t_sprite *sprite, t_img *img, in
 		j = 0;
 		while (j < height)
 		{
-			color_addr = img->addr + (int)roundf(i * img->height / height) * img->line_length + (int)roundf(j * img->width / height) * (img->bits_per_pixel / 8);
+			color_addr = img->addr + (int)roundf(
+				i * img->height / height) * img->line_length +
+				(int)roundf(j * img->width / height) * (img->bits_per_pixel / 8);
 			color = *(int *)color_addr;
-			if (params->map.window_height / 2 - height / 2 + i >= 0 && params->map.window_height / 2 - height / 2 + i < params->map.window_height && x + j >= 0 && x + j < params->map.window_width)
+			if (params->map.window_height / 2 - height / 2 + i >= 0 &&
+				params->map.window_height / 2 - height / 2 + i < params->map.window_height &&
+				x + j >= 0 && x + j < params->map.window_width)
 			{
 				if (sprite->distance < params->rays[x + j].distance && color != 0)
-					draw_pixel(&params->img, x + j, params->map.window_height / 2 - height / 2 + i, *(int *)(color_addr));
+					draw_pixel(
+						&params->img,
+						x + j, params->map.window_height / 2 - height / 2 + i,
+						*(int *)(color_addr));
 			}
 			j++;
 		}
@@ -106,7 +113,7 @@ static void	render_one_sprite(t_params *params, t_sprite *sprite, t_img *img, in
 	}
 }
 
-void	render_sprites(t_params *params)
+void		render_sprites(t_params *params)
 {
 	int		i = 0;
 	int		left_end_x;
@@ -123,11 +130,21 @@ void	render_sprites(t_params *params)
 			i++;
 			continue ;
 		}
-		correct_wall_distance = params->sprites[i].distance * cos(params->sprites[i].angle);
-		distance_to_plane = (params->map.window_width / 2) / tan(FOV_ANGLE / 2);
-		wall_strip_height = (TILE_SIZE / correct_wall_distance) * distance_to_plane;
-		left_end_x = params->map.window_width / 2 + distance_to_plane * tan(params->sprites[i].angle) - wall_strip_height / 2;
-		render_one_sprite(params, &params->sprites[i], &params->texture.sprite, left_end_x, wall_strip_height);
+		correct_wall_distance = params->sprites[i].distance *
+								cos(params->sprites[i].angle);
+		distance_to_plane = (params->map.window_width / 2) /
+								tan(FOV_ANGLE / 2);
+		wall_strip_height = (TILE_SIZE / correct_wall_distance) *
+								distance_to_plane;
+		left_end_x = params->map.window_width / 2 +
+								distance_to_plane * tan(params->sprites[i].angle) -
+								wall_strip_height / 2;
+		render_one_sprite(
+			params,
+			&params->sprites[i],
+			&params->texture.sprite,
+			left_end_x,
+			wall_strip_height);
 		i++;
 	}
 }
