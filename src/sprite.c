@@ -40,21 +40,21 @@ static void	check_visible_sprites(t_params *params)
 		else
 			angle_sprite_player = 2 * PI - angle_sprite_player;
 		//playerからの相対角度に直す
-		printf("%f\n", angle_sprite_player * 180 / PI);
+		//printf("%f\n", angle_sprite_player * 180 / PI);
 		angle_sprite_player = angle_sprite_player - params->player.rotation_angle;
-		printf("%f\n", angle_sprite_player * 180 / PI);
+		//printf("%f\n", angle_sprite_player * 180 / PI);
 		//0~PIの範囲に直す
 		if (angle_sprite_player > PI)
 			angle_sprite_player -= 2 * PI;
 		else if (angle_sprite_player < -PI)
 			angle_sprite_player += 2 * PI;
 		params->sprites[i].angle = angle_sprite_player;
-		printf("%f\n", angle_sprite_player * 180 / PI);
+		//printf("%f\n", angle_sprite_player * 180 / PI);
 		angle_sprite_player = fabs(angle_sprite_player);
 
 		//visible判定
 		//float	epsilon = 0.2;
-		
+
 		if (angle_sprite_player <= (float)(FOV_ANGLE / 2))
 			params->sprites[i].visible = true;
 		else
