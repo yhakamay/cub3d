@@ -20,7 +20,7 @@ void		draw_pixel(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void		render_rect(int x, int y, int width, int height, int color, t_img *img)
+void		draw_rect(int x, int y, int width, int height, int color, t_img *img)
 {
 	int x_i;
 	int y_i;
@@ -38,7 +38,7 @@ void		render_rect(int x, int y, int width, int height, int color, t_img *img)
 	}
 }
 
-void		render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
+void		draw_line(t_img *img, int x1, int y1, int x2, int y2, int color)
 {
 	double	x_delta;
 	double	y_delta;
@@ -60,12 +60,12 @@ void		render_line(t_img *img, int x1, int y1, int x2, int y2, int color)
 
 static void render_sky(t_img *img, t_map *map)
 {
-	render_rect(0, 0, map->window_width, map->window_height / 2, COLOR_CYAN, img);
+	draw_rect(0, 0, map->window_width, map->window_height / 2, COLOR_CYAN, img);
 }
 
 static void render_floor(t_img *img, t_map *map)
 {
-	render_rect(0, map->window_height / 2, map->window_width, map->window_height / 2, COLOR_GRAY, img);
+	draw_rect(0, map->window_height / 2, map->window_width, map->window_height / 2, COLOR_GRAY, img);
 }
 
 static void render_rays(t_params *params, t_player *player, t_img *img)
@@ -79,7 +79,7 @@ static void render_rays(t_params *params, t_player *player, t_img *img)
 	while (i < g_num_rays)
 	{
 		rays[i] = cast_ray(params, player, normalize_angle(ray_angle));
-		render_line(img, player->x, player->y, rays[i].wall_hit_x, rays[i].wall_hit_y, PLAYER_COLOR);
+		draw_line(img, player->x, player->y, rays[i].wall_hit_x, rays[i].wall_hit_y, PLAYER_COLOR);
 		ray_angle += FOV_ANGLE / g_num_rays;
 		i++;
 	}
@@ -87,7 +87,7 @@ static void render_rays(t_params *params, t_player *player, t_img *img)
 
 static void render_player(t_player *player, t_img *img)
 {
-	render_rect(
+	draw_rect(
 		player->x,
 		player->y,
 		player->width * MINIMAP_SCALE_FACTOR,
@@ -113,7 +113,7 @@ static void render_minimap(t_params *params)
 			x = j * TILE_SIZE;
 			y = i * TILE_SIZE;
 			tile_color = params->map.grid[i][j] != '0' ? COLOR_WHITE : COLOR_LIGHT_GRAY;
-			render_rect(x * MINIMAP_SCALE_FACTOR, y * MINIMAP_SCALE_FACTOR, TILE_SIZE * MINIMAP_SCALE_FACTOR, TILE_SIZE * MINIMAP_SCALE_FACTOR, tile_color, &params->img);
+			draw_rect(x * MINIMAP_SCALE_FACTOR, y * MINIMAP_SCALE_FACTOR, TILE_SIZE * MINIMAP_SCALE_FACTOR, TILE_SIZE * MINIMAP_SCALE_FACTOR, tile_color, &params->img);
 			j++;
 		}
 		i++;
