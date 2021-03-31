@@ -91,6 +91,7 @@ typedef struct	s_texture
 	t_img	south;
 	t_img	west;
 	t_img	east;
+	t_img	sprite;
 }				t_texture;
 
 typedef struct	s_mlx
@@ -173,6 +174,7 @@ typedef struct	s_sprite
 	int		x;
 	int		y;
 	float	distance; // player <-> sprite
+	float	angle;    // player <-> sprite
 	bool	visible;
 }				t_sprite;
 
