@@ -210,6 +210,7 @@ void		render_everything(t_params *params)
 	render_sky(&params->img, &params->map);
 	render_floor(&params->img, &params->map);
 	render_3d_wall(params, &params->player, &params->map, &params->img);
+	render_sprites(params);
 	render_minimap(params);
 	render_player(&params->player, &params->img);
 	render_rays(params, &params->player, &params->img);
