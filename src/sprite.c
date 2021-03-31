@@ -12,12 +12,6 @@
 
 #include "../include/cub3d/cub3d.h"
 
-// s_sprite *sprites[g_num_sprites] (hakamaya)
-// s_sprite *visible_sprites[g_num_sprites] (atsuki)
-// FOVに入ってるspriteを、visible_spritesにコピーする (atan2を使う) (atsuki)
-// visible_spritesを遠い順にソートする
-// visible_spritesを描画する
-
 static void	check_visible_sprites(t_params *params)
 {
 	int			i;
@@ -30,7 +24,6 @@ static void	check_visible_sprites(t_params *params)
 	{
 		////////spriteとの距離を更新////////
 		params->sprites[i].distance = get_distance(params->player.x, params->player.y, params->sprites[i].x, params->sprites[i].y);
-
 		////////angle_sprite_playerの計算////////
 		//playerの位置からのspriteの絶対角度の導出
 		angle_sprite_player = atan2(-(params->sprites[i].y - params->player.y), params->sprites[i].x - params->player.x);
@@ -40,18 +33,14 @@ static void	check_visible_sprites(t_params *params)
 		else
 			angle_sprite_player = 2 * PI - angle_sprite_player;
 		//playerからの相対角度に直す
-		//printf("%f\n", angle_sprite_player * 180 / PI);
 		angle_sprite_player = angle_sprite_player - params->player.rotation_angle;
-		//printf("%f\n", angle_sprite_player * 180 / PI);
 		//0~PIの範囲に直す
 		if (angle_sprite_player > PI)
 			angle_sprite_player -= 2 * PI;
 		else if (angle_sprite_player < -PI)
 			angle_sprite_player += 2 * PI;
 		params->sprites[i].angle = angle_sprite_player;
-		//printf("%f\n", angle_sprite_player * 180 / PI);
 		angle_sprite_player = fabs(angle_sprite_player);
-
 		//visible判定
 		float	epsilon = 0.2;
 		if (angle_sprite_player <= (float)(FOV_ANGLE / 2) + epsilon)
