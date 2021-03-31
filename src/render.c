@@ -210,6 +210,7 @@ static void	render_3d_wall(t_params *params, t_player *player, t_map *map, t_img
 	{
 		ray = cast_ray(params, player, ray_angle);
 		correct_wall_distance = ray.distance * cos(ray.ray_angle - player->rotation_angle);
+		correct_wall_distance = correct_wall_distance == 0 ? 3 : correct_wall_distance;
 		distance_to_plane = (map->window_width / 2) / tan(FOV_ANGLE / 2);
 		wall_strip_height = (TILE_SIZE / correct_wall_distance) * distance_to_plane;
 		//west wall
