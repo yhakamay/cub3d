@@ -116,7 +116,7 @@ void		check_map_info(t_params *params)
 	}
 }
 
-void		check_all_pass(t_params *params)
+static void	check_all_path(t_params *params)
 {
 	params->texture.north.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr, params->map.north_pass, &params->texture.north.width, &params->texture.north.height);
 	params->texture.south.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr, params->map.south_pass, &params->texture.south.width, &params->texture.south.height);
@@ -137,7 +137,7 @@ void		check_map(t_params *params)
 	int tile_index_x;
 	int tile_index_y;
 
-	check_all_pass(params);
+	check_all_path(params);
 	check_map_info(params);
 	locate_sprites(&params->map, &params->sprites);
 	tile_index_x = floor(params->player.x / TILE_SIZE);
