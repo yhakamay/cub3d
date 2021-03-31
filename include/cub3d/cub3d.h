@@ -184,7 +184,7 @@ typedef struct	s_params
 	t_img		img;
 	t_texture	texture;
 	t_player	player;
-	t_ray		ray;
+	t_ray		*rays;
 	t_map		map;
 	t_rc_utils	rc_utils;
 	t_sprite	*sprites;
