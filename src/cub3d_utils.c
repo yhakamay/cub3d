@@ -39,3 +39,15 @@ bool		has_wall_at(float x, float y, t_map *map)
 	tile_index_y = y / TILE_SIZE;
 	return (map->grid[tile_index_y][tile_index_x] == '1');
 }
+
+bool		has_sprite_at(float x, float y, t_map *map)
+{
+	int tile_index_x;
+	int tile_index_y;
+
+	if (x < 0 || x > map->window_width || y < 0 || y > map->window_height)
+		return (true);
+	tile_index_x = x / TILE_SIZE;
+	tile_index_y = y / TILE_SIZE;
+	return (map->grid[tile_index_y][tile_index_x] == '2');
+}

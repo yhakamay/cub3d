@@ -213,6 +213,7 @@ bool			is_around_window(t_rc_utils *rc_utils, t_map *map);
 int				exit_game(void);
 float			normalize_angle(float rotation_angle);
 bool			has_wall_at(float x, float y, t_map *map);
+bool			has_sprite_at(float x, float y, t_map *map);
 
 void			render_everything(t_params *params);
 t_ray			cast_ray(t_params *params, t_player *player, float ray_angle);
