@@ -53,13 +53,11 @@ static void	check_visible_sprites(t_params *params)
 		angle_sprite_player = fabs(angle_sprite_player);
 
 		//visible判定
-		//float	epsilon = 0.2;
-
-		if (angle_sprite_player <= (float)(FOV_ANGLE / 2))
+		float	epsilon = 0.2;
+		if (angle_sprite_player <= (float)(FOV_ANGLE / 2) + epsilon)
 			params->sprites[i].visible = true;
 		else
 			params->sprites[i].visible = false;
-		//printf("%d\n", params->sprites[i].visible);
 		i++;
 	}
 }
@@ -91,7 +89,7 @@ static void	sort_sprites(t_params *params)
 	}
 }
 
-static void	render_one_sprite(t_params *params, t_img *img, int x, int height)
+static void	render_one_sprite(t_params *params, t_sprite *sprite, t_img *img, int x, int height)
 {
 	char	*color_addr;
 	int		color;
@@ -110,7 +108,7 @@ static void	render_one_sprite(t_params *params, t_img *img, int x, int height)
 			color = *(int *)color_addr;
 			if (params->map.window_height / 2 - height / 2 + i >= 0 && params->map.window_height / 2 - height / 2 + i < params->map.window_height && x + j >= 0 && x + j < params->map.window_width)
 			{
-				if (color != 0)
+				if (sprite->distance < params->rays[x + j].distance && color != 0)
 					draw_pixel(&params->img, x + j, params->map.window_height / 2 - height / 2 + i, *(int *)(color_addr));
 			}
 			j++;
@@ -140,7 +138,7 @@ void	render_sprites(t_params *params)
 		distance_to_plane = (params->map.window_width / 2) / tan(FOV_ANGLE / 2);
 		wall_strip_height = (TILE_SIZE / correct_wall_distance) * distance_to_plane;
 		left_end_x = params->map.window_width / 2 + distance_to_plane * tan(params->sprites[i].angle) - wall_strip_height / 2;
-		render_one_sprite(params, &params->texture.sprite, left_end_x, wall_strip_height);
+		render_one_sprite(params, &params->sprites[i], &params->texture.sprite, left_end_x, wall_strip_height);
 		i++;
 	}
 }
