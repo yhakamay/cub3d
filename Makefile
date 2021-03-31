@@ -19,6 +19,7 @@ HEADER = cub3d.h
 SRC = cub3d \
 		cub3d_utils \
 		check_map \
+		check_map_utils \
 		error \
 		init \
 		input \

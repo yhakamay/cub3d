@@ -201,6 +201,12 @@ void			init_rc_utils_horz(
 void			init_rc_utils_vert(
 					t_rc_utils *rc_utils, t_player *player, float ray_angle);
 
+// check_map_utils.c
+bool			is_player(t_params *params, char c);
+bool			is_sprite(char c);
+bool			is_forbidden_char(char c);
+int				is_map_closed(t_map *map, int x, int y);
+
 // input.c
 int				key_pressed(int keycode, t_params *params);
 int				key_released(int keycode, t_params *params);
