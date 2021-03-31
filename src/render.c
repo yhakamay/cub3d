@@ -177,29 +177,29 @@ static void	render_3d_wall(t_params *params, t_player *player, t_map *map, t_img
 	float	correct_wall_distance;
 	float	distance_to_plane;
 	float	ray_angle;
-	t_ray	ray;
 
+	params->rays = (t_ray *)malloc(sizeof(t_ray) * g_num_rays);
 	ray_angle = normalize_angle(player->rotation_angle - (FOV_ANGLE * 0.5));
 	i = 0;
 	while (i < g_num_rays)
 	{
-		ray = cast_ray(params, player, ray_angle);
-		correct_wall_distance = ray.distance * cos(ray.ray_angle - player->rotation_angle);
+		params->rays[i] = cast_ray(params, player, ray_angle);
+		correct_wall_distance = params->rays[i].distance * cos(params->rays[i].ray_angle - player->rotation_angle);
 		correct_wall_distance = correct_wall_distance == 0 ? 3 : correct_wall_distance;
 		distance_to_plane = (map->window_width / 2) / tan(FOV_ANGLE / 2);
 		wall_strip_height = (TILE_SIZE / correct_wall_distance) * distance_to_plane;
 		//west wall
-		if (ray.was_hit_vertical == true && (ray_angle < 0.5 * PI || ray_angle > 1.5 * PI))
-			render_texture_reverse(params, &params->texture.west, &ray, i * g_wall_strip_width, wall_strip_height);
+		if (params->rays[i].was_hit_vertical == true && (ray_angle < 0.5 * PI || ray_angle > 1.5 * PI))
+			render_texture_reverse(params, &params->texture.west, &params->rays[i], i * g_wall_strip_width, wall_strip_height);
 		//east wall
-		else if (ray.was_hit_vertical == true && (ray_angle >= 0.5 * PI && ray_angle <= 1.5 * PI))
-			render_texture(params, &params->texture.east, &ray, i * g_wall_strip_width, wall_strip_height);
+		else if (params->rays[i].was_hit_vertical == true && (ray_angle >= 0.5 * PI && ray_angle <= 1.5 * PI))
+			render_texture(params, &params->texture.east, &params->rays[i], i * g_wall_strip_width, wall_strip_height);
 		//north wall
-		else if (ray.was_hit_vertical == false && (ray_angle >= 0 && ray_angle < PI))
-			render_texture(params, &params->texture.north, &ray, i * g_wall_strip_width, wall_strip_height);
+		else if (params->rays[i].was_hit_vertical == false && (ray_angle >= 0 && ray_angle < PI))
+			render_texture(params, &params->texture.north, &params->rays[i], i * g_wall_strip_width, wall_strip_height);
 		//south wall
-		else if (ray.was_hit_vertical == false && (ray_angle >= PI && ray_angle < 2 * PI))
-			render_texture_reverse(params, &params->texture.south, &ray, i * g_wall_strip_width, wall_strip_height);
+		else if (params->rays[i].was_hit_vertical == false && (ray_angle >= PI && ray_angle < 2 * PI))
+			render_texture_reverse(params, &params->texture.south, &params->rays[i], i * g_wall_strip_width, wall_strip_height);
 		ray_angle = normalize_angle(ray_angle + FOV_ANGLE / g_num_rays);
 		i++;
 	}
