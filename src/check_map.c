@@ -69,7 +69,7 @@ static void	locate_sprites(t_map *map, t_sprite **sprites)
 	int	j;
 	int	k;
 
-	*sprites = (t_sprite *)malloc(g_num_sprites);
+	*sprites = (t_sprite *)malloc(sizeof(t_sprite) * g_num_sprites);
 	i = 0;
 	k = 0;
 	while (map->grid[i][0] != '\0')
