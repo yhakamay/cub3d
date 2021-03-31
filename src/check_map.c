@@ -91,6 +91,6 @@ void		check_map(t_params *params)
 	locate_sprites(&params->map, &params->sprites);
 	tile_index_x = floor(params->player.x / TILE_SIZE);
 	tile_index_y = floor(params->player.y / TILE_SIZE);
-	if (check_map_is_closed(&params->map, tile_index_x, tile_index_y))
+	if (is_map_closed(&params->map, tile_index_x, tile_index_y))
 		cub_file_err();
 }

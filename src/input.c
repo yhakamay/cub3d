@@ -29,7 +29,8 @@ static void	move_player(t_player *p, t_img *img, t_map *map)
 	new_p_y = roundf(p->y +
 				sin(p->rotation_angle) * move_step_vert +
 				cos(p->rotation_angle) * move_step_horz);
-	if (has_wall_at(new_p_x, new_p_y, map) || has_sprite_at(new_p_x, new_p_y, map))
+	if (has_wall_at(new_p_x, new_p_y, map) ||
+		has_sprite_at(new_p_x, new_p_y, map))
 		return ;
 	p->x = new_p_x;
 	p->y = new_p_y;
