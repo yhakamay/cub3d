@@ -65,20 +65,57 @@ void		check_map_info(t_params *params)
 	}
 }
 
-static void	check_all_path(t_params *params)
+static void	texture_to_image(t_params *params, t_texture *texture)
 {
-	params->texture.north.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr, params->map.north_pass, &params->texture.north.width, &params->texture.north.height);
-	params->texture.south.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr, params->map.south_pass, &params->texture.south.width, &params->texture.south.height);
-	params->texture.west.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr, params->map.west_pass, &params->texture.west.width, &params->texture.west.height);
-	params->texture.east.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr, params->map.east_pass, &params->texture.east.width, &params->texture.east.height);
-	params->texture.sprite.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr, params->map.sprite_pass, &params->texture.sprite.width, &params->texture.sprite.height);
-	if (params->texture.north.img == NULL || params->texture.south.img == NULL || params->texture.west.img == NULL || params->texture.east.img == NULL || params->texture.sprite.img == NULL)
+	texture->north.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr,
+												params->map.north_pass,
+												&texture->north.width,
+												&texture->north.height);
+	texture->south.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr,
+												params->map.south_pass,
+												&texture->south.width,
+												&texture->south.height);
+	texture->west.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr,
+												params->map.west_pass,
+												&texture->west.width,
+												&texture->west.height);
+	texture->east.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr,
+												params->map.east_pass,
+												&texture->east.width,
+												&texture->east.height);
+	texture->sprite.img = mlx_xpm_file_to_image(params->mlx.mlx_ptr,
+												params->map.sprite_pass,
+												&texture->sprite.width,
+												&texture->sprite.height);
+	if (texture->north.img == NULL || texture->south.img == NULL ||
+		texture->west.img == NULL || texture->east.img == NULL ||
+		texture->sprite.img == NULL)
 		cub_file_err();
-	params->texture.north.addr = mlx_get_data_addr(params->texture.north.img, &params->texture.north.bits_per_pixel, &params->texture.north.line_length, &params->texture.north.endian);
-	params->texture.south.addr = mlx_get_data_addr(params->texture.south.img, &params->texture.south.bits_per_pixel, &params->texture.south.line_length, &params->texture.south.endian);
-	params->texture.west.addr = mlx_get_data_addr(params->texture.west.img, &params->texture.west.bits_per_pixel, &params->texture.west.line_length, &params->texture.west.endian);
-	params->texture.east.addr = mlx_get_data_addr(params->texture.east.img, &params->texture.east.bits_per_pixel, &params->texture.east.line_length, &params->texture.east.endian);
-	params->texture.sprite.addr = mlx_get_data_addr(params->texture.sprite.img, &params->texture.sprite.bits_per_pixel, &params->texture.sprite.line_length, &params->texture.sprite.endian);
+}
+
+static void	check_all_path(t_params *params, t_texture *texture)
+{
+	texture_to_image(params, texture);
+	texture->north.addr = mlx_get_data_addr(texture->north.img,
+											&texture->north.bits_per_pixel,
+											&texture->north.line_length,
+											&texture->north.endian);
+	texture->south.addr = mlx_get_data_addr(texture->south.img,
+											&texture->south.bits_per_pixel,
+											&texture->south.line_length,
+											&texture->south.endian);
+	texture->west.addr = mlx_get_data_addr(texture->west.img,
+											&texture->west.bits_per_pixel,
+											&texture->west.line_length,
+											&texture->west.endian);
+	texture->east.addr = mlx_get_data_addr(texture->east.img,
+											&texture->east.bits_per_pixel,
+											&texture->east.line_length,
+											&texture->east.endian);
+	texture->sprite.addr = mlx_get_data_addr(texture->sprite.img,
+											&texture->sprite.bits_per_pixel,
+											&texture->sprite.line_length,
+											&texture->sprite.endian);
 }
 
 void		check_map(t_params *params)
@@ -86,7 +123,7 @@ void		check_map(t_params *params)
 	int tile_index_x;
 	int tile_index_y;
 
-	check_all_path(params);
+	check_all_path(params, &params->texture);
 	check_map_info(params);
 	locate_sprites(&params->map, &params->sprites);
 	tile_index_x = floor(params->player.x / TILE_SIZE);
