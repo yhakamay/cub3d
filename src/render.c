@@ -170,31 +170,6 @@ static void	render_texture_reverse(t_params *params, t_img *img, t_ray *ray, int
 	}
 }
 
-static void render_texture_sprite(t_params *params, t_img *img, t_ray *ray, int x, int height)
-{
-	char	*color_addr;
-	int		color;
-	float	col;
-	int		i;
-	int		j;
-
-	col = ray->length_from_leftside * height / TILE_SIZE;
-	i = 0;
-	while (i < height)
-	{
-		j = 0;
-		while (j < g_wall_strip_width)
-		{
-			color_addr = img->addr + (int)roundf(i * img->height / height) * img->line_length + (int)roundf((col + j) * img->width / height) * (img->bits_per_pixel / 8);
-			color = *(int *)color_addr;
-			if (color != 0)
-				draw_pixel(&params->img, x, params->map.window_height / 2 - height / 2 + i, *(int *)(color_addr));
-			j++;
-		}
-		i++;
-	}
-}
-
 static void	render_3d_wall(t_params *params, t_player *player, t_map *map, t_img *img)
 {
 	int		i;
