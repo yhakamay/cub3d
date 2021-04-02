@@ -25,13 +25,11 @@ void	normalize_p_sprite_angle(float *p_sprite_angle, t_player *p)
 		*p_sprite_angle += 2 * PI;
 }
 
-bool	is_inside_fov(t_params *params, int height, int x,
-	int i, int j)
+bool	is_inside_fov(t_map *map, int height, int i)
 {
-	return (params->map.window_height / 2 - height / 2 + i >= 0 &&
-			params->map.window_height / 2 - height / 2 + i <
-				params->map.window_height &&
-			x + j >= 0 && x + j < params->map.window_width);
+	return (map->window_height / 2 - height / 2 + i >= 0 &&
+			map->window_height / 2 - height / 2 + i <
+				map->window_height);
 }
 
 int		calculate_left_end_x(t_params *params, float distance_to_plane,

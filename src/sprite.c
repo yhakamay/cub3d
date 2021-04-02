@@ -75,7 +75,7 @@ static void	render_one_sprite(t_params *params, t_sprite *sprite,
 		{
 			color_addr = calculate_color_addr(&params->texture, height, i, j);
 			color = *(int *)color_addr;
-			if (is_inside_fov(params, height, x, i, j) &&
+			if (is_inside_fov(&params->map, height, i) &&
 				x + j >= 0 && x + j < params->map.window_width &&
 				sprite->distance < params->rays[x + j].distance &&
 				color != 0)
