@@ -238,7 +238,8 @@ int				num_of_numbers(char *line, int i);
 // read_map_utils.c
 void			get_resolution(t_map *map, char *line, int i, int *obj_num);
 void			get_wall_texture(t_map *map, char *line, int i, int *obj_num);
-void			get_floor_ceiling_texture(t_map *map, char *line, int i, int j, int *obj_num, char f_or_c);
+void			get_floor_texture(t_map *map, char *line, int i, int j);
+void			get_ceiling_texture(t_map *map, char *line, int i, int j);
 void			get_sprite_texture(t_map *map, char *line, int i, int *obj_num);
 
 // save.c

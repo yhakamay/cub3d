@@ -27,8 +27,16 @@ static void	check_obj(t_map *map, char *line, int *obj_num)
 		get_wall_texture(map, line, i, obj_num);
 	else if (line[i] == 'S')
 		get_sprite_texture(map, line, i, obj_num);
-	else if (line[i] == 'F' || line[i] == 'C')
-		get_floor_ceiling_texture(map, line, i, 0, obj_num, line[i]);
+	else if (line[i] == 'F')
+	{
+		get_floor_texture(map, line, i, 0);
+		(*obj_num)++;
+	}
+	else if (line[i] == 'C')
+	{
+		get_ceiling_texture(map, line, i, 0);
+		(*obj_num)++;
+	}
 }
 
 static void	offset_map(t_map *map)
