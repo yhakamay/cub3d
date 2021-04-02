@@ -251,5 +251,11 @@ void			draw_rect(int x, int y, int width, int height, int color, t_img *img);
 void			draw_line(t_img *img, int x1, int y1, int x2, int y2, int color);
 
 void			render_sprites(t_params *params);
+bool			is_inside_fov(t_params *params, int height, int x, int i, int j);
+void			normalize_p_sprite_angle(float *p_sprite_angle, t_player *p);
+bool			is_inside_fov(t_params *params, int height, int x, int i, int j);
+int				calculate_left_end_x(t_params *params, float distance_to_plane,
+					int i, int wall_strip_height);
+char			*calculate_color_addr(t_texture *texture, int height, int i, int j);
 
 #endif

@@ -12,22 +12,8 @@
 
 #include "../include/cub3d/cub3d.h"
 
-void normalize_p_sprite_angle(float *p_sprite_angle, t_player *p)
-{
-	if (*p_sprite_angle < 0)
-		*p_sprite_angle *= -1;
-	else
-		*p_sprite_angle = 2 * PI - *p_sprite_angle;
-	*p_sprite_angle -= p->rotation_angle;
-	if (*p_sprite_angle > PI)
-		*p_sprite_angle -= 2 * PI;
-	else if (*p_sprite_angle < -PI)
-		*p_sprite_angle += 2 * PI;
-}
-
-static void	check_visible_sprites(t_params *params,
-				t_player *p,
-				t_sprite *sprites)
+static void	check_visible_sprites(t_params *params, t_player *p,
+	t_sprite *sprites)
 {
 	int		i;
 	float	p_sprite_angle;
@@ -71,25 +57,8 @@ static void	sort_sprites(t_params *params)
 	}
 }
 
-static bool	is_inside_fov(
-	t_params *params,
-	int height,
-	int x,
-	int i,
-	int j
-)
-{
-	return (params->map.window_height / 2 - height / 2 + i >= 0 &&
-	params->map.window_height / 2 - height / 2 + i < params->map.window_height &&
-	x + j >= 0 && x + j < params->map.window_width);
-}
-
-static void	render_one_sprite(
-	t_params *params,
-	t_sprite *sprite,
-	t_img *img,
-	int x,
-	int height)
+static void	render_one_sprite(t_params *params, t_sprite *sprite,
+	int x, int height)
 {
 	char	*color_addr;
 	int		color;
@@ -104,17 +73,14 @@ static void	render_one_sprite(
 		j = -1;
 		while (++j < height)
 		{
-			color_addr = img->addr + (int)roundf(
-				i * img->height / height) * img->line_length +
-				(int)roundf(j * img->width / height) * (img->bits_per_pixel / 8);
+			color_addr = calculate_color_addr(&params->texture, height, i, j);
 			color = *(int *)color_addr;
 			if (is_inside_fov(params, height, x, i, j) &&
 				x + j >= 0 && x + j < params->map.window_width &&
 				sprite->distance < params->rays[x + j].distance &&
 				color != 0)
-				draw_pixel(
-					&params->img,
-					x + j, params->map.window_height / 2 - height / 2 + i,
+				draw_pixel(&params->img, x + j,
+					params->map.window_height / 2 - height / 2 + i,
 					*(int *)(color_addr));
 		}
 	}
@@ -137,18 +103,12 @@ void		render_sprites(t_params *params)
 			continue ;
 		correct_wall_distance = params->sprites[i].distance *
 								cos(params->sprites[i].angle);
-		distance_to_plane = (params->map.window_width / 2) /
-								tan(FOV_ANGLE / 2);
+		distance_to_plane = (params->map.window_width / 2) / tan(FOV_ANGLE / 2);
 		wall_strip_height = (TILE_SIZE / correct_wall_distance) *
 								distance_to_plane;
-		left_end_x = params->map.window_width / 2 +
-								distance_to_plane * tan(params->sprites[i].angle) -
-								wall_strip_height / 2;
-		render_one_sprite(
-			params,
-			&params->sprites[i],
-			&params->texture.sprite,
-			left_end_x,
-			wall_strip_height);
+		left_end_x = calculate_left_end_x(params, distance_to_plane,
+						i, wall_strip_height);
+		render_one_sprite(params, &params->sprites[i],
+			left_end_x, wall_strip_height);
 	}
 }

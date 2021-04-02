@@ -30,6 +30,7 @@ SRC = cub3d \
 		render \
 		texture \
 		sprite \
+		sprite_utils \
 		save
 ADD = $(addsuffix .c, $(addprefix src/, $(SRC)))
 OBJ = $(ADD: .c=.o)
