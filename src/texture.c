@@ -11,3 +11,112 @@
 /* ************************************************************************** */
 
 #include "../include/cub3d/cub3d.h"
+
+static bool	is_valid_path(char *line, char *path, int i)
+{
+	if (ft_strlen(line + i) != ft_strlen(path) + num_of_spaces(line, i))
+		return (false);
+	return (true);
+}
+
+void		get_wall_texture(t_map *map, char *line, int i, int *obj_num)
+{
+	if (line[i] == 'N' && line[i + 1] == 'O')
+	{
+		i += 2;
+		if (line[i] != ' ')
+			cub_file_err();
+		map->north_pass = ft_strtrim(line + i, " ");
+		if (!(is_valid_path(line, map->north_pass, i)))
+			cub_file_err();
+	}
+	else if (line[i] == 'S' && line[i + 1] == 'O')
+	{
+		i += 2;
+		if (line[i] != ' ')
+			cub_file_err();
+		map->south_pass = ft_strtrim(line + i, " ");
+		if (!(is_valid_path(line, map->south_pass, i)))
+			cub_file_err();
+	}
+	else if (line[i] == 'W' && line[i + 1] == 'E')
+	{
+		i += 2;
+		if (line[i] != ' ')
+			cub_file_err();
+		map->west_pass = ft_strtrim(line + i, " ");
+		if (!(is_valid_path(line, map->west_pass, i)))
+			cub_file_err();
+	}
+	else if (line[i] == 'E' && line[i + 1] == 'A')
+	{
+		i += 2;
+		if (line[i] != ' ')
+			cub_file_err();
+		map->east_pass = ft_strtrim(line + i, " ");
+		if (!(is_valid_path(line, map->east_pass, i)))
+			cub_file_err();
+	}
+	(*obj_num)++;
+}
+
+void		get_floor_texture(t_map *map, char *line, int i, int j)
+{
+	int count;
+
+	i += 1 + num_of_spaces(line, i + 1);
+	while (j < 3)
+	{
+		count = num_of_numbers(line, i);
+		if (count > 3 || count == 0)
+			cub_file_err();
+		map->floor_rgb[j] = ft_atoi(line + i);
+		if (map->floor_rgb[j] > 255)
+			cub_file_err();
+		i += count;
+		if (j == 2)
+			break ;
+		else if (line[i] != ',')
+			cub_file_err();
+		i++;
+		j++;
+	}
+	if (ft_strlen(line + i) != num_of_spaces(line, i))
+		cub_file_err();
+}
+
+void		get_ceiling_texture(t_map *map, char *line, int i, int j)
+{
+	int count;
+
+	i += 1 + num_of_spaces(line, i + 1);
+	while (j < 3)
+	{
+		count = num_of_numbers(line, i);
+		if (count > 3 || count == 0)
+			cub_file_err();
+		map->ceiling_rgb[j] = ft_atoi(line + i);
+		if (map->ceiling_rgb[j] > 255)
+			cub_file_err();
+		i += count;
+		if (j == 2)
+			break ;
+		else if (line[i] != ',')
+			cub_file_err();
+		i++;
+		j++;
+	}
+	if (ft_strlen(line + i) != num_of_spaces(line, i))
+		cub_file_err();
+}
+
+void		get_sprite_texture(t_map *map, char *line, int i, int *obj_num)
+{
+	i++;
+	if (line[i] != ' ')
+		cub_file_err();
+	map->sprite_pass = ft_strtrim(line + i, " ");
+	if (!(is_valid_path(line, map->sprite_pass, i)))
+		cub_file_err();
+	(*obj_num)++;
+}
