@@ -12,7 +12,7 @@
 
 #include "../include/cub3d/cub3d.h"
 
-int		num_of_spaces(char *line, int i)
+int			num_of_spaces(char *line, int i)
 {
 	int	j;
 
@@ -22,7 +22,7 @@ int		num_of_spaces(char *line, int i)
 	return (j);
 }
 
-int		num_of_numbers(char *line, int i)
+int			num_of_numbers(char *line, int i)
 {
 	int	j;
 
@@ -32,7 +32,7 @@ int		num_of_numbers(char *line, int i)
 	return (j);
 }
 
-void	get_resolution(t_map *map, char *line, int i, int *obj_num)
+void		get_resolution(t_map *map, char *line, int i, int *obj_num)
 {
 	i++;
 	i += num_of_spaces(line, i);
@@ -61,7 +61,7 @@ static bool	is_valid_path(char *line, char *path, int i)
 	return (true);
 }
 
-void	get_wall_texture(t_map *map, char *line, int i, int *obj_num)
+void		get_wall_texture(t_map *map, char *line, int i, int *obj_num)
 {
 	if (line[i] == 'N' && line[i + 1] == 'O')
 	{
@@ -102,29 +102,22 @@ void	get_wall_texture(t_map *map, char *line, int i, int *obj_num)
 	(*obj_num)++;
 }
 
-void	get_floor_ceiling_texture(t_map *map, char *line, int i, int j, int *obj_num, char f_or_c)
+void		get_floor_ceiling_texture(t_map *map, char *line, int i, int j, int *obj_num, char f_or_c)
 {
 	int count;
 
-	i++;
-	i += num_of_spaces(line, i);
+	i += 1 + num_of_spaces(line, i + 1);
 	while (j < 3)
 	{
 		count = num_of_numbers(line, i);
 		if (count > 3 || count == 0)
 			cub_file_err();
 		if (f_or_c == 'F')
-		{
 			map->floor_rgb[j] = ft_atoi(line + i);
-			if (map->floor_rgb[j] > 255)
-				cub_file_err();
-		}
 		else
-		{
 			map->ceiling_rgb[j] = ft_atoi(line + i);
-			if (map->ceiling_rgb[j] > 255)
-				cub_file_err();
-		}
+		if (map->floor_rgb[j] > 255 || map->ceiling_rgb[j] > 255)
+			cub_file_err();
 		i += count;
 		if (j == 2)
 			break ;
@@ -138,7 +131,7 @@ void	get_floor_ceiling_texture(t_map *map, char *line, int i, int j, int *obj_nu
 	(*obj_num)++;
 }
 
-void	get_sprite_texture(t_map *map, char *line, int i, int *obj_num)
+void		get_sprite_texture(t_map *map, char *line, int i, int *obj_num)
 {
 	i++;
 	if (line[i] != ' ')
