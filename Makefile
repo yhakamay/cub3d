@@ -23,6 +23,7 @@ SRC = cub3d \
 		error \
 		init \
 		input \
+		player \
 		raycast \
 		raycast_utils \
 		read_map \

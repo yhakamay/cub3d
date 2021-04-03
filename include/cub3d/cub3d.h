@@ -215,6 +215,9 @@ float			get_distance(float x1, float y1, float x2, float y2);
 void			calculate_ray_angle(t_rc_utils *rc_utils, float ray_angle);
 bool			is_around_window(t_rc_utils *rc_utils, t_map *map);
 
+// player.c
+void			move_player(t_player *p, t_img *img, t_map *map);
+
 // cub3d_utils.c
 int				exit_game(void);
 float			normalize_angle(float rotation_angle);
