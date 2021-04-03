@@ -240,10 +240,15 @@ int				num_of_numbers(char *line, int i);
 
 // read_map_utils.c
 void			get_resolution(t_map *map, char *line, int i, int *obj_num);
+
+// texture.c
 void			get_wall_texture(t_map *map, char *line, int i, int *obj_num);
 void			get_floor_texture(t_map *map, char *line, int i, int j);
 void			get_ceiling_texture(t_map *map, char *line, int i, int j);
 void			get_sprite_texture(t_map *map, char *line, int i, int *obj_num);
+
+// texture_utils.c
+bool			is_valid_path(char *line, char *path, int i);
 
 // save.c
 void			save_screenshot(t_params *params);
