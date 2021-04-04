@@ -236,10 +236,8 @@ void			get_east_path(char *line, int i, t_map *map);
 bool			is_valid_path(char *line, char *path, int i);
 void			save_screenshot(t_params *params);
 void			draw_pixel(t_img *img, int x, int y, int color);
-void			draw_rect(int x, int y, int width, int height,
-					int color, t_img *img);
-void			draw_line(t_img *img, int x1, int y1, int x2, int y2,
-					int color);
+void			render_ceiling(t_img *img, t_map *map);
+void			render_floor(t_img *img, t_map *map);
 void			render_sprites(t_params *params);
 bool			is_inside_fov(t_map *map, int height, int i);
 void			normalize_p_sprite_angle(float *p_sprite_angle, t_player *p);

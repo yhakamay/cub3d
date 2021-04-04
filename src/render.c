@@ -12,133 +12,6 @@
 
 #include "../include/cub3d/cub3d.h"
 
-void		draw_pixel(t_img *img, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
-
-void		draw_rect(int x, int y, int width, int height, int color, t_img *img)
-{
-	int x_i;
-	int y_i;
-
-	x_i = x - 1;
-	while (++x_i < x + width)
-	{
-		y_i = y - 1;
-		while (++y_i < y + height)
-			draw_pixel(img, x_i, y_i, color);
-	}
-}
-
-void		draw_line(t_img *img, int x1, int y1, int x2, int y2, int color)
-{
-	double	x_delta;
-	double	y_delta;
-	double	len;
-	int		i;
-
-	x_delta = x2 - x1;
-	y_delta = y2 - y1;
-	len = (fabs(x_delta) >= fabs(y_delta)) ? fabs(x_delta) : fabs(y_delta);
-	x_delta /= len;
-	y_delta /= len;
-	i = -1;
-	while (++i < (int)len)
-		draw_pixel(
-			img,
-			x1 + (int)(x_delta * i),
-			y1 + (int)(y_delta * i),
-			color);
-}
-
-static void render_sky(t_img *img, t_map *map)
-{
-	draw_rect(
-		0,
-		0,
-		map->window_width,
-		map->window_height / 2,
-		COLOR_CYAN,
-		img);
-}
-
-static void render_floor(t_img *img, t_map *map)
-{
-	draw_rect(
-		0,
-		map->window_height / 2,
-		map->window_width,
-		map->window_height / 2,
-		COLOR_GRAY,
-		img);
-}
-
-static void render_rays(t_params *params, t_player *player, t_img *img)
-{
-	int		i;
-	float	ray_angle;
-	t_ray	rays[g_num_rays];
-
-	ray_angle = player->rotation_angle - (FOV_ANGLE * 0.5);
-	i = -1;
-	while (++i < g_num_rays)
-	{
-		rays[i] = cast_ray(params, player, normalize_angle(ray_angle));
-		draw_line(
-			img,
-			player->x,
-			player->y,
-			rays[i].wall_hit_x,
-			rays[i].wall_hit_y,
-			PLAYER_COLOR);
-		ray_angle += FOV_ANGLE / g_num_rays;
-	}
-}
-
-static void render_player(t_player *player, t_img *img)
-{
-	draw_rect(
-		player->x,
-		player->y,
-		player->width * MINIMAP_SCALE_FACTOR,
-		player->height * MINIMAP_SCALE_FACTOR,
-		player->color,
-		img);
-}
-
-static void render_minimap(t_params *params)
-{
-	int i;
-	int j;
-	int x;
-	int y;
-	int tile_color;
-
-	i = -1;
-	while (params->map.grid[++i][0] != '\0')
-	{
-		j = -1;
-		while (params->map.grid[i][++j] != '\0')
-		{
-			x = j * TILE_SIZE;
-			y = i * TILE_SIZE;
-			tile_color = params->map.grid[i][j] != '0' ?
-				COLOR_WHITE : COLOR_LIGHT_GRAY;
-			draw_rect(
-				x * MINIMAP_SCALE_FACTOR,
-				y * MINIMAP_SCALE_FACTOR,
-				TILE_SIZE * MINIMAP_SCALE_FACTOR,
-				TILE_SIZE * MINIMAP_SCALE_FACTOR,
-				tile_color,
-				&params->img);
-		}
-	}
-}
-
 static void	render_texture(t_params *params, t_img *img, t_ray *ray, int x, int height)
 {
 	char	*color_addr;
@@ -245,13 +118,10 @@ static void	render_3d_wall(t_params *params, t_player *p, t_texture *texture, t_
 
 void		render_everything(t_params *params)
 {
-	render_sky(&params->img, &params->map);
+	render_ceiling(&params->img, &params->map);
 	render_floor(&params->img, &params->map);
 	render_3d_wall(params, &params->player, &params->texture, &params->map);
 	render_sprites(params);
-	render_minimap(params);
-	render_player(&params->player, &params->img);
-	render_rays(params, &params->player, &params->img);
 	mlx_put_image_to_window(
 		params->mlx.mlx_ptr,
 		params->mlx.win_ptr,
