@@ -19,7 +19,7 @@ void	init_g_val(t_params *params)
 	g_num_sprites = 0;
 }
 
-void	init_player(t_player *player, t_map *map)
+void	init_player(t_player *player)
 {
 	player->color = PLAYER_COLOR;
 	player->width = PLAYER_DIAMETER;

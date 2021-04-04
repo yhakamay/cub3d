@@ -12,8 +12,7 @@
 
 #include "../include/cub3d/cub3d.h"
 
-static void	check_visible_sprites(t_params *params, t_player *p,
-	t_sprite *sprites)
+static void	check_visible_sprites(t_player *p, t_sprite *sprites)
 {
 	int		i;
 	float	p_sprite_angle;
@@ -95,7 +94,7 @@ void		render_sprites(t_params *params)
 	float	distance_to_plane;
 
 	i = -1;
-	check_visible_sprites(params, &params->player, params->sprites);
+	check_visible_sprites(&params->player, params->sprites);
 	sort_sprites(params);
 	while (++i < g_num_sprites)
 	{

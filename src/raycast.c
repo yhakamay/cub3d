@@ -12,9 +12,7 @@
 
 #include "../include/cub3d/cub3d.h"
 
-static void		get_ray_distance_horz(
-					t_rc_utils *rc_utils, t_player *player,
-					t_map *map, float ray_angle)
+static void		get_ray_distance_horz(t_rc_utils *rc_utils, t_map *map)
 {
 	float next_horz_touch_x;
 	float next_horz_touch_y;
@@ -42,9 +40,7 @@ static void		get_ray_distance_horz(
 	}
 }
 
-static void		get_ray_distance_vert(
-					t_rc_utils *rc_utils, t_player *player,
-					t_map *map, float ray_angle)
+static void		get_ray_distance_vert(t_rc_utils *rc_utils, t_map *map)
 {
 	float next_vert_touch_x;
 	float next_vert_touch_y;
@@ -122,9 +118,9 @@ t_ray			cast_ray(t_params *params, t_player *player, float ray_angle)
 
 	calculate_ray_angle(&rc_utils, ray_angle);
 	init_rc_utils_horz(&rc_utils, player, ray_angle);
-	get_ray_distance_horz(&rc_utils, player, &params->map, ray_angle);
+	get_ray_distance_horz(&rc_utils, &params->map);
 	init_rc_utils_vert(&rc_utils, player, ray_angle);
-	get_ray_distance_vert(&rc_utils, player, &params->map, ray_angle);
+	get_ray_distance_vert(&rc_utils, &params->map);
 	calc_horz_vert_distance(&rc_utils, player);
 	fill_ray(&rc_utils, &ray, ray_angle);
 	return (ray);

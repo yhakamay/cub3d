@@ -195,7 +195,7 @@ extern int	g_wall_strip_width;
 extern int	g_num_sprites;
 
 void			init_g_val(t_params *params);
-void			init_player(t_player *player, t_map *map);
+void			init_player(t_player *player);
 void			init_rc_utils_horz(
 					t_rc_utils *rc_utils, t_player *player, float ray_angle);
 void			init_rc_utils_vert(
@@ -209,7 +209,7 @@ int				key_released(int keycode, t_params *params);
 float			get_distance(float x1, float y1, float x2, float y2);
 void			calculate_ray_angle(t_rc_utils *rc_utils, float ray_angle);
 bool			is_around_window(t_rc_utils *rc_utils, t_map *map);
-void			move_player(t_player *p, t_img *img, t_map *map);
+void			move_player(t_player *p, t_map *map);
 int				exit_game(void);
 float			normalize_angle(float rotation_angle);
 bool			has_wall_at(float x, float y, t_map *map);

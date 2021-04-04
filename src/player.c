@@ -12,7 +12,7 @@
 
 #include "../include/cub3d/cub3d.h"
 
-void	move_player(t_player *p, t_img *img, t_map *map)
+void	move_player(t_player *p, t_map *map)
 {
 	float	move_step_vert;
 	float	move_step_horz;
