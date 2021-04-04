@@ -173,8 +173,8 @@ typedef struct	s_sprite
 {
 	int		x;
 	int		y;
-	float	distance; // player <-> sprite
-	float	angle;    // player <-> sprite
+	float	distance;
+	float	angle;
 	bool	visible;
 }				t_sprite;
 
@@ -200,69 +200,48 @@ void			init_rc_utils_horz(
 					t_rc_utils *rc_utils, t_player *player, float ray_angle);
 void			init_rc_utils_vert(
 					t_rc_utils *rc_utils, t_player *player, float ray_angle);
-
-// check_map_utils.c
 bool			is_player(t_params *params, char c);
 bool			is_sprite(char c);
 bool			is_forbidden_char(char c);
 int				is_map_closed(t_map *map, int x, int y);
-
-// input.c
 int				key_pressed(int keycode, t_params *params);
 int				key_released(int keycode, t_params *params);
-
 float			get_distance(float x1, float y1, float x2, float y2);
 void			calculate_ray_angle(t_rc_utils *rc_utils, float ray_angle);
 bool			is_around_window(t_rc_utils *rc_utils, t_map *map);
-
-// player.c
 void			move_player(t_player *p, t_img *img, t_map *map);
-
-// cub3d_utils.c
 int				exit_game(void);
 float			normalize_angle(float rotation_angle);
 bool			has_wall_at(float x, float y, t_map *map);
 bool			has_sprite_at(float x, float y, t_map *map);
-
 void			render_everything(t_params *params);
 t_ray			cast_ray(t_params *params, t_player *player, float ray_angle);
 void			read_map(char *file_path, t_map *map);
 void			check_map(t_params *params);
-
-// error.c
 void			screenshot_err(void);
 void			no_args_err(void);
 void			no_file_err(void);
 void			cub_file_err(void);
-
 int				num_of_spaces(char *line, int i);
 int				num_of_numbers(char *line, int i);
-
-// read_map_utils.c
 void			get_resolution(t_map *map, char *line, int i, int *obj_num);
-
-// texture.c
 void			get_wall_texture(t_map *map, char *line, int i, int *obj_num);
 void			get_floor_texture(t_map *map, char *line, int i, int j);
 void			get_ceiling_texture(t_map *map, char *line, int i, int j);
 void			get_sprite_texture(t_map *map, char *line, int i, int *obj_num);
-
-// texture_utils.c
 bool			is_valid_path(char *line, char *path, int i);
-
-// save.c
 void			save_screenshot(t_params *params);
-
-// render.c
 void			draw_pixel(t_img *img, int x, int y, int color);
-void			draw_rect(int x, int y, int width, int height, int color, t_img *img);
-void			draw_line(t_img *img, int x1, int y1, int x2, int y2, int color);
-
+void			draw_rect(int x, int y, int width, int height,
+					int color, t_img *img);
+void			draw_line(t_img *img, int x1, int y1, int x2, int y2,
+					int color);
 void			render_sprites(t_params *params);
 bool			is_inside_fov(t_map *map, int height, int i);
 void			normalize_p_sprite_angle(float *p_sprite_angle, t_player *p);
 int				calculate_left_end_x(t_params *params, float distance_to_plane,
 					int i, int wall_strip_height);
-char			*calculate_color_addr(t_texture *texture, int height, int i, int j);
+char			*calculate_color_addr(t_texture *texture, int height,
+					int i, int j);
 
 #endif
