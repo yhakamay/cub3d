@@ -29,6 +29,7 @@ SRC = cub3d \
 		read_map \
 		read_map_utils \
 		render \
+		render_utils \
 		texture \
 		texture_utils \
 		sprite \
