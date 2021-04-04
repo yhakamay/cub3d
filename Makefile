@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cub3d
+NAME = cub3D
 CC = clang
 CFLAGS = -O3 -Wall -Wextra -Werror
 MLX = ./include/mlx
@@ -35,7 +35,7 @@ SRC = cub3d \
 		sprite_utils \
 		save
 ADD = $(addsuffix .c, $(addprefix src/, $(SRC)))
-OBJ = $(ADD: .c=.o)
+OBJ = $(ADD:.c=.o)
 BIN = $(addsuffix .o, $(SRC))
 EXEC = cub3D
 .PHONY: all clean fclean re
@@ -52,13 +52,12 @@ $(NAME): $(OBJ)
 	$(CC) -L $(MLX) $(MLXFLAGS) $(OBJ) src/libft_gnl.a -I $(HEADER) -o $(EXEC)
 	@echo "\033[0m"
 
-run:
-	./$(EXEC) test/test.cub;
-
 clean:
 	@echo "\033[0;31mCleaning..."
+	rm -f $(OBJ) src/libft_gnl.a
 	@echo "\033[0m"
 
 fclean:	clean
 	@echo "\033[0;31mRemoving executable..."
+	rm -f $(NAME)
 	@echo "\033[0m"
