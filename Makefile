@@ -23,13 +23,16 @@ SRC = cub3d \
 		error \
 		init \
 		input \
+		player \
 		raycast \
 		raycast_utils \
 		read_map \
 		read_map_utils \
 		render \
 		texture \
+		texture_utils \
 		sprite \
+		sprite_utils \
 		save
 ADD = $(addsuffix .c, $(addprefix src/, $(SRC)))
 OBJ = $(ADD: .c=.o)

@@ -25,16 +25,12 @@ void		draw_rect(int x, int y, int width, int height, int color, t_img *img)
 	int x_i;
 	int y_i;
 
-	x_i = x;
-	while (x_i < x + width)
+	x_i = x - 1;
+	while (++x_i < x + width)
 	{
-		y_i = y;
-		while (y_i < y + height)
-		{
+		y_i = y - 1;
+		while (++y_i < y + height)
 			draw_pixel(img, x_i, y_i, color);
-			y_i++;
-		}
-		x_i++;
 	}
 }
 
@@ -50,16 +46,13 @@ void		draw_line(t_img *img, int x1, int y1, int x2, int y2, int color)
 	len = (fabs(x_delta) >= fabs(y_delta)) ? fabs(x_delta) : fabs(y_delta);
 	x_delta /= len;
 	y_delta /= len;
-	i = 0;
-	while (i < (int)len)
-	{
+	i = -1;
+	while (++i < (int)len)
 		draw_pixel(
 			img,
 			x1 + (int)(x_delta * i),
 			y1 + (int)(y_delta * i),
 			color);
-		i++;
-	}
 }
 
 static void render_sky(t_img *img, t_map *map)
@@ -91,8 +84,8 @@ static void render_rays(t_params *params, t_player *player, t_img *img)
 	t_ray	rays[g_num_rays];
 
 	ray_angle = player->rotation_angle - (FOV_ANGLE * 0.5);
-	i = 0;
-	while (i < g_num_rays)
+	i = -1;
+	while (++i < g_num_rays)
 	{
 		rays[i] = cast_ray(params, player, normalize_angle(ray_angle));
 		draw_line(
@@ -103,7 +96,6 @@ static void render_rays(t_params *params, t_player *player, t_img *img)
 			rays[i].wall_hit_y,
 			PLAYER_COLOR);
 		ray_angle += FOV_ANGLE / g_num_rays;
-		i++;
 	}
 }
 
@@ -126,11 +118,11 @@ static void render_minimap(t_params *params)
 	int y;
 	int tile_color;
 
-	i = 0;
-	while (params->map.grid[i][0] != '\0')
+	i = -1;
+	while (params->map.grid[++i][0] != '\0')
 	{
-		j = 0;
-		while (params->map.grid[i][j] != '\0')
+		j = -1;
+		while (params->map.grid[i][++j] != '\0')
 		{
 			x = j * TILE_SIZE;
 			y = i * TILE_SIZE;
@@ -143,9 +135,7 @@ static void render_minimap(t_params *params)
 				TILE_SIZE * MINIMAP_SCALE_FACTOR,
 				tile_color,
 				&params->img);
-			j++;
 		}
-		i++;
 	}
 }
 
@@ -190,11 +180,11 @@ static void	render_texture_reverse(t_params *params, t_img *img, t_ray *ray, int
 	int		j;
 
 	col = ray->length_from_leftside * height / TILE_SIZE;
-	i = 0;
-	while (i < height)
+	i = -1;
+	while (++i < height)
 	{
-		j = 0;
-		while (j < g_wall_strip_width)
+		j = -1;
+		while (++j < g_wall_strip_width)
 		{
 			color_addr = img->addr + ((int)roundf(i * img->height / height) + 1) *
 				img->line_length - (int)roundf((col + j) *
@@ -209,9 +199,7 @@ static void	render_texture_reverse(t_params *params, t_img *img, t_ray *ray, int
 					params->map.window_height / 2 - height / 2 + i,
 					*(unsigned int *)(color_addr));
 			}
-			j++;
 		}
-		i++;
 	}
 }
 
@@ -225,8 +213,8 @@ static void	render_3d_wall(t_params *params, t_player *p, t_texture *texture, t_
 
 	params->rays = (t_ray *)malloc(sizeof(t_ray) * g_num_rays);
 	ray_angle = normalize_angle(p->rotation_angle - (FOV_ANGLE * 0.5));
-	i = 0;
-	while (i < g_num_rays)
+	i = -1;
+	while (++i < g_num_rays)
 	{
 		params->rays[i] = cast_ray(params, p, ray_angle);
 		correct_wall_distance = params->rays[i].distance *
@@ -252,7 +240,6 @@ static void	render_3d_wall(t_params *params, t_player *p, t_texture *texture, t_
 			render_texture_reverse(params, &texture->south,
 				&params->rays[i], i * g_wall_strip_width, wall_strip_height);
 		ray_angle = normalize_angle(ray_angle + FOV_ANGLE / g_num_rays);
-		i++;
 	}
 }
 

@@ -215,6 +215,9 @@ float			get_distance(float x1, float y1, float x2, float y2);
 void			calculate_ray_angle(t_rc_utils *rc_utils, float ray_angle);
 bool			is_around_window(t_rc_utils *rc_utils, t_map *map);
 
+// player.c
+void			move_player(t_player *p, t_img *img, t_map *map);
+
 // cub3d_utils.c
 int				exit_game(void);
 float			normalize_angle(float rotation_angle);
@@ -237,9 +240,15 @@ int				num_of_numbers(char *line, int i);
 
 // read_map_utils.c
 void			get_resolution(t_map *map, char *line, int i, int *obj_num);
+
+// texture.c
 void			get_wall_texture(t_map *map, char *line, int i, int *obj_num);
-void			get_floor_ceiling_texture(t_map *map, char *line, int i, int j, int *obj_num, char f_or_c);
+void			get_floor_texture(t_map *map, char *line, int i, int j);
+void			get_ceiling_texture(t_map *map, char *line, int i, int j);
 void			get_sprite_texture(t_map *map, char *line, int i, int *obj_num);
+
+// texture_utils.c
+bool			is_valid_path(char *line, char *path, int i);
 
 // save.c
 void			save_screenshot(t_params *params);
@@ -250,5 +259,10 @@ void			draw_rect(int x, int y, int width, int height, int color, t_img *img);
 void			draw_line(t_img *img, int x1, int y1, int x2, int y2, int color);
 
 void			render_sprites(t_params *params);
+bool			is_inside_fov(t_map *map, int height, int i);
+void			normalize_p_sprite_angle(float *p_sprite_angle, t_player *p);
+int				calculate_left_end_x(t_params *params, float distance_to_plane,
+					int i, int wall_strip_height);
+char			*calculate_color_addr(t_texture *texture, int height, int i, int j);
 
 #endif
