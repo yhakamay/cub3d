@@ -67,11 +67,8 @@ cub3d.code-workspace
 # Screenshot
 screenshot.bmp
 
-# minilibx
+# mlx
 include/mlx
-
-# README.md
-README.md
 
 # test
 test
