@@ -46,7 +46,7 @@ void		get_floor_texture(t_map *map, char *line, int i, int j)
 		i++;
 		j++;
 	}
-	if (ft_strlen(line + i) != num_of_spaces(line, i))
+	if (ft_strlen(line + i) != (size_t)num_of_spaces(line, i))
 		cub_file_err();
 }
 
@@ -71,7 +71,7 @@ void		get_ceiling_texture(t_map *map, char *line, int i, int j)
 		i++;
 		j++;
 	}
-	if (ft_strlen(line + i) != num_of_spaces(line, i))
+	if (ft_strlen(line + i) != (size_t)num_of_spaces(line, i))
 		cub_file_err();
 }
 
