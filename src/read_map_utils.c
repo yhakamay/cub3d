@@ -49,6 +49,10 @@ void	get_resolution(t_map *map, char *line, int i, int *obj_num)
 		map->window_height = map->window_height * 10 + line[i] - '0';
 		i++;
 	}
+	if (map->window_width > 1920)
+		map->window_width = 1920;
+	if (map->window_height > 1080)
+		map->window_height = 1080;
 	if (ft_strlen(line + i) != num_of_spaces(line, i))
 		cub_file_err();
 	(*obj_num)++;
