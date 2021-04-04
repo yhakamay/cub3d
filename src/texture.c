@@ -5,83 +5,117 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yhakamay <yhakamay@student.42tokyo.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/19 10:11:50 by yhakamay          #+#    #+#             */
-/*   Updated: 2021/03/19 10:11:52 by yhakamay         ###   ########.fr       */
+/*   Created: 2021/04/04 23:42:35 by yhakamay          #+#    #+#             */
+/*   Updated: 2021/04/04 23:42:35 by yhakamay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d/cub3d.h"
 
-void		get_wall_texture(t_map *map, char *line, int i, int *obj_num)
+void	render_east_texture(t_params *params, t_ray *ray, int x, int height)
 {
-	if (line[i] == 'N' && line[i + 1] == 'O')
-		get_north_path(line, i, map);
-	else if (line[i] == 'S' && line[i + 1] == 'O')
-		get_south_path(line, i, map);
-	else if (line[i] == 'W' && line[i + 1] == 'E')
-		get_west_path(line, i, map);
-	else if (line[i] == 'E' && line[i + 1] == 'A')
-		get_east_path(line, i, map);
-	(*obj_num)++;
-}
+	char	*color_addr;
+	float	col;
+	int		i;
+	int		j;
 
-void		get_floor_texture(t_map *map, char *line, int i, int j)
-{
-	int count;
-
-	i += 1 + num_of_spaces(line, i + 1);
-	while (j < 3)
+	col = ray->length_from_leftside * height / TILE_SIZE;
+	i = 0;
+	while (i < height)
 	{
-		count = num_of_numbers(line, i);
-		if (count > 3 || count == 0)
-			cub_file_err();
-		map->floor_rgb[j] = ft_atoi(line + i);
-		if (map->floor_rgb[j] > 255)
-			cub_file_err();
-		i += count;
-		if (j == 2)
-			break ;
-		else if (line[i] != ',')
-			cub_file_err();
+		j = 0;
+		while (j < g_wall_strip_width)
+		{
+			color_addr = get_color_addr(&params->texture.east, i,
+							col + j, height);
+			if (is_inside_window(height, params->map.window_height, i))
+			{
+				draw_pixel(&params->img, x,
+					params->map.window_height / 2 - height / 2 + i,
+					*(int *)(color_addr));
+			}
+			j++;
+		}
 		i++;
-		j++;
 	}
-	if (ft_strlen(line + i) != (size_t)num_of_spaces(line, i))
-		cub_file_err();
 }
 
-void		get_ceiling_texture(t_map *map, char *line, int i, int j)
+void	render_north_texture(t_params *params, t_ray *ray, int x, int height)
 {
-	int count;
+	char	*color_addr;
+	float	col;
+	int		i;
+	int		j;
 
-	i += 1 + num_of_spaces(line, i + 1);
-	while (j < 3)
+	col = ray->length_from_leftside * height / TILE_SIZE;
+	i = 0;
+	while (i < height)
 	{
-		count = num_of_numbers(line, i);
-		if (count > 3 || count == 0)
-			cub_file_err();
-		map->ceiling_rgb[j] = ft_atoi(line + i);
-		if (map->ceiling_rgb[j] > 255)
-			cub_file_err();
-		i += count;
-		if (j == 2)
-			break ;
-		else if (line[i] != ',')
-			cub_file_err();
+		j = 0;
+		while (j < g_wall_strip_width)
+		{
+			color_addr = get_color_addr(&params->texture.north, i,
+							col + j, height);
+			if (is_inside_window(height, params->map.window_height, i))
+			{
+				draw_pixel(&params->img, x,
+					params->map.window_height / 2 - height / 2 + i,
+					*(int *)(color_addr));
+			}
+			j++;
+		}
 		i++;
-		j++;
 	}
-	if (ft_strlen(line + i) != (size_t)num_of_spaces(line, i))
-		cub_file_err();
 }
 
-void		get_sprite_texture(t_map *map, char *line, int i, int *obj_num)
+void	render_west_texture(t_params *params, t_ray *ray, int x, int height)
 {
-	i++;
-	if (line[i] != ' ')
-		cub_file_err();
-	map->sprite_pass = ft_strtrim(line + i, " ");
-	if (!(is_valid_path(line, map->sprite_pass, i)))
-		cub_file_err();
-	(*obj_num)++;
+	char	*color_addr;
+	float	col;
+	int		i;
+	int		j;
+
+	col = ray->length_from_leftside * height / TILE_SIZE;
+	i = -1;
+	while (++i < height)
+	{
+		j = -1;
+		while (++j < g_wall_strip_width)
+		{
+			color_addr = get_color_addr_reverse(&params->texture.west,
+							i, col + j, height);
+			if (is_inside_window(height, params->map.window_height, i))
+			{
+				draw_pixel(&params->img, x,
+					params->map.window_height / 2 - height / 2 + i,
+					*(unsigned int *)(color_addr));
+			}
+		}
+	}
+}
+
+void	render_south_texture(t_params *params, t_ray *ray, int x, int height)
+{
+	char	*color_addr;
+	float	col;
+	int		i;
+	int		j;
+
+	col = ray->length_from_leftside * height / TILE_SIZE;
+	i = -1;
+	while (++i < height)
+	{
+		j = -1;
+		while (++j < g_wall_strip_width)
+		{
+			color_addr = get_color_addr_reverse(&params->texture.south,
+							i, col + j, height);
+			if (is_inside_window(height, params->map.window_height, i))
+			{
+				draw_pixel(&params->img, x,
+					params->map.window_height / 2 - height / 2 + i,
+					*(unsigned int *)(color_addr));
+			}
+		}
+	}
 }

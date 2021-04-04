@@ -51,3 +51,23 @@ void		render_floor(t_img *img, t_map *map)
 		}
 	}
 }
+
+void		render_walls(t_params *params, int i, int height, float ray_angle)
+{
+	if (params->rays[i].was_hit_vertical == true &&
+		(ray_angle < 0.5 * PI || ray_angle > 1.5 * PI))
+		render_west_texture(params, &params->rays[i],
+			i * g_wall_strip_width, height);
+	else if (params->rays[i].was_hit_vertical == true &&
+		(ray_angle >= 0.5 * PI && ray_angle <= 1.5 * PI))
+		render_east_texture(params, &params->rays[i],
+			i * g_wall_strip_width, height);
+	else if (params->rays[i].was_hit_vertical == false &&
+		(ray_angle >= 0 && ray_angle < PI))
+		render_north_texture(params, &params->rays[i],
+			i * g_wall_strip_width, height);
+	else if (params->rays[i].was_hit_vertical == false &&
+		(ray_angle >= PI && ray_angle < 2 * PI))
+		render_south_texture(params, &params->rays[i],
+			i * g_wall_strip_width, height);
+}

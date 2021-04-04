@@ -236,6 +236,8 @@ void			get_east_path(char *line, int i, t_map *map);
 bool			is_valid_path(char *line, char *path, int i);
 void			save_screenshot(t_params *params);
 void			draw_pixel(t_img *img, int x, int y, int color);
+void			render_walls(t_params *params, int i,
+					int height, float ray_angle);
 void			render_ceiling(t_img *img, t_map *map);
 void			render_floor(t_img *img, t_map *map);
 void			render_sprites(t_params *params);
@@ -245,5 +247,18 @@ int				calculate_left_end_x(t_params *params, float distance_to_plane,
 					int i, int wall_strip_height);
 char			*calculate_color_addr(t_texture *texture, int height,
 					int i, int j);
+void			render_east_texture(t_params *params, t_ray *ray,
+					int x, int height);
+void			render_north_texture(t_params *params, t_ray *ray,
+					int x, int height);
+void			render_west_texture(t_params *params, t_ray *ray,
+					int x, int height);
+void			render_south_texture(t_params *params, t_ray *ray,
+					int x, int height);
+char			*get_color_addr(t_img *img,
+					int row, int col, int height);
+char			*get_color_addr_reverse(t_img *img,
+					int row, int col, int height);
+bool			is_inside_window(int height, int window_height, int i);
 
 #endif
