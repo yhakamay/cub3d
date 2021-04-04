@@ -23,6 +23,8 @@ SRC = cub3d \
 		error \
 		init \
 		input \
+		path \
+		path_utils \
 		player \
 		raycast \
 		raycast_utils \
