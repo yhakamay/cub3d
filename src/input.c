@@ -30,7 +30,7 @@ int			key_pressed(int keycode, t_params *params)
 		params->player.turn_direction = -1;
 	else
 		return (1);
-	move_player(&params->player, &params->img, &params->map);
+	move_player(&params->player, &params->map);
 	render_everything(params);
 	return (1);
 }
@@ -51,7 +51,7 @@ int			key_released(int keycode, t_params *params)
 		params->player.turn_direction = 0;
 	else
 		return (1);
-	move_player(&params->player, &params->img, &params->map);
+	move_player(&params->player, &params->map);
 	render_everything(params);
 	return (1);
 }
