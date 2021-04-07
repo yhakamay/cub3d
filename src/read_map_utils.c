@@ -67,6 +67,5 @@ void		get_resolution(t_map *map, char *line, int i, int *obj_num)
 	i += num_of_numbers(line, i);
 	if (ft_strlen(line + i) != (size_t)num_of_spaces(line, i))
 		cub_file_err();
-	printf("%d, %d\n", map->window_width, map->window_height);
 	(*obj_num)++;
 }
